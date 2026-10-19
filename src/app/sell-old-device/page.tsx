@@ -94,7 +94,7 @@ export default async function SellOldDevicePage({
               <div className="lg:col-span-5 flex justify-center">
                 <div className="relative w-full max-w-md aspect-square rounded-3xl overflow-hidden bg-[#EDE6DC] border border-[#DED6CA] shadow-xl p-6 flex items-center justify-center">
                   <Image
-                    src="https://images.unsplash.com/photo-1556742049-0a67e557224f?auto=format&fit=crop&w=1000&q=80"
+                    src="https://images.unsplash.com/photo-1512499617640-c74ae3a79d37?auto=format&fit=crop&w=1000&q=80"
                     alt="Doorstep Device Buyback Service in Gorakhpur"
                     fill
                     className="object-cover"
@@ -207,6 +207,7 @@ export default async function SellOldDevicePage({
                         src={bCat.image}
                         alt={bCat.name}
                         fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 300px"
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     </div>
