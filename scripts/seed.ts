@@ -16,6 +16,24 @@ import { BuybackCategory } from "../src/models/BuybackCategory";
 import { BuybackValuationRule } from "../src/models/BuybackValuationRule";
 import { User } from "../src/models/User";
 import { DiscountCode } from "../src/models/DiscountCode";
+import { FALLBACK_PRODUCTS } from "../src/lib/fallbackProducts";
+
+// Load .env.local if present
+const envLocalPath = path.join(process.cwd(), ".env.local");
+if (fs.existsSync(envLocalPath)) {
+  const envContent = fs.readFileSync(envLocalPath, "utf-8");
+  for (const line of envContent.split("\n")) {
+    const trimmed = line.trim();
+    if (trimmed && !trimmed.startsWith("#") && trimmed.includes("=")) {
+      const idx = trimmed.indexOf("=");
+      const key = trimmed.slice(0, idx).trim();
+      const val = trimmed.slice(idx + 1).trim().replace(/^["']|["']$/g, "");
+      if (!process.env[key] && val) {
+        process.env[key] = val;
+      }
+    }
+  }
+}
 
 const MONGODB_URI =
   process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/a1_mobile_shop";
@@ -26,8 +44,17 @@ async function runSeed() {
   console.log("==================================================");
   console.log(`Connecting to: ${MONGODB_URI}`);
 
-  await mongoose.connect(MONGODB_URI);
-  console.log(" Connected to MongoDB successfully.");
+  try {
+    await mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 5000 });
+    console.log(" Connected to MongoDB successfully.");
+  } catch (err: any) {
+    console.error("❌ Failed to connect to MongoDB:", err.message);
+    console.log("\n💡 Note: If running locally, start MongoDB with:");
+    console.log("   brew services start mongodb-community");
+    console.log("   Or set MONGODB_URI=<your-atlas-uri> in .env.local\n");
+    console.log("   Meanwhile, the storefront and /api/products run with full fallback data (all 19 phones).");
+    process.exit(1);
+  }
 
   const manifestPath = path.join(__dirname, "image-manifest.json");
   const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf-8"));
@@ -40,7 +67,7 @@ async function runSeed() {
       slug: "smartphones",
       description: "Flagship 5G phones, budget champions & verified pre-owned smartphones.",
       image: manifest.categories[0].url,
-      itemCount: 6,
+      itemCount: 19,
       order: 1,
       isActive: true,
     },
@@ -102,9 +129,11 @@ async function runSeed() {
   // 2. Brands
   console.log("\n🏷️ Seeding Brands...");
   const brandsData = [
-    { name: "Xiaomi", slug: "xiaomi", isActive: true },
-    { name: "Vivo", slug: "vivo", isActive: true },
+    { name: "Realme", slug: "realme", isActive: true },
     { name: "Samsung", slug: "samsung", isActive: true },
+    { name: "Vivo", slug: "vivo", isActive: true },
+    { name: "Xiaomi", slug: "xiaomi", isActive: true },
+    { name: "Lava", slug: "lava", isActive: true },
     { name: "Apple", slug: "apple", isActive: true },
     { name: "OnePlus", slug: "oneplus", isActive: true },
     { name: "boAt", slug: "boat", isActive: true },
@@ -120,361 +149,15 @@ async function runSeed() {
   }
   console.log(`✅ Seeded ${brandsData.length} brands.`);
 
+
   // 3. Products
   console.log("\n📱 Seeding Products (with exact models & verified images)...");
   const productsData = [
-    {
-      name: "Redmi 15A 5G",
-      slug: "redmi-15a-5g",
-      brand: "Xiaomi",
-      category: "smartphones",
-      modelNumber: "24129RN28I",
-      description:
-        "The Redmi 15A 5G delivers stunning speed with next-generation 5G connectivity, an ultra-smooth 120Hz display, and an enduring 5000mAh battery built for all-day performance. Equipped with AI dual camera optics for crisp low-light photos.",
-      shortDescription: "Ultra-fast 5G with 120Hz display & 5000mAh battery.",
-      price: 12999,
-      originalPrice: 16999,
-      discountPercentage: 24,
-      currency: "INR",
-      thumbnail: manifest.smartphones[0].url,
-      images: [
-        {
-          url: manifest.smartphones[0].url,
-          publicId: manifest.smartphones[0].publicId,
-          alt: "Redmi 15A 5G Skyline Blue front and back",
-          sourceUrl: manifest.smartphones[0].sourceUrl,
-          attribution: manifest.smartphones[0].attribution,
-          isPrimary: true,
-        },
-      ],
-      colors: [
-        { name: "Skyline Blue", hex: "#4A90E2" },
-        { name: "Midnight Black", hex: "#1C1C1E" },
-      ],
-      variants: [
-        {
-          storage: "128GB",
-          ram: "6GB",
-          price: 12999,
-          originalPrice: 16999,
-          stock: 25,
-        },
-        {
-          storage: "256GB",
-          ram: "8GB",
-          price: 14999,
-          originalPrice: 18999,
-          stock: 18,
-        },
-      ],
-      specifications: {
-        Processor: "MediaTek Dimensity 6100+ 5G",
-        Display: "6.79-inch FHD+ 120Hz AdaptiveSync",
-        "Rear Camera": "50MP AI Main + 2MP Depth",
-        "Front Camera": "8MP Selfie",
-        Battery: "5000mAh with 18W Fast Charging",
-        OS: "Xiaomi HyperOS (Android 14)",
-      },
-      stock: 43,
-      isFeatured: true,
-      isNewArrival: true,
-      isCurrentArrival: false,
-      isDeal: true,
-      isActive: true,
-      rating: 4.6,
-      reviewCount: 38,
-      warranty: "1 Year Manufacturer Warranty for Phone and 6 Months for In-Box Accessories",
-      tags: ["5G", "Xiaomi", "Redmi", "Best Budget 5G", "Gorakhpur In Stock"],
-    },
-    {
-      name: "Vivo Y21 5G",
-      slug: "vivo-y21-5g",
-      brand: "Vivo",
-      category: "smartphones",
-      modelNumber: "V2149",
-      description:
-        "Vivo Y21 5G boasts an ultra-slim 8.0mm design, 5000mAh battery with 18W Fast Charge, and a sharp HD+ Halo display. Engineered with Extended RAM 2.0 to ensure silky smooth app switching.",
-      shortDescription: "Sleek 8mm slim body, 5000mAh battery & fast charge.",
-      price: 14490,
-      originalPrice: 17990,
-      discountPercentage: 19,
-      currency: "INR",
-      thumbnail: manifest.smartphones[1].url,
-      images: [
-        {
-          url: manifest.smartphones[1].url,
-          publicId: manifest.smartphones[1].publicId,
-          alt: "Vivo Y21 5G Diamond Glow",
-          sourceUrl: manifest.smartphones[1].sourceUrl,
-          attribution: manifest.smartphones[1].attribution,
-          isPrimary: true,
-        },
-      ],
-      colors: [
-        { name: "Diamond Glow", hex: "#E8F0F8" },
-        { name: "Midnight Blue", hex: "#1A2E40" },
-      ],
-      variants: [
-        {
-          storage: "64GB",
-          ram: "4GB + 1GB Extended",
-          price: 14490,
-          originalPrice: 17990,
-          stock: 15,
-        },
-      ],
-      specifications: {
-        Processor: "MediaTek Helio P35 Octa-core",
-        Display: "6.51-inch HD+ Halo FullView Display",
-        "Rear Camera": "13MP + 2MP Super Macro",
-        "Front Camera": "8MP AI Face Beauty",
-        Battery: "5000mAh with 18W Fast Charge",
-        OS: "Funtouch OS 11.1",
-      },
-      stock: 15,
-      isFeatured: true,
-      isNewArrival: false,
-      isCurrentArrival: true,
-      isDeal: false,
-      isActive: true,
-      rating: 4.4,
-      reviewCount: 29,
-      warranty: "1 Year Brand Warranty",
-      tags: ["Vivo", "5G", "Slim Design", "Gorakhpur Store"],
-    },
-    {
-      name: "Samsung Galaxy A17 5G",
-      slug: "samsung-galaxy-a17-5g",
-      brand: "Samsung",
-      category: "smartphones",
-      modelNumber: "SM-A176B",
-      description:
-        "The Samsung Galaxy A17 5G combines Samsung's signature minimalist design with Super AMOLED 90Hz clarity, 50MP triple camera system, Knox Security, and guaranteed 4 generations of OS updates.",
-      shortDescription: "Super AMOLED 90Hz display with 50MP triple camera.",
-      price: 17999,
-      originalPrice: 22499,
-      discountPercentage: 20,
-      currency: "INR",
-      thumbnail: manifest.smartphones[2].url,
-      images: [
-        {
-          url: manifest.smartphones[2].url,
-          publicId: manifest.smartphones[2].publicId,
-          alt: "Samsung Galaxy A17 5G Awesome Graphite",
-          sourceUrl: manifest.smartphones[2].sourceUrl,
-          attribution: manifest.smartphones[2].attribution,
-          isPrimary: true,
-        },
-      ],
-      colors: [
-        { name: "Awesome Graphite", hex: "#2C2C2C" },
-        { name: "Awesome Light Blue", hex: "#A8DADC" },
-      ],
-      variants: [
-        {
-          storage: "128GB",
-          ram: "6GB",
-          price: 17999,
-          originalPrice: 22499,
-          stock: 20,
-        },
-        {
-          storage: "256GB",
-          ram: "8GB",
-          price: 20999,
-          originalPrice: 25999,
-          stock: 14,
-        },
-      ],
-      specifications: {
-        Processor: "Samsung Exynos 1330 5G Octa-core",
-        Display: "6.5-inch FHD+ Super AMOLED 90Hz",
-        "Rear Camera": "50MP (OIS) + 5MP Ultrawide + 2MP Macro",
-        "Front Camera": "13MP Selfie",
-        Battery: "5000mAh with 25W Super Fast Charging",
-        Security: "Samsung Knox Vault & Side Fingerprint",
-      },
-      stock: 34,
-      isFeatured: true,
-      isNewArrival: true,
-      isCurrentArrival: false,
-      isDeal: true,
-      isActive: true,
-      rating: 4.7,
-      reviewCount: 45,
-      warranty: "1 Year Official Samsung India Warranty",
-      tags: ["Samsung", "Galaxy", "AMOLED", "50MP OIS", "Gorakhpur Verified"],
-    },
-    {
-      name: "Samsung Galaxy F17 5G",
-      slug: "samsung-galaxy-f17-5g",
-      brand: "Samsung",
-      category: "smartphones",
-      modelNumber: "SM-F176B",
-      description:
-        "Built for boundless battery life, the Galaxy F17 5G sports a colossal 6000mAh power pack, crisp FHD+ 120Hz fluid screen, Voice Focus technology, and a 50MP No-Shake camera.",
-      shortDescription: "Massive 6000mAh battery & 120Hz smooth screen.",
-      price: 15499,
-      originalPrice: 19999,
-      discountPercentage: 22,
-      currency: "INR",
-      thumbnail: manifest.smartphones[3].url,
-      images: [
-        {
-          url: manifest.smartphones[3].url,
-          publicId: manifest.smartphones[3].publicId,
-          alt: "Samsung Galaxy F17 5G Onyx Black",
-          sourceUrl: manifest.smartphones[3].sourceUrl,
-          attribution: manifest.smartphones[3].attribution,
-          isPrimary: true,
-        },
-      ],
-      colors: [
-        { name: "Onyx Black", hex: "#1F1F1F" },
-        { name: "Jade Green", hex: "#2E5D4B" },
-      ],
-      variants: [
-        {
-          storage: "128GB",
-          ram: "6GB",
-          price: 15499,
-          originalPrice: 19999,
-          stock: 30,
-        },
-      ],
-      specifications: {
-        Processor: "Exynos 1380 5nm Processor",
-        Display: "6.6-inch FHD+ sAMOLED 120Hz",
-        "Rear Camera": "50MP Main + 5MP Ultra-wide + 2MP Macro",
-        Battery: "6000mAh Monster Battery",
-        OS: "One UI 6.1 based on Android 14",
-      },
-      stock: 30,
-      isFeatured: true,
-      isNewArrival: false,
-      isCurrentArrival: true,
-      isDeal: true,
-      isActive: true,
-      rating: 4.5,
-      reviewCount: 51,
-      warranty: "1 Year Samsung Official Warranty",
-      tags: ["Samsung", "Monster Battery", "F-Series", "Gorakhpur Best Deals"],
-    },
-    {
-      name: "Apple iPhone 15 Pro",
-      slug: "apple-iphone-15-pro",
-      brand: "Apple",
-      category: "smartphones",
-      modelNumber: "A3101",
-      description:
-        "iPhone 15 Pro. Forged in aerospace-grade titanium with the groundbreaking A17 Pro chip, customizable Action button, and the most versatile iPhone camera system yet with 48MP main sensor.",
-      shortDescription: "Aerospace-grade titanium, A17 Pro chip & 48MP Pro camera.",
-      price: 124900,
-      originalPrice: 134900,
-      discountPercentage: 7,
-      currency: "INR",
-      thumbnail: manifest.smartphones[4].url,
-      images: [
-        {
-          url: manifest.smartphones[4].url,
-          publicId: manifest.smartphones[4].publicId,
-          alt: "Apple iPhone 15 Pro Natural Titanium",
-          sourceUrl: manifest.smartphones[4].sourceUrl,
-          attribution: manifest.smartphones[4].attribution,
-          isPrimary: true,
-        },
-      ],
-      colors: [
-        { name: "Natural Titanium", hex: "#9E9A93" },
-        { name: "Black Titanium", hex: "#2D2D2D" },
-      ],
-      variants: [
-        {
-          storage: "128GB",
-          price: 124900,
-          originalPrice: 134900,
-          stock: 8,
-        },
-        {
-          storage: "256GB",
-          price: 134900,
-          originalPrice: 144900,
-          stock: 5,
-        },
-      ],
-      specifications: {
-        Processor: "A17 Pro chip with 6-core GPU",
-        Display: "6.1-inch Super Retina XDR with ProMotion 120Hz",
-        "Camera System": "48MP Main + 12MP Ultra Wide + 12MP 3x Telephoto",
-        Port: "USB-C with USB 3 speeds",
-        Build: "Titanium design with Ceramic Shield front",
-      },
-      stock: 13,
-      isFeatured: true,
-      isNewArrival: true,
-      isCurrentArrival: false,
-      isDeal: false,
-      isActive: true,
-      rating: 4.9,
-      reviewCount: 88,
-      warranty: "1 Year Official Apple India Brand Warranty",
-      tags: ["Apple", "iPhone", "Flagship", "Titanium", "Gorakhpur Ready Stock"],
-    },
-    {
-      name: "OnePlus Nord CE4 5G",
-      slug: "oneplus-nord-ce4-5g",
-      brand: "OnePlus",
-      category: "smartphones",
-      modelNumber: "CPH2613",
-      description:
-        "OnePlus Nord CE4 5G combines the Qualcomm Snapdragon 7 Gen 3, ultra-rapid 100W SUPERVOOC charging, and a vibrant 120Hz AMOLED panel with Aqua Touch tech.",
-      shortDescription: "100W SUPERVOOC, Snapdragon 7 Gen 3 & 120Hz AMOLED.",
-      price: 24999,
-      originalPrice: 26999,
-      discountPercentage: 7,
-      currency: "INR",
-      thumbnail: manifest.smartphones[5].url,
-      images: [
-        {
-          url: manifest.smartphones[5].url,
-          publicId: manifest.smartphones[5].publicId,
-          alt: "OnePlus Nord CE4 5G Celadon Marble",
-          sourceUrl: manifest.smartphones[5].sourceUrl,
-          attribution: manifest.smartphones[5].attribution,
-          isPrimary: true,
-        },
-      ],
-      colors: [
-        { name: "Celadon Marble", hex: "#B9D7D2" },
-        { name: "Dark Chrome", hex: "#222222" },
-      ],
-      variants: [
-        {
-          storage: "128GB",
-          ram: "8GB",
-          price: 24999,
-          originalPrice: 26999,
-          stock: 12,
-        },
-      ],
-      specifications: {
-        Processor: "Snapdragon 7 Gen 3 Mobile Platform",
-        Display: "6.7-inch FHD+ 120Hz Fluid AMOLED",
-        Charging: "100W SUPERVOOC Flash Charge (1-100% in 29 min)",
-        Battery: "5500mAh Durable Battery",
-        Camera: "50MP Sony LYT-600 with OIS",
-      },
-      stock: 12,
-      isFeatured: true,
-      isNewArrival: false,
-      isCurrentArrival: true,
-      isDeal: true,
-      isActive: true,
-      rating: 4.6,
-      reviewCount: 42,
-      warranty: "1 Year OnePlus India Warranty",
-      tags: ["OnePlus", "Nord", "100W Fast Charge", "Gorakhpur Store"],
-    },
+    // 19 Exact Smartphones from user request
+    ...FALLBACK_PRODUCTS.map((p) => {
+      const { _id, id, ...rest } = p;
+      return rest;
+    }),
     // Accessories
     {
       name: "67W SonicCharge Fast Charger Adapter",

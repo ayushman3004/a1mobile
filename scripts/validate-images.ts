@@ -25,12 +25,21 @@ async function validateImages() {
         }
       }
     } else if (typeof items === "object" && items !== null) {
-      for (const [subKey, item] of Object.entries(items as Record<string, any>)) {
+      if ("url" in items) {
         totalCount++;
-        if (item.url && item.url.startsWith("https://")) {
+        if ((items as any).url && (items as any).url.startsWith("https://")) {
           validCount++;
         } else {
-          console.warn(`⚠️ Invalid entry in ${section}.${subKey}`);
+          console.warn(`⚠️ Invalid entry in ${section}`);
+        }
+      } else {
+        for (const [subKey, item] of Object.entries(items as Record<string, any>)) {
+          totalCount++;
+          if (item && item.url && item.url.startsWith("https://")) {
+            validCount++;
+          } else {
+            console.warn(`⚠️ Invalid entry in ${section}.${subKey}`);
+          }
         }
       }
     }

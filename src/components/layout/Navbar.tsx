@@ -44,8 +44,9 @@ export default function Navbar({ items }: { items: INavigationItem[] }) {
               return (
                 <Link
                   key={item._id || item.title}
-                  href={item.href}
+                  href={item.href || "/"}
                   className={`relative flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold tracking-wide transition ${
+
                     isActive
                       ? "text-[#24211E] bg-[#EDE6DC] shadow-2xs font-bold"
                       : "text-[#575047] hover:text-[#24211E] hover:bg-[#EDE6DC]/60"
@@ -103,7 +104,7 @@ export default function Navbar({ items }: { items: INavigationItem[] }) {
               return (
                 <Link
                   key={item._id || item.title}
-                  href={item.href}
+                  href={item.href || "/"}
                   onClick={() => setMobileMenuOpen(false)}
                   className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium ${
                     isActive

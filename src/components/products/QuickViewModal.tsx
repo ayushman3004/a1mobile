@@ -4,9 +4,15 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { X, Star, ShoppingBag, MessageSquare, Check, ShieldCheck } from "lucide-react";
-import { IProduct } from "@/types";
-import { formatPrice, buildWhatsAppLink } from "@/lib/utils";
+import { IProduct, IProductVariant, IProductColor } from "@/types";
 import { useCart } from "@/context/CartContext";
+import {
+  formatPrice,
+  buildWhatsAppLink,
+  formatProductEnquiryMessage,
+} from "@/lib/utils";
+
+
 
 interface QuickViewModalProps {
   product: IProduct;
@@ -33,8 +39,9 @@ export default function QuickViewModal({
   if (!isOpen) return null;
 
   const currentVariant =
-    product.variants.find((v) => v.storage === selectedVariant) ||
+    product.variants.find((v: IProductVariant) => v.storage === selectedVariant) ||
     product.variants[0];
+
   const price = currentVariant ? currentVariant.price : product.price;
   const originalPrice = currentVariant
     ? currentVariant.originalPrice
@@ -57,8 +64,15 @@ export default function QuickViewModal({
 
   const whatsappLink = buildWhatsAppLink(
     whatsappNumber,
-    `Hi A1 Mobile Shop! I'm inquiring about ${product.name} (${selectedVariant || ""}) priced at ${formatPrice(price)}.`
+    formatProductEnquiryMessage({
+      name: product.name,
+      price,
+      variant: selectedVariant,
+      color: selectedColor,
+      slug: product.slug,
+    })
   );
+
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
@@ -132,7 +146,7 @@ export default function QuickViewModal({
                   Configuration:
                 </label>
                 <div className="flex flex-wrap gap-2">
-                  {product.variants.map((v) => (
+                  {product.variants.map((v: IProductVariant) => (
                     <button
                       key={v.storage}
                       onClick={() => setSelectedVariant(v.storage)}
@@ -156,7 +170,7 @@ export default function QuickViewModal({
                   Color: {selectedColor}
                 </label>
                 <div className="flex items-center gap-2">
-                  {product.colors.map((c) => (
+                  {product.colors.map((c: IProductColor) => (
                     <button
                       key={c.name}
                       onClick={() => setSelectedColor(c.name)}
@@ -165,6 +179,7 @@ export default function QuickViewModal({
                           ? "border-[#24211E] scale-110"
                           : "border-transparent"
                       }`}
+
                       style={{ backgroundColor: c.hex }}
                       title={c.name}
                     />

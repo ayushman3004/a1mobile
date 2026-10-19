@@ -184,7 +184,7 @@ export default function Hero({ newArrivals, currentArrivals }: HeroProps) {
                     </span>
                   </div>
 
-                  <Link href={`/products/${currentProduct.slug}`}>
+                  <Link href={currentProduct.slug ? `/products/${currentProduct.slug}` : "/products"}>
                     <h3 className="text-xl sm:text-2xl font-black text-[#24211E] hover:text-[#E66827] transition">
                       {currentProduct.name}
                     </h3>

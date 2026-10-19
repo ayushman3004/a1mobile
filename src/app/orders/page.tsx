@@ -2,9 +2,21 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { Package, Clock, CheckCircle2, Truck, ArrowRight } from "lucide-react";
+import {
+  Package,
+  Clock,
+  CheckCircle2,
+  Truck,
+  ArrowRight,
+  MessageSquare,
+} from "lucide-react";
 import { IOrder } from "@/types";
-import { formatPrice } from "@/lib/utils";
+import {
+  formatPrice,
+  buildWhatsAppLink,
+  getStoreWhatsAppNumber,
+} from "@/lib/utils";
+
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState<IOrder[]>([]);
@@ -116,18 +128,31 @@ export default function OrdersPage() {
                   ))}
                 </div>
 
-                {/* Destination */}
-                <div className="text-[11px] text-[#575047] pt-2 border-t border-[#DED6CA] flex flex-col sm:flex-row justify-between gap-1">
+                {/* Destination & WhatsApp Action */}
+                <div className="text-[11px] text-[#575047] pt-2 border-t border-[#DED6CA] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                   <span>
                     Delivery Address: {ord.shippingAddress.street},{" "}
-                    {ord.shippingAddress.area}, {ord.shippingAddress.city}
+                    {ord.shippingAddress.area}, {ord.shippingAddress.city} • Mode: {ord.paymentMethod}
                   </span>
-                  <span>Payment Mode: {ord.paymentMethod}</span>
+
+                  <a
+                    href={buildWhatsAppLink(
+                      getStoreWhatsAppNumber(),
+                      `Hello A1 Mobile Shop! I would like an update regarding my order #${ord.orderNumber}.`
+                    )}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#26784F] text-white text-[11px] font-bold hover:bg-[#1E5D3D] transition shrink-0"
+                  >
+                    <MessageSquare className="w-3 h-3" />
+                    <span>Chat on WhatsApp</span>
+                  </a>
                 </div>
               </div>
             ))}
           </div>
         )}
+
       </div>
     </div>
   );

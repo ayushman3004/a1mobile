@@ -38,12 +38,13 @@ export default function PromoBanner({
 
               <div className="pt-2">
                 <Link
-                  href={banner.buttonLink}
+                  href={banner.buttonLink || "/deals"}
                   className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[#E66827] text-white font-black text-sm uppercase tracking-wider hover:bg-[#d55819] transition shadow-lg group"
                 >
-                  <span>{banner.buttonText}</span>
+                  <span>{banner.buttonText || "Shop Deals"}</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
                 </Link>
+
               </div>
             </div>
 

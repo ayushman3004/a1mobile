@@ -12,7 +12,11 @@ import {
   Check,
 } from "lucide-react";
 import { IProduct } from "@/types";
-import { formatPrice, buildWhatsAppLink } from "@/lib/utils";
+import {
+  formatPrice,
+  buildWhatsAppLink,
+  formatProductEnquiryMessage,
+} from "@/lib/utils";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import QuickViewModal from "./QuickViewModal";
@@ -66,7 +70,11 @@ export default function ProductCard({
     setIsQuickViewOpen(true);
   };
 
-  const whatsappMessage = `Hello A1 Mobile Shop! I'm interested in the ${product.name} (₹${product.price}). Is it in stock at your Gorakhpur store?`;
+  const whatsappMessage = formatProductEnquiryMessage({
+    name: product.name,
+    price: product.price,
+    slug: product.slug,
+  });
   const whatsappUrl = buildWhatsAppLink(whatsappNumber, whatsappMessage);
 
   // Extract a highlight spec badge if available

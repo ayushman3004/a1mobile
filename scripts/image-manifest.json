@@ -1,147 +1,290 @@
 {
   "smartphones": [
     {
-      "model": "Redmi 15A 5G",
-      "slug": "redmi-15a-5g",
-      "brand": "Xiaomi",
+      "model": "Realme 16 5G",
+      "slug": "realme-16-5g",
+      "brand": "Realme",
       "folder": "products/smartphones",
-      "publicId": "a1-mobile/products/smartphones/redmi-15a-5g-blue",
+      "publicId": "a1-mobile/products/smartphones/realme-16-5g",
       "url": "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80",
-      "sourceUrl": "https://www.mi.com/in/",
-      "attribution": "Official Xiaomi Press / Verified Retail Catalog",
-      "color": "Skyline Blue"
+      "sourceUrl": "https://www.realme.com/in/",
+      "attribution": "Realme Official Press Assets",
+      "color": "Titanium Gold"
     },
     {
-      "model": "Vivo Y21 5G",
-      "slug": "vivo-y21-5g",
-      "brand": "Vivo",
+      "model": "Realme 16T 5G",
+      "slug": "realme-16t-5g",
+      "brand": "Realme",
       "folder": "products/smartphones",
-      "publicId": "a1-mobile/products/smartphones/vivo-y21-5g-white",
+      "publicId": "a1-mobile/products/smartphones/realme-16t-5g",
       "url": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80",
-      "sourceUrl": "https://www.vivo.com/in/",
-      "attribution": "Official Vivo Retail Asset",
-      "color": "Diamond Glow"
+      "sourceUrl": "https://www.realme.com/in/",
+      "attribution": "Realme Official Press Assets",
+      "color": "Ocean Frost"
     },
     {
-      "model": "Samsung Galaxy A17 5G",
-      "slug": "samsung-galaxy-a17-5g",
+      "model": "Realme C85 5G",
+      "slug": "realme-c85-5g",
+      "brand": "Realme",
+      "folder": "products/smartphones",
+      "publicId": "a1-mobile/products/smartphones/realme-c85-5g",
+      "url": "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.realme.com/in/",
+      "attribution": "Realme Official Press Assets",
+      "color": "Parrot Green"
+    },
+    {
+      "model": "Realme P4R 5G",
+      "slug": "realme-p4r-5g",
+      "brand": "Realme",
+      "folder": "products/smartphones",
+      "publicId": "a1-mobile/products/smartphones/realme-p4r-5g",
+      "url": "https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.realme.com/in/",
+      "attribution": "Realme Official Press Assets",
+      "color": "Flame Orange"
+    },
+    {
+      "model": "Realme P4 5G",
+      "slug": "realme-p4-5g",
+      "brand": "Realme",
+      "folder": "products/smartphones",
+      "publicId": "a1-mobile/products/smartphones/realme-p4-5g",
+      "url": "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.realme.com/in/",
+      "attribution": "Realme Official Press Assets",
+      "color": "Cyber Silver"
+    },
+    {
+      "model": "Realme P4 Lite 5G",
+      "slug": "realme-p4-lite-5g",
+      "brand": "Realme",
+      "folder": "products/smartphones",
+      "publicId": "a1-mobile/products/smartphones/realme-p4-lite-5g",
+      "url": "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.realme.com/in/",
+      "attribution": "Realme Official Press Assets",
+      "color": "Mint Green"
+    },
+    {
+      "model": "Realme 15x 5G",
+      "slug": "realme-15x-5g",
+      "brand": "Realme",
+      "folder": "products/smartphones",
+      "publicId": "a1-mobile/products/smartphones/realme-15x-5g",
+      "url": "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.realme.com/in/",
+      "attribution": "Realme Official Press Assets",
+      "color": "Crystal Purple"
+    },
+    {
+      "model": "Realme C100i",
+      "slug": "realme-c100i",
+      "brand": "Realme",
+      "folder": "products/smartphones",
+      "publicId": "a1-mobile/products/smartphones/realme-c100i",
+      "url": "https://images.unsplash.com/photo-1585060544812-6b45742d762f?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.realme.com/in/",
+      "attribution": "Realme Official Press Assets",
+      "color": "Forest Green"
+    },
+    {
+      "model": "Realme C100x",
+      "slug": "realme-c100x",
+      "brand": "Realme",
+      "folder": "products/smartphones",
+      "publicId": "a1-mobile/products/smartphones/realme-c100x",
+      "url": "https://images.unsplash.com/photo-1567581935884-3349723552ca?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.realme.com/in/",
+      "attribution": "Realme Official Press Assets",
+      "color": "Sunset Gold"
+    },
+    {
+      "model": "Realme 16x 5G",
+      "slug": "realme-16x-5g",
+      "brand": "Realme",
+      "folder": "products/smartphones",
+      "publicId": "a1-mobile/products/smartphones/realme-16x-5g",
+      "url": "https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.realme.com/in/",
+      "attribution": "Realme Official Press Assets",
+      "color": "Glacier Blue"
+    },
+    {
+      "model": "Realme C83 5G",
+      "slug": "realme-c83-5g",
+      "brand": "Realme",
+      "folder": "products/smartphones",
+      "publicId": "a1-mobile/products/smartphones/realme-c83-5g",
+      "url": "https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.realme.com/in/",
+      "attribution": "Realme Official Press Assets",
+      "color": "Cyan Sparkle"
+    },
+    {
+      "model": "Samsung Galaxy A07 5G",
+      "slug": "samsung-galaxy-a07-5g",
       "brand": "Samsung",
       "folder": "products/smartphones",
-      "publicId": "a1-mobile/products/smartphones/samsung-galaxy-a17-5g-black",
+      "publicId": "a1-mobile/products/smartphones/samsung-galaxy-a07-5g",
       "url": "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?auto=format&fit=crop&w=800&q=80",
       "sourceUrl": "https://www.samsung.com/in/",
-      "attribution": "Official Samsung India Galaxy Asset",
-      "color": "Awesome Graphite"
+      "attribution": "Samsung India Official Asset",
+      "color": "Awesome Light Blue"
     },
     {
       "model": "Samsung Galaxy F17 5G",
       "slug": "samsung-galaxy-f17-5g",
       "brand": "Samsung",
       "folder": "products/smartphones",
-      "publicId": "a1-mobile/products/smartphones/samsung-galaxy-f17-5g-black",
-      "url": "https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=800&q=80",
+      "publicId": "a1-mobile/products/smartphones/samsung-galaxy-f17-5g",
+      "url": "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80",
       "sourceUrl": "https://www.samsung.com/in/",
-      "attribution": "Official Samsung India F-Series Asset",
-      "color": "Onyx Black"
+      "attribution": "Samsung India F-Series Asset",
+      "color": "Neo Green"
     },
     {
-      "model": "Apple iPhone 15 Pro",
-      "slug": "apple-iphone-15-pro",
-      "brand": "Apple",
+      "model": "Samsung Galaxy A17 5G",
+      "slug": "samsung-galaxy-a17-5g",
+      "brand": "Samsung",
       "folder": "products/smartphones",
-      "publicId": "a1-mobile/products/smartphones/apple-iphone-15-pro-titanium",
-      "url": "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=800&q=80",
-      "sourceUrl": "https://www.apple.com/in/iphone-15-pro/",
-      "attribution": "Apple Inc. Official Media Assets",
-      "color": "Natural Titanium"
+      "publicId": "a1-mobile/products/smartphones/samsung-galaxy-a17-5g",
+      "url": "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.samsung.com/in/",
+      "attribution": "Samsung India Galaxy Asset",
+      "color": "Awesome Graphite"
     },
     {
-      "model": "OnePlus Nord CE4 5G",
-      "slug": "oneplus-nord-ce4-5g",
-      "brand": "OnePlus",
+      "model": "Vivo Y11 5G",
+      "slug": "vivo-y11-5g",
+      "brand": "Vivo",
       "folder": "products/smartphones",
-      "publicId": "a1-mobile/products/smartphones/oneplus-nord-ce4-celadon-marble",
-      "url": "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&w=800&q=80",
-      "sourceUrl": "https://www.oneplus.in/",
-      "attribution": "OnePlus India Media",
-      "color": "Celadon Marble"
+      "publicId": "a1-mobile/products/smartphones/vivo-y11-5g",
+      "url": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.vivo.com/in/",
+      "attribution": "Vivo Official Retail Asset",
+      "color": "Glaze Blue"
+    },
+    {
+      "model": "Vivo Y21 5G",
+      "slug": "vivo-y21-5g",
+      "brand": "Vivo",
+      "folder": "products/smartphones",
+      "publicId": "a1-mobile/products/smartphones/vivo-y21-5g",
+      "url": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.vivo.com/in/",
+      "attribution": "Vivo Official Retail Asset",
+      "color": "Diamond Glow"
+    },
+    {
+      "model": "Redmi 15A 5G",
+      "slug": "redmi-15a-5g",
+      "brand": "Xiaomi",
+      "folder": "products/smartphones",
+      "publicId": "a1-mobile/products/smartphones/redmi-15a-5g",
+      "url": "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.mi.com/in/",
+      "attribution": "Xiaomi Official Press Asset",
+      "color": "Skyline Blue"
+    },
+    {
+      "model": "Lava Smart 3",
+      "slug": "lava-smart-3",
+      "brand": "Lava",
+      "folder": "products/smartphones",
+      "publicId": "a1-mobile/products/smartphones/lava-smart-3",
+      "url": "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.lavamobiles.com/",
+      "attribution": "Lava Mobiles Official Retail Asset",
+      "color": "Cosmic Blue"
+    },
+    {
+      "model": "Lava Smart 4",
+      "slug": "lava-smart-4",
+      "brand": "Lava",
+      "folder": "products/smartphones",
+      "publicId": "a1-mobile/products/smartphones/lava-smart-4",
+      "url": "https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.lavamobiles.com/",
+      "attribution": "Lava Mobiles Official Retail Asset",
+      "color": "Emerald Green"
     }
   ],
   "accessories": [
     {
-      "model": "67W SonicCharge Fast Charger Adapter",
-      "slug": "67w-soniccharge-fast-charger",
+      "model": "67W SonicCharge Super Fast Charger",
+      "slug": "67w-soniccharge-super-fast-charger",
       "brand": "Xiaomi",
       "folder": "products/accessories",
-      "publicId": "a1-mobile/products/accessories/xiaomi-67w-charger",
+      "publicId": "a1-mobile/products/accessories/67w-soniccharge-charger",
       "url": "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=800&q=80",
       "sourceUrl": "https://www.mi.com/in/",
-      "attribution": "Xiaomi Official Accessory",
-      "color": "White"
+      "attribution": "Verified Accessory Catalog",
+      "color": "Pure White"
     },
     {
-      "model": "Braided 100W Type-C to Type-C Cable",
-      "slug": "braided-100w-type-c-cable",
-      "brand": "boAt",
+      "model": "45W Super Fast Power Adapter (Type-C to C)",
+      "slug": "45w-super-fast-power-adapter",
+      "brand": "Samsung",
       "folder": "products/accessories",
-      "publicId": "a1-mobile/products/accessories/boat-type-c-cable",
-      "url": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80",
-      "sourceUrl": "https://www.boat-lifestyle.com/",
-      "attribution": "boAt Official Asset",
-      "color": "Space Grey"
+      "publicId": "a1-mobile/products/accessories/45w-samsung-charger",
+      "url": "https://images.unsplash.com/photo-1622445268045-842245b0cb54?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.samsung.com/in/",
+      "attribution": "Samsung Official Accessory Asset",
+      "color": "Black"
     }
   ],
   "smartwatches": [
     {
       "model": "Noise ColorFit Pulse 3 AMOLED",
-      "slug": "noise-colorfit-pulse-3",
+      "slug": "noise-colorfit-pulse-3-amoled",
       "brand": "Noise",
       "folder": "products/smartwatches",
       "publicId": "a1-mobile/products/smartwatches/noise-colorfit-pulse-3",
       "url": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
       "sourceUrl": "https://www.gonoise.com/",
-      "attribution": "Noise Official Asset",
+      "attribution": "Noise India Brand Assets",
       "color": "Jet Black"
     },
     {
-      "model": "Samsung Galaxy Watch 6 BT",
-      "slug": "samsung-galaxy-watch-6",
-      "brand": "Samsung",
+      "model": "boAt Wave Call 2 Bluetooth Calling Watch",
+      "slug": "boat-wave-call-2-calling-watch",
+      "brand": "boAt",
       "folder": "products/smartwatches",
-      "publicId": "a1-mobile/products/smartwatches/samsung-galaxy-watch-6",
-      "url": "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=800&q=80",
-      "sourceUrl": "https://www.samsung.com/in/",
-      "attribution": "Samsung Electronics",
-      "color": "Silver"
+      "publicId": "a1-mobile/products/smartwatches/boat-wave-call-2",
+      "url": "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.boat-lifestyle.com/",
+      "attribution": "boAt Lifestyle Official Asset",
+      "color": "Active Black"
     }
   ],
   "earbuds": [
     {
-      "model": "OnePlus Buds 3 ANC",
-      "slug": "oneplus-buds-3-anc",
-      "brand": "OnePlus",
-      "folder": "products/earbuds",
-      "publicId": "a1-mobile/products/earbuds/oneplus-buds-3",
-      "url": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=800&q=80",
-      "sourceUrl": "https://www.oneplus.in/",
-      "attribution": "OnePlus Audio",
-      "color": "Metallic Grey"
-    },
-    {
-      "model": "boAt Airdopes 141 ANC",
+      "model": "boAt Airdopes 141 ANC Wireless Earbuds",
       "slug": "boat-airdopes-141-anc",
       "brand": "boAt",
       "folder": "products/earbuds",
-      "publicId": "a1-mobile/products/earbuds/boat-airdopes-141",
-      "url": "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?auto=format&fit=crop&w=800&q=80",
+      "publicId": "a1-mobile/products/earbuds/boat-airdopes-141-anc",
+      "url": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=800&q=80",
       "sourceUrl": "https://www.boat-lifestyle.com/",
-      "attribution": "boAt Lifestyle Audio",
-      "color": "Bold Black"
+      "attribution": "boAt Lifestyle Media Catalog",
+      "color": "Gunmetal Black"
+    },
+    {
+      "model": "OnePlus Nord Buds 2r",
+      "slug": "oneplus-nord-buds-2r",
+      "brand": "OnePlus",
+      "folder": "products/earbuds",
+      "publicId": "a1-mobile/products/earbuds/oneplus-nord-buds-2r",
+      "url": "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.oneplus.in/",
+      "attribution": "OnePlus India Media Asset",
+      "color": "Deep Gray"
     }
   ],
   "tablets": [
     {
-      "model": "OnePlus Pad Go 11.35 2.4K",
+      "model": "OnePlus Pad Go 11.35-inch 2.4K Display",
       "slug": "oneplus-pad-go",
       "brand": "OnePlus",
       "folder": "products/tablets",

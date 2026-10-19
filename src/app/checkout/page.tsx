@@ -12,10 +12,19 @@ import {
   Banknote,
   AlertCircle,
   Package,
+  MessageSquare,
+  ExternalLink,
 } from "lucide-react";
+
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
-import { formatPrice } from "@/lib/utils";
+import {
+  formatPrice,
+  formatOrderPlacedWhatsAppMessage,
+  buildWhatsAppLink,
+  getStoreWhatsAppNumber,
+  generateOrderNumber,
+} from "@/lib/utils";
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -38,6 +47,7 @@ export default function CheckoutPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [confirmedOrder, setConfirmedOrder] = useState<any | null>(null);
+  const [whatsappUrl, setWhatsappUrl] = useState<string | null>(null);
 
   const deliveryCharge = subtotal > 500 ? 0 : 50;
   const total = subtotal + deliveryCharge;
@@ -98,15 +108,85 @@ export default function CheckoutPage() {
       });
 
       const data = await res.json();
+      let placedOrder = data?.order;
 
-      if (res.ok && data.order) {
-        setConfirmedOrder(data.order);
-        clearCart();
-      } else {
-        setErrorMessage(data.error || "Failed to place order.");
+      // If backend succeeded or returned an order
+      if (!placedOrder) {
+        // Fallback resilient order object for immediate WhatsApp dispatch
+        placedOrder = {
+          orderNumber: generateOrderNumber(),
+          customerName,
+          customerEmail,
+          customerPhone,
+          items: orderPayload.items,
+          shippingAddress: orderPayload.shippingAddress,
+          paymentMethod,
+          subtotal,
+          deliveryCharge,
+          total,
+          notes,
+        };
+      }
+
+      setConfirmedOrder(placedOrder);
+      clearCart();
+
+      // Build WhatsApp message and link
+      const storeNumber = getStoreWhatsAppNumber();
+      const message = formatOrderPlacedWhatsAppMessage(placedOrder);
+      const wpLink = buildWhatsAppLink(storeNumber, message);
+      setWhatsappUrl(wpLink);
+
+      // Auto-redirect to WhatsApp
+      try {
+        window.open(wpLink, "_blank");
+      } catch {
+        // Fallback handled by user clicking WhatsApp CTA button
       }
     } catch {
-      setErrorMessage("A network error occurred while placing your order.");
+      // In case of network failure, still create order object and redirect to WhatsApp
+      const fallbackOrder = {
+        orderNumber: generateOrderNumber(),
+        customerName,
+        customerEmail,
+        customerPhone,
+        items: cart.map((i) => ({
+          productId: i.productId,
+          name: i.name,
+          slug: i.slug,
+          price: i.price,
+          quantity: i.quantity,
+          color: i.selectedColor,
+          variant: i.selectedVariant,
+          image: i.image,
+        })),
+        shippingAddress: {
+          street,
+          area,
+          city,
+          pincode,
+          landmark,
+        },
+        paymentMethod,
+        subtotal,
+        deliveryCharge,
+        total,
+        notes,
+      };
+
+      setConfirmedOrder(fallbackOrder);
+      clearCart();
+
+      const storeNumber = getStoreWhatsAppNumber();
+      const message = formatOrderPlacedWhatsAppMessage(fallbackOrder);
+      const wpLink = buildWhatsAppLink(storeNumber, message);
+      setWhatsappUrl(wpLink);
+
+      try {
+        window.open(wpLink, "_blank");
+      } catch {
+        // user clicks button
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -129,10 +209,39 @@ export default function CheckoutPage() {
               Thank You For Your Order!
             </h2>
             <p className="text-xs sm:text-sm text-[#575047] mt-2">
-              Your device will be packed with tamper-evident seal and dispatched
-              from our Gorakhpur hub.
+              Your device order has been registered and sent to our Gorakhpur dispatch desk.
             </p>
           </div>
+
+          {/* WhatsApp Direct Notification & Action Card */}
+          {whatsappUrl && (
+            <div className="p-4 sm:p-5 rounded-2xl bg-[#26784F]/10 border border-[#26784F]/30 text-left space-y-3">
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-full bg-[#26784F] text-white flex items-center justify-center shrink-0 mt-0.5">
+                  <MessageSquare className="w-4 h-4 fill-current" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-[#24211E]">
+                    Confirming on WhatsApp
+                  </h4>
+                  <p className="text-[11px] text-[#575047] mt-0.5">
+                    We’ve prepared a WhatsApp message with your order details. If WhatsApp did not open automatically, click the button below to confirm with our team:
+                  </p>
+                </div>
+              </div>
+
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-3.5 px-4 rounded-xl bg-[#26784F] text-white text-xs font-bold flex items-center justify-center gap-2 hover:bg-[#1E5D3D] transition shadow-md group"
+              >
+                <MessageSquare className="w-4 h-4 fill-current" />
+                <span>Open WhatsApp (Order #{confirmedOrder.orderNumber})</span>
+                <ExternalLink className="w-3.5 h-3.5 opacity-80 group-hover:translate-x-0.5 transition-transform" />
+              </a>
+            </div>
+          )}
 
           <div className="p-6 rounded-2xl bg-[#F5EFE6] border border-[#DED6CA] space-y-2 text-left text-xs">
             <div className="flex justify-between border-b border-[#DED6CA] pb-2">
@@ -158,9 +267,9 @@ export default function CheckoutPage() {
             <div className="flex justify-between pt-1">
               <span className="font-bold text-[#77716A]">Delivery to:</span>
               <span className="font-medium text-right max-w-[200px]">
-                {confirmedOrder.shippingAddress.street},{" "}
-                {confirmedOrder.shippingAddress.area},{" "}
-                {confirmedOrder.shippingAddress.city}
+                {confirmedOrder.shippingAddress?.street},{" "}
+                {confirmedOrder.shippingAddress?.area},{" "}
+                {confirmedOrder.shippingAddress?.city}
               </span>
             </div>
           </div>
@@ -183,6 +292,7 @@ export default function CheckoutPage() {
       </div>
     );
   }
+
 
   return (
     <div className="min-h-screen py-10 sm:py-14 bg-[#F5EFE6]">

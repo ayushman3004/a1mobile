@@ -250,7 +250,10 @@ export default async function SellOldDevicePage({
               </p>
             </div>
 
-            <BuybackWizard initialCategory={selectedCat} />
+            <BuybackWizard
+              initialCategory={selectedCat}
+              whatsappNumber={settings.whatsappNumber}
+            />
           </div>
         </section>
 

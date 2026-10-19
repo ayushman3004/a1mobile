@@ -12,9 +12,15 @@ import {
   ShieldCheck,
   Tag,
   Check,
+  MessageSquare,
 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
-import { formatPrice } from "@/lib/utils";
+import {
+  formatPrice,
+  buildWhatsAppLink,
+  getStoreWhatsAppNumber,
+} from "@/lib/utils";
+
 
 export default function CartPage() {
   const { cart, removeFromCart, updateQuantity, subtotal } = useCart();
@@ -273,6 +279,29 @@ export default function CartPage() {
                 <span>Proceed to Checkout</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
+
+              {/* Order via WhatsApp */}
+              <a
+                href={buildWhatsAppLink(
+                  getStoreWhatsAppNumber(),
+                  `👋 *Hello A1 Mobile Shop Gorakhpur!*
+I would like to order my cart items directly via WhatsApp:
+${cart.map((i, idx) => `${idx + 1}. *${i.name}*${i.selectedVariant ? ` (${i.selectedVariant})` : ""} × ${i.quantity} = ${formatPrice(i.price * i.quantity)}`).join("\n")}
+
+• Subtotal: ${formatPrice(subtotal)}
+• Gorakhpur Delivery: ${deliveryCharge === 0 ? "FREE" : formatPrice(deliveryCharge)}
+• *Total Payable:* ${formatPrice(finalTotal)}
+
+Please confirm item availability and arrange delivery.`
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-3 rounded-full bg-[#26784F] text-white text-xs font-bold flex items-center justify-center gap-2 hover:bg-[#1E5D3D] transition shadow-xs"
+              >
+                <MessageSquare className="w-4 h-4 fill-current" />
+                <span>Order Directly on WhatsApp</span>
+              </a>
+
 
               <div className="text-center">
                 <Link

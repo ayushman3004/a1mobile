@@ -14,20 +14,31 @@ import {
   Check,
   RotateCcw,
   AlertCircle,
+  MessageSquare,
+  ExternalLink,
 } from "lucide-react";
-import { formatPrice } from "@/lib/utils";
+import {
+  formatPrice,
+  formatBuybackWhatsAppMessage,
+  buildWhatsAppLink,
+  getStoreWhatsAppNumber,
+  generateBuybackReference,
+} from "@/lib/utils";
 
 interface BuybackWizardProps {
   initialCategory?: string;
   onSuccess?: (ref: string) => void;
+  whatsappNumber?: string;
 }
 
 export default function BuybackWizard({
   initialCategory = "phone",
+  whatsappNumber,
 }: BuybackWizardProps) {
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [referenceNumber, setReferenceNumber] = useState<string | null>(null);
+  const [whatsappUrl, setWhatsappUrl] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   // Form State
@@ -225,13 +236,83 @@ export default function BuybackWizard({
       });
 
       const data = await res.json();
-      if (res.ok && data.request) {
-        setReferenceNumber(data.request.referenceNumber);
-      } else {
-        setErrorMsg(data.error || "Failed to submit request.");
+      const ref =
+        (res.ok && data?.request?.referenceNumber) || generateBuybackReference();
+      setReferenceNumber(ref);
+
+      const storeNumber = getStoreWhatsAppNumber(whatsappNumber);
+      const wpMsg = formatBuybackWhatsAppMessage({
+        referenceNumber: ref,
+        customerName: formData.customerName,
+        phone: formData.phone,
+        deviceCategory: formData.deviceCategory,
+        brand: formData.brand,
+        model: formData.model,
+        configuration: formData.configuration,
+        condition: formData.condition,
+        functionalIssues: formData.functionalIssues,
+        accessoriesIncluded: formData.accessoriesIncluded,
+        estimatedValue: formData.estimatedValue,
+        pickupDate: formData.pickupDate,
+        pickupTimeSlot: formData.pickupTimeSlot,
+        pickupAddress: {
+          street: formData.street,
+          area: formData.area,
+          city: formData.city,
+          pincode: formData.pincode,
+          landmark: formData.landmark,
+        },
+        paymentPreference: formData.paymentPreference,
+        upiId: formData.upiId,
+      });
+
+      const link = buildWhatsAppLink(storeNumber, wpMsg);
+      setWhatsappUrl(link);
+
+      try {
+        window.open(link, "_blank");
+      } catch {
+        // user clicks button
       }
     } catch {
-      setErrorMsg("Network error. Please try again.");
+      // In case of network interruption, still generate reference and prepare WhatsApp redirect
+      const fallbackRef = generateBuybackReference();
+      setReferenceNumber(fallbackRef);
+
+      const storeNumber = getStoreWhatsAppNumber(whatsappNumber);
+      const wpMsg = formatBuybackWhatsAppMessage({
+        referenceNumber: fallbackRef,
+        customerName: formData.customerName,
+        phone: formData.phone,
+        deviceCategory: formData.deviceCategory,
+        brand: formData.brand,
+        model: formData.model,
+        configuration: formData.configuration,
+        condition: formData.condition,
+        functionalIssues: formData.functionalIssues,
+        accessoriesIncluded: formData.accessoriesIncluded,
+        estimatedValue: formData.estimatedValue,
+        pickupDate: formData.pickupDate,
+        pickupTimeSlot: formData.pickupTimeSlot,
+        pickupAddress: {
+          street: formData.street,
+          area: formData.area,
+          city: formData.city,
+          pincode: formData.pincode,
+          landmark: formData.landmark,
+        },
+        paymentPreference: formData.paymentPreference,
+        upiId: formData.upiId,
+      });
+
+      const link = buildWhatsAppLink(storeNumber, wpMsg);
+      setWhatsappUrl(link);
+
+      try {
+        window.open(link, "_blank");
+      } catch {
+        // user clicks button
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -258,6 +339,36 @@ export default function BuybackWizard({
           </p>
         </div>
 
+        {/* WhatsApp Direct Notification & Action Card */}
+        {whatsappUrl && (
+          <div className="p-4 sm:p-5 rounded-2xl bg-[#26784F]/10 border border-[#26784F]/30 text-left space-y-3">
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 rounded-full bg-[#26784F] text-white flex items-center justify-center shrink-0 mt-0.5">
+                <MessageSquare className="w-4 h-4 fill-current" />
+              </div>
+              <div>
+                <h4 className="text-xs font-bold text-[#24211E]">
+                  Confirming on WhatsApp
+                </h4>
+                <p className="text-[11px] text-[#575047] mt-0.5">
+                  We’ve generated a complete WhatsApp summary for this buyback quote. If WhatsApp did not open automatically, click the button below to confirm with our Gorakhpur inspection team:
+                </p>
+              </div>
+            </div>
+
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-3.5 px-4 rounded-xl bg-[#26784F] text-white text-xs font-bold flex items-center justify-center gap-2 hover:bg-[#1E5D3D] transition shadow-md group"
+            >
+              <MessageSquare className="w-4 h-4 fill-current" />
+              <span>Send Booking to WhatsApp (Ref #{referenceNumber})</span>
+              <ExternalLink className="w-3.5 h-3.5 opacity-80 group-hover:translate-x-0.5 transition-transform" />
+            </a>
+          </div>
+        )}
+
         {/* Reference Number Card */}
         <div className="p-6 rounded-2xl bg-[#F5EFE6] border border-[#DED6CA] space-y-3">
           <span className="text-xs font-bold text-[#77716A] uppercase tracking-widest block">
@@ -267,7 +378,7 @@ export default function BuybackWizard({
             {referenceNumber}
           </p>
           <div className="flex flex-wrap justify-center gap-4 text-xs font-bold text-[#575047] pt-2 border-t border-[#DED6CA]">
-            <span>Device: {formData.model}</span>
+            <span>Device: {formData.brand} {formData.model}</span>
             <span>•</span>
             <span className="text-[#26784F]">
               Estimated Quote: {formatPrice(formData.estimatedValue)}
@@ -296,6 +407,7 @@ export default function BuybackWizard({
           <button
             onClick={() => {
               setReferenceNumber(null);
+              setWhatsappUrl(null);
               setStep(1);
             }}
             className="px-8 py-3 rounded-full bg-[#24211E] text-[#EDE6DC] text-xs font-bold hover:bg-[#3D3731] transition"

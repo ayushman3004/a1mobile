@@ -2,6 +2,23 @@ import fs from "fs";
 import path from "path";
 import { uploadToCloudinary } from "../src/lib/cloudinary";
 
+// Load .env.local if present
+const envLocalPath = path.join(process.cwd(), ".env.local");
+if (fs.existsSync(envLocalPath)) {
+  const envContent = fs.readFileSync(envLocalPath, "utf-8");
+  for (const line of envContent.split("\n")) {
+    const trimmed = line.trim();
+    if (trimmed && !trimmed.startsWith("#") && trimmed.includes("=")) {
+      const idx = trimmed.indexOf("=");
+      const key = trimmed.slice(0, idx).trim();
+      const val = trimmed.slice(idx + 1).trim().replace(/^["']|["']$/g, "");
+      if (!process.env[key] && val) {
+        process.env[key] = val;
+      }
+    }
+  }
+}
+
 async function seedImages() {
   console.log("🚀 Starting Cloudinary Image Seed Pipeline...");
 

@@ -17,7 +17,11 @@ import {
   Zap,
 } from "lucide-react";
 import { IProduct } from "@/types";
-import { formatPrice, buildWhatsAppLink } from "@/lib/utils";
+import {
+  formatPrice,
+  buildWhatsAppLink,
+  formatProductEnquiryMessage,
+} from "@/lib/utils";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 
@@ -93,7 +97,13 @@ export default function ProductDetailClient({
     router.push("/checkout");
   };
 
-  const whatsappMessage = `Hello A1 Mobile Shop Gorakhpur! I am inquiring about purchasing the ${product.name} (${selectedVariant || ""}, ${selectedColor || ""}) priced at ${formatPrice(price)}.`;
+  const whatsappMessage = formatProductEnquiryMessage({
+    name: product.name,
+    price,
+    variant: selectedVariant,
+    color: selectedColor,
+    slug: product.slug,
+  });
   const whatsappUrl = buildWhatsAppLink(whatsappNumber, whatsappMessage);
 
   return (
@@ -314,13 +324,14 @@ export default function ProductDetailClient({
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="py-3.5 px-4 rounded-2xl bg-[#26784F] text-white flex items-center justify-center gap-2 hover:bg-[#1E5D3D] transition shrink-0"
-            title="Chat on WhatsApp"
+            className="py-3.5 px-5 rounded-2xl bg-[#26784F] text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-2 hover:bg-[#1E5D3D] transition shadow-md shrink-0"
+            title="Chat with Store on WhatsApp"
           >
             <MessageSquare className="w-4 h-4" />
-            <span className="text-xs font-bold sm:hidden">WhatsApp Enquiry</span>
+            <span>WhatsApp Enquiry</span>
           </a>
         </div>
+
 
         {/* Trust & Guarantee Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-[#DED6CA]">
