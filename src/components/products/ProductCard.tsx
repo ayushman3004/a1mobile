@@ -81,7 +81,7 @@ export default function ProductCard({
     <>
       <div className="group relative bg-[#EDE6DC] rounded-2xl border border-[#DED6CA] overflow-hidden flex flex-col justify-between hover:shadow-md hover:border-[#575047]/30 transition-all duration-300">
         {/* Top Badges & Wishlist */}
-        <div className="relative aspect-4/3 bg-[#F5EFE6]/60 p-4 flex items-center justify-center overflow-hidden">
+        <div className="relative aspect-[4/3] bg-[#F5EFE6]/60 p-4 flex items-center justify-center overflow-hidden">
           {/* Discount Badge */}
           <div className="absolute top-3 left-3 z-10 flex flex-col gap-1">
             {product.discountPercentage > 0 && (

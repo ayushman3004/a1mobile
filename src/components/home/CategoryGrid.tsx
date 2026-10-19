@@ -54,7 +54,7 @@ export default function CategoryGrid({
               </div>
 
               {/* Category Image Stage */}
-              <div className="relative aspect-16/10 w-full bg-[#F5EFE6] rounded-xl my-4 overflow-hidden border border-[#DED6CA]/60 flex items-center justify-center">
+              <div className="relative aspect-[16/10] w-full bg-[#F5EFE6] rounded-xl my-4 overflow-hidden border border-[#DED6CA]/60 flex items-center justify-center">
                 <Image
                   src={cat.image}
                   alt={cat.name}

@@ -154,7 +154,7 @@ export default function Hero({ newArrivals, currentArrivals }: HeroProps) {
                 </div>
 
                 {/* Product Image Stage */}
-                <div className="relative aspect-4/3 w-full bg-[#F5EFE6]/70 rounded-2xl p-4 flex items-center justify-center my-2 border border-[#DED6CA]">
+                <div className="relative aspect-[4/3] w-full bg-[#F5EFE6]/70 rounded-2xl p-4 flex items-center justify-center my-2 border border-[#DED6CA]">
                   {currentProduct.discountPercentage > 0 && (
                     <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-[#E66827] text-white text-xs font-black shadow-xs z-10">
                       Save {currentProduct.discountPercentage}%

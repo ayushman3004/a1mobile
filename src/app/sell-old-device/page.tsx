@@ -202,7 +202,7 @@ export default async function SellOldDevicePage({
                   className="bg-[#EDE6DC] rounded-2xl border border-[#DED6CA] overflow-hidden p-6 flex flex-col justify-between hover:shadow-md transition group"
                 >
                   <div>
-                    <div className="relative aspect-4/3 w-full bg-[#F5EFE6] rounded-xl overflow-hidden mb-4 border border-[#DED6CA]">
+                    <div className="relative aspect-[4/3] w-full bg-[#F5EFE6] rounded-xl overflow-hidden mb-4 border border-[#DED6CA]">
                       <Image
                         src={bCat.image}
                         alt={bCat.name}

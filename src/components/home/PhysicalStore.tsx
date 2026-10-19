@@ -37,7 +37,7 @@ export default function PhysicalStore({
         {/* Large Rounded Store Information Card */}
         <div className="bg-[#EDE6DC] rounded-3xl border border-[#DED6CA] overflow-hidden shadow-lg grid grid-cols-1 lg:grid-cols-12">
           {/* Left: Store Photograph */}
-          <div className="lg:col-span-6 relative aspect-4/3 lg:aspect-auto min-h-[300px] bg-[#F5EFE6]">
+          <div className="lg:col-span-6 relative aspect-[4/3] lg:aspect-auto min-h-[300px] bg-[#F5EFE6]">
             {settings.storeImageUrl ? (
               <Image
                 src={settings.storeImageUrl}
