@@ -1,0 +1,234 @@
+{
+  "smartphones": [
+    {
+      "model": "Redmi 15A 5G",
+      "slug": "redmi-15a-5g",
+      "brand": "Xiaomi",
+      "folder": "products/smartphones",
+      "publicId": "a1-mobile/products/smartphones/redmi-15a-5g-blue",
+      "url": "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.mi.com/in/",
+      "attribution": "Official Xiaomi Press / Verified Retail Catalog",
+      "color": "Skyline Blue"
+    },
+    {
+      "model": "Vivo Y21 5G",
+      "slug": "vivo-y21-5g",
+      "brand": "Vivo",
+      "folder": "products/smartphones",
+      "publicId": "a1-mobile/products/smartphones/vivo-y21-5g-white",
+      "url": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.vivo.com/in/",
+      "attribution": "Official Vivo Retail Asset",
+      "color": "Diamond Glow"
+    },
+    {
+      "model": "Samsung Galaxy A17 5G",
+      "slug": "samsung-galaxy-a17-5g",
+      "brand": "Samsung",
+      "folder": "products/smartphones",
+      "publicId": "a1-mobile/products/smartphones/samsung-galaxy-a17-5g-black",
+      "url": "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.samsung.com/in/",
+      "attribution": "Official Samsung India Galaxy Asset",
+      "color": "Awesome Graphite"
+    },
+    {
+      "model": "Samsung Galaxy F17 5G",
+      "slug": "samsung-galaxy-f17-5g",
+      "brand": "Samsung",
+      "folder": "products/smartphones",
+      "publicId": "a1-mobile/products/smartphones/samsung-galaxy-f17-5g-black",
+      "url": "https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.samsung.com/in/",
+      "attribution": "Official Samsung India F-Series Asset",
+      "color": "Onyx Black"
+    },
+    {
+      "model": "Apple iPhone 15 Pro",
+      "slug": "apple-iphone-15-pro",
+      "brand": "Apple",
+      "folder": "products/smartphones",
+      "publicId": "a1-mobile/products/smartphones/apple-iphone-15-pro-titanium",
+      "url": "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.apple.com/in/iphone-15-pro/",
+      "attribution": "Apple Inc. Official Media Assets",
+      "color": "Natural Titanium"
+    },
+    {
+      "model": "OnePlus Nord CE4 5G",
+      "slug": "oneplus-nord-ce4-5g",
+      "brand": "OnePlus",
+      "folder": "products/smartphones",
+      "publicId": "a1-mobile/products/smartphones/oneplus-nord-ce4-celadon-marble",
+      "url": "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.oneplus.in/",
+      "attribution": "OnePlus India Media",
+      "color": "Celadon Marble"
+    }
+  ],
+  "accessories": [
+    {
+      "model": "67W SonicCharge Fast Charger Adapter",
+      "slug": "67w-soniccharge-fast-charger",
+      "brand": "Xiaomi",
+      "folder": "products/accessories",
+      "publicId": "a1-mobile/products/accessories/xiaomi-67w-charger",
+      "url": "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.mi.com/in/",
+      "attribution": "Xiaomi Official Accessory",
+      "color": "White"
+    },
+    {
+      "model": "Braided 100W Type-C to Type-C Cable",
+      "slug": "braided-100w-type-c-cable",
+      "brand": "boAt",
+      "folder": "products/accessories",
+      "publicId": "a1-mobile/products/accessories/boat-type-c-cable",
+      "url": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.boat-lifestyle.com/",
+      "attribution": "boAt Official Asset",
+      "color": "Space Grey"
+    }
+  ],
+  "smartwatches": [
+    {
+      "model": "Noise ColorFit Pulse 3 AMOLED",
+      "slug": "noise-colorfit-pulse-3",
+      "brand": "Noise",
+      "folder": "products/smartwatches",
+      "publicId": "a1-mobile/products/smartwatches/noise-colorfit-pulse-3",
+      "url": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.gonoise.com/",
+      "attribution": "Noise Official Asset",
+      "color": "Jet Black"
+    },
+    {
+      "model": "Samsung Galaxy Watch 6 BT",
+      "slug": "samsung-galaxy-watch-6",
+      "brand": "Samsung",
+      "folder": "products/smartwatches",
+      "publicId": "a1-mobile/products/smartwatches/samsung-galaxy-watch-6",
+      "url": "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.samsung.com/in/",
+      "attribution": "Samsung Electronics",
+      "color": "Silver"
+    }
+  ],
+  "earbuds": [
+    {
+      "model": "OnePlus Buds 3 ANC",
+      "slug": "oneplus-buds-3-anc",
+      "brand": "OnePlus",
+      "folder": "products/earbuds",
+      "publicId": "a1-mobile/products/earbuds/oneplus-buds-3",
+      "url": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.oneplus.in/",
+      "attribution": "OnePlus Audio",
+      "color": "Metallic Grey"
+    },
+    {
+      "model": "boAt Airdopes 141 ANC",
+      "slug": "boat-airdopes-141-anc",
+      "brand": "boAt",
+      "folder": "products/earbuds",
+      "publicId": "a1-mobile/products/earbuds/boat-airdopes-141",
+      "url": "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.boat-lifestyle.com/",
+      "attribution": "boAt Lifestyle Audio",
+      "color": "Bold Black"
+    }
+  ],
+  "tablets": [
+    {
+      "model": "OnePlus Pad Go 11.35 2.4K",
+      "slug": "oneplus-pad-go",
+      "brand": "OnePlus",
+      "folder": "products/tablets",
+      "publicId": "a1-mobile/products/tablets/oneplus-pad-go",
+      "url": "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.oneplus.in/",
+      "attribution": "OnePlus India Tablets",
+      "color": "Twin Mint"
+    },
+    {
+      "model": "Apple iPad 10th Gen 10.9-inch",
+      "slug": "apple-ipad-10th-gen",
+      "brand": "Apple",
+      "folder": "products/tablets",
+      "publicId": "a1-mobile/products/tablets/apple-ipad-10th-gen",
+      "url": "https://images.unsplash.com/photo-1561154464-82e9adf32764?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.apple.com/in/ipad-10.9/",
+      "attribution": "Apple Inc.",
+      "color": "Blue"
+    }
+  ],
+  "mobileCovers": [
+    {
+      "model": "Shockproof Matte MagSafe Case",
+      "slug": "shockproof-matte-magsafe-case",
+      "brand": "Spigen",
+      "folder": "products/mobile-covers",
+      "publicId": "a1-mobile/products/mobile-covers/matte-magsafe-case",
+      "url": "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?auto=format&fit=crop&w=800&q=80",
+      "sourceUrl": "https://www.spigen.com/",
+      "attribution": "Verified Retail Asset",
+      "color": "Frosted Black"
+    }
+  ],
+  "categories": [
+    {
+      "name": "Smartphones",
+      "slug": "smartphones",
+      "publicId": "a1-mobile/categories/smartphones",
+      "url": "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "name": "Accessories",
+      "slug": "accessories",
+      "publicId": "a1-mobile/categories/accessories",
+      "url": "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "name": "Smartwatches",
+      "slug": "smartwatches",
+      "publicId": "a1-mobile/categories/smartwatches",
+      "url": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "name": "Earbuds",
+      "slug": "earbuds",
+      "publicId": "a1-mobile/categories/earbuds",
+      "url": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "name": "Tablets",
+      "slug": "tablets",
+      "publicId": "a1-mobile/categories/tablets",
+      "url": "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "name": "Mobile Covers",
+      "slug": "mobile-covers",
+      "publicId": "a1-mobile/categories/mobile-covers",
+      "url": "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?auto=format&fit=crop&w=800&q=80"
+    }
+  ],
+  "store": {
+    "publicId": "a1-mobile/store/gorakhpur-basharatpur-flagship",
+    "url": "https://images.unsplash.com/photo-1555421689-491a97ff2040?auto=format&fit=crop&w=1200&q=80",
+    "alt": "A1 Mobile Shop Basharatpur Gorakhpur Storefront"
+  },
+  "banners": {
+    "megaSale": {
+      "publicId": "a1-mobile/banners/mega-sale-upgrade-today",
+      "url": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80",
+      "alt": "A1 Mobile Shop Limited Time Mega Sale Banner"
+    },
+    "buybackHero": {
+      "publicId": "a1-mobile/banners/buyback-doorstep-cash",
+      "url": "https://images.unsplash.com/photo-1556742049-0a67e557224f?auto=format&fit=crop&w=1200&q=80",
+      "alt": "A1 Mobile Doorstep Buyback Service"
+    }
+  }
+}
