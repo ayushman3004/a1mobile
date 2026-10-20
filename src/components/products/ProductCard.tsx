@@ -28,7 +28,7 @@ interface ProductCardProps {
 
 export default function ProductCard({
   product,
-  whatsappNumber = "+919876543210",
+  whatsappNumber = "+918726942338",
 }: ProductCardProps) {
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();

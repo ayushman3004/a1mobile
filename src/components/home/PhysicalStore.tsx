@@ -6,6 +6,7 @@ import {
   Navigation,
   PhoneCall,
   CheckCircle,
+  Mail,
 } from "lucide-react";
 import { IStoreSettings } from "@/types";
 
@@ -38,19 +39,14 @@ export default function PhysicalStore({
         <div className="bg-[#EDE6DC] rounded-3xl border border-[#DED6CA] overflow-hidden shadow-lg grid grid-cols-1 lg:grid-cols-12">
           {/* Left: Store Photograph */}
           <div className="lg:col-span-6 relative aspect-[4/3] lg:aspect-auto min-h-[300px] bg-[#F5EFE6]">
-            {settings.storeImageUrl ? (
-              <Image
-                src={settings.storeImageUrl}
-                alt="A1 Mobile Shop Gorakhpur Storefront"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 600px"
-              />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center bg-[#DED6CA] text-[#77716A]">
-                Storefront Gorakhpur
-              </div>
-            )}
+            <Image
+              src={settings.storeImageUrl || "/store.jpg"}
+              alt="A1 Mobile Shop Gorakhpur Interior & Storefront"
+              fill
+              priority
+              className="object-cover hover:scale-102 transition-transform duration-500"
+              sizes="(max-width: 1024px) 100vw, 600px"
+            />
             <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full bg-[#24211E]/80 backdrop-blur-xs text-[#EDE6DC] text-xs font-bold flex items-center gap-1.5 shadow-md">
               <span className="w-2 h-2 rounded-full bg-[#26784F] animate-pulse"></span>
               <span>Basharatpur Hub</span>
@@ -121,6 +117,25 @@ export default function PhysicalStore({
                   <span>{settings.phone} {settings.altPhone ? `| ${settings.altPhone}` : ""}</span>
                 </div>
               </div>
+
+              {settings.email && (
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-[#F5EFE6] border border-[#DED6CA] flex items-center justify-center shrink-0">
+                    <Mail className="w-4 h-4 text-[#E66827]" />
+                  </div>
+                  <div>
+                    <span className="font-bold text-[#24211E] block">
+                      Email Enquiry
+                    </span>
+                    <a
+                      href={`mailto:${settings.email}`}
+                      className="hover:text-[#E66827] transition"
+                    >
+                      {settings.email}
+                    </a>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Action Buttons */}

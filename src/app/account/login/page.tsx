@@ -2,8 +2,9 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Smartphone, Lock, Mail, AlertCircle, ArrowRight } from "lucide-react";
+import { Lock, Mail, AlertCircle, ArrowRight } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
 export default function LoginPage() {
@@ -23,7 +24,11 @@ export default function LoginPage() {
     setLoading(false);
 
     if (result.success) {
-      router.push("/account");
+      const redirectTarget =
+        (typeof window !== "undefined" &&
+          new URLSearchParams(window.location.search).get("redirect")) ||
+        "/";
+      router.push(redirectTarget);
     } else {
       setError(result.error || "Invalid email or password");
     }
@@ -33,9 +38,18 @@ export default function LoginPage() {
     <div className="min-h-screen py-16 px-4 flex items-center justify-center bg-[#F5EFE6]">
       <div className="w-full max-w-md bg-[#EDE6DC] rounded-3xl border border-[#DED6CA] p-8 sm:p-10 shadow-xl space-y-6">
         <div className="text-center space-y-2">
-          <div className="w-12 h-12 rounded-2xl bg-[#24211E] text-white flex items-center justify-center mx-auto shadow-md">
-            <Smartphone className="w-6 h-6 text-[#E66827]" />
-          </div>
+          <Link href="/" className="inline-block group mb-1">
+            <div className="w-16 h-16 rounded-full overflow-hidden mx-auto shadow-md group-hover:scale-105 transition-transform ring-2 ring-[#DED6CA] bg-white/40">
+              <Image
+                src="/logo-icon.png"
+                alt="A1 Mobile Shop"
+                width={64}
+                height={64}
+                priority
+                className="w-full h-full object-contain p-1"
+              />
+            </div>
+          </Link>
           <h1 className="text-2xl font-black text-[#24211E] tracking-tight">
             Sign In to A1 Mobile
           </h1>

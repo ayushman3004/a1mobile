@@ -74,7 +74,7 @@ export function getStoreWhatsAppNumber(customNumber?: string): string {
   return (
     customNumber ||
     process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ||
-    "+919876543210"
+    "+918726942338"
   );
 }
 
@@ -182,9 +182,10 @@ export function formatOrderPlacedWhatsAppMessage(order: {
  * Format Sell Old Phone / Buyback message for WhatsApp
  */
 export function formatBuybackWhatsAppMessage(request: {
-  referenceNumber: string;
+  referenceNumber?: string;
   customerName: string;
   phone: string;
+  location?: string;
   deviceCategory: string;
   brand: string;
   model: string;
@@ -192,48 +193,52 @@ export function formatBuybackWhatsAppMessage(request: {
   condition: string;
   functionalIssues?: string[];
   accessoriesIncluded?: string[];
-  estimatedValue: number;
-  pickupDate: string;
-  pickupTimeSlot: string;
-  pickupAddress: {
-    street: string;
-    area: string;
-    city: string;
-    pincode: string;
+  remarks?: string;
+  estimatedValue?: number;
+  pickupDate?: string;
+  pickupTimeSlot?: string;
+  pickupAddress?: {
+    street?: string;
+    area?: string;
+    city?: string;
+    pincode?: string;
     landmark?: string;
   };
-  paymentPreference: string;
+  paymentPreference?: string;
   upiId?: string;
 }): string {
-  const address = `${request.pickupAddress.street}, ${request.pickupAddress.area}, ${request.pickupAddress.city} - ${request.pickupAddress.pincode}${request.pickupAddress.landmark ? ` (Landmark: ${request.pickupAddress.landmark})` : ""}`;
+  const addressParts = [
+    request.pickupAddress?.street,
+    request.pickupAddress?.area,
+    request.pickupAddress?.city || "Gorakhpur",
+    request.pickupAddress?.pincode,
+  ].filter(Boolean);
+  const fullAddress = addressParts.length > 0 ? addressParts.join(", ") : request.location;
 
   const lines = [
-    `🔄 *SELL OLD DEVICE / BUYBACK REQUEST - A1 MOBILE SHOP GORAKHPUR*`,
+    `🔄 *SELL OLD DEVICE INQUIRY - A1 MOBILE SHOP GORAKHPUR*`,
+    request.referenceNumber ? `*Ref ID:* #${request.referenceNumber}` : null,
     ``,
-    `*Booking Reference:* ${request.referenceNumber}`,
-    `*Customer Name:* ${request.customerName}`,
-    `*WhatsApp / Mobile:* ${request.phone}`,
+    `👤 *Customer Information:*`,
+    `• Name: *${request.customerName}*`,
+    `• Phone / WhatsApp: ${request.phone}`,
+    fullAddress ? `• Location / Address: ${fullAddress}` : null,
     ``,
-    `📱 *Device Assessment Details:*`,
+    `📱 *Device Details:*`,
     `• Category: ${request.deviceCategory.toUpperCase()}`,
-    `• Model: *${request.brand} ${request.model}* ${request.configuration ? `(${request.configuration})` : ""}`,
-    `• Overall Condition: ${request.condition}`,
+    `• Brand & Model: *${request.brand} ${request.model}*`,
+    request.configuration ? `• Storage / Variant: ${request.configuration}` : null,
+    `• Physical Condition: ${request.condition}`,
     request.accessoriesIncluded && request.accessoriesIncluded.length > 0
-      ? `• Accessories Included: ${request.accessoriesIncluded.join(", ")}`
-      : null,
+      ? `• Accessories Available: ${request.accessoriesIncluded.join(", ")}`
+      : `• Accessories: Handset Only`,
     request.functionalIssues && request.functionalIssues.length > 0
-      ? `• Issues Reported: ${request.functionalIssues.join(", ")}`
-      : `• Issues Reported: None (100% Functional)`,
+      ? `• Reported Issues: ${request.functionalIssues.join(", ")}`
+      : `• Issues: None (100% Functional)`,
+    request.remarks ? `• Remarks / Notes: ${request.remarks}` : null,
+    request.estimatedValue ? `• Quoted: ${formatPrice(request.estimatedValue)}` : null,
     ``,
-    `💵 *Estimated Buyback Quote:* *${formatPrice(request.estimatedValue)}*`,
-    `• Payout Mode: ${request.paymentPreference}${request.upiId ? ` (${request.upiId})` : ""}`,
-    ``,
-    `🗓️ *Doorstep Pickup Schedule:*`,
-    `• Date: ${request.pickupDate}`,
-    `• Time Slot: ${request.pickupTimeSlot}`,
-    `• Pickup Address: ${address}`,
-    ``,
-    `Hello A1 Mobile Shop team! I have submitted this old device buyback request. Please confirm my doorstep inspection and pickup.`,
+    `👋 *Hello A1 Mobile Shop team!* I want to sell this device. Please check these details and let me know your best price offer and inspection schedule. Thank you!`,
   ].filter(Boolean);
 
   return lines.join("\n");

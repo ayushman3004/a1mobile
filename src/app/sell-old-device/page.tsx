@@ -17,6 +17,7 @@ import {
   Truck,
   ArrowRight,
 } from "lucide-react";
+import { buildWhatsAppLink } from "@/lib/utils";
 
 interface SellPageProps {
   searchParams: Promise<{ category?: string }>;
@@ -58,17 +59,17 @@ export default async function SellOldDevicePage({
                 </h1>
 
                 <p className="text-base sm:text-lg text-[#575047] max-w-xl leading-relaxed">
-                  Turn your old smartphone into instant cash. Get a quick quote,
-                  schedule a free pickup and receive secure payment directly in
-                  your bank account or UPI.
+                  Turn your old smartphone into instant cash. Fill in your basic and device
+                  details, get the highest price offer directly on WhatsApp, and enjoy free
+                  doorstep inspection across Gorakhpur.
                 </p>
 
                 <div className="pt-2">
                   <a
                     href="#valuation-wizard"
-                    className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[#24211E] text-[#EDE6DC] font-black text-xs sm:text-sm uppercase tracking-wider hover:bg-[#3D3731] transition shadow-lg group"
+                    className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[#26784F] text-white font-black text-xs sm:text-sm uppercase tracking-wider hover:bg-[#1E5D3D] transition shadow-lg group"
                   >
-                    <span>SELL YOUR PHONE</span>
+                    <span>SELL ON WHATSAPP NOW</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
                   </a>
                 </div>
@@ -239,14 +240,13 @@ export default async function SellOldDevicePage({
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-2xl mx-auto mb-12">
               <span className="text-xs font-bold uppercase tracking-widest text-[#26784F]">
-                INSTANT VALUATION CALCULATOR
+                INSTANT WHATSAPP BUYBACK
               </span>
               <h2 className="text-3xl sm:text-4xl font-black text-[#24211E] tracking-tight mt-1">
-                Get an Exact Price For Your Device
+                Sell Old Device On WhatsApp
               </h2>
               <p className="text-sm text-[#575047] mt-2">
-                Follow the steps below to calculate your estimated cash payout
-                and book a free doorstep pickup in Gorakhpur.
+                Fill in your basic and device info below. Your details will be sent directly to WhatsApp for an instant price quote from A1 Mobile Shop Gorakhpur.
               </p>
             </div>
 
@@ -286,10 +286,10 @@ export default async function SellOldDevicePage({
                   Call Commercial Desk
                 </a>
                 <a
-                  href={`https://wa.me/91${settings.whatsappNumber.replace(
-                    /\D/g,
-                    ""
-                  )}?text=Hello%20A1%20Mobile!%20We%20need%20a%20corporate%20bulk%20device%20buyback%20quote.`}
+                  href={buildWhatsAppLink(
+                    settings.whatsappNumber,
+                    "Hello A1 Mobile! We need a corporate bulk device buyback quote."
+                  )}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-6 py-3.5 rounded-full bg-[#3D3731] text-[#EDE6DC] text-xs font-bold text-center hover:bg-[#575047] transition"

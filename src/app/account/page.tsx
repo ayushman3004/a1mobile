@@ -13,7 +13,11 @@ import {
   Clock,
   CheckCircle2,
   AlertCircle,
+  Home,
+  ChevronRight,
+  ShoppingBag,
 } from "lucide-react";
+import Logo from "@/components/shared/Logo";
 import { useAuth } from "@/context/AuthContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { formatPrice } from "@/lib/utils";
@@ -65,28 +69,52 @@ export default function AccountPage() {
   return (
     <div className="min-h-screen py-10 sm:py-14 bg-[#F5EFE6]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-          <div>
-            <h1 className="text-3xl font-black text-[#24211E] tracking-tight">
-              Welcome, {user.name}
-            </h1>
-            <p className="text-xs sm:text-sm text-[#575047] mt-1">
-              Manage your personal details, order status, and buyback requests.
-            </p>
-          </div>
+        {/* Top Bar with Brand & Return to Home Option */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-8 border-b border-[#DED6CA]">
+          <Logo variant="header" withLink />
 
-          <button
-            onClick={logout}
-            className="self-start sm:self-auto px-4 py-2 rounded-xl bg-[#EDE6DC] text-red-600 border border-[#DED6CA] text-xs font-bold flex items-center gap-1.5 hover:bg-red-50 transition"
-          >
-            <LogOut className="w-3.5 h-3.5" />
-            <span>Sign Out</span>
-          </button>
+          <div className="flex items-center gap-2.5">
+            <Link
+              href="/"
+              className="px-4 py-2.5 rounded-xl bg-[#24211E] text-[#EDE6DC] text-xs font-bold flex items-center gap-2 hover:bg-[#3D3731] transition shadow-xs"
+            >
+              <Home className="w-4 h-4 text-[#E66827]" />
+              <span>Back to Home</span>
+            </Link>
+
+            <button
+              onClick={logout}
+              className="px-4 py-2.5 rounded-xl bg-[#EDE6DC] text-red-600 border border-[#DED6CA] text-xs font-bold flex items-center gap-1.5 hover:bg-red-50 transition"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span>Sign Out</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Welcome Section & Breadcrumbs */}
+        <div className="mb-8">
+          <div className="flex items-center gap-2 text-xs text-[#77716A] mb-1.5">
+            <Link href="/" className="hover:text-[#24211E] transition">
+              Home
+            </Link>
+            <ChevronRight className="w-3.5 h-3.5" />
+            <span className="font-semibold text-[#24211E]">My Account</span>
+          </div>
+          <h1 className="text-3xl font-black text-[#24211E] tracking-tight">
+            Welcome, {user.name}
+          </h1>
+          <p className="text-xs sm:text-sm text-[#575047] mt-1">
+            Manage your personal details, order status, and buyback requests.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Navigation Sidebar (3 cols) */}
           <aside className="lg:col-span-3 space-y-2 bg-[#EDE6DC] p-3 rounded-2xl border border-[#DED6CA]">
+            <span className="text-[10px] uppercase font-bold tracking-wider text-[#77716A] px-3 pt-1 block">
+              Account Menu
+            </span>
             {[
               { id: "profile", label: "My Profile", icon: User },
               {
@@ -121,6 +149,27 @@ export default function AccountPage() {
                 </button>
               );
             })}
+
+            {/* Store Navigation Links */}
+            <div className="pt-3 mt-3 border-t border-[#DED6CA] space-y-1">
+              <span className="text-[10px] uppercase font-bold tracking-wider text-[#77716A] px-3 block mb-1">
+                Store Navigation
+              </span>
+              <Link
+                href="/"
+                className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-bold text-[#24211E] hover:bg-[#DED6CA] transition"
+              >
+                <Home className="w-4 h-4 text-[#E66827]" />
+                <span>Go to Home Page</span>
+              </Link>
+              <Link
+                href="/products"
+                className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-bold text-[#575047] hover:bg-[#DED6CA] transition"
+              >
+                <ShoppingBag className="w-4 h-4" />
+                <span>Browse Products</span>
+              </Link>
+            </div>
           </aside>
 
           {/* Main Tab Panel (9 cols) */}

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import {
-  Smartphone,
   Phone,
   Mail,
   Clock,
@@ -11,6 +10,7 @@ import {
   RotateCcw,
 } from "lucide-react";
 import { InstagramIcon } from "@/components/shared/Icons";
+import Logo from "@/components/shared/Logo";
 import { IStoreSettings } from "@/types";
 import { buildWhatsAppLink } from "@/lib/utils";
 
@@ -28,19 +28,7 @@ export default function Footer({ settings }: { settings: IStoreSettings }) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8 pb-12 border-b border-[#3D3731]">
           {/* Column 1: Store Info & Direct Support */}
           <div className="lg:col-span-1 space-y-4">
-            <Link href="/" className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-[#EDE6DC] text-[#24211E] flex items-center justify-center">
-                <Smartphone className="w-5 h-5 text-[#E66827]" />
-              </div>
-              <div>
-                <span className="font-extrabold text-lg tracking-tight block leading-tight">
-                  A1 MOBILE
-                </span>
-                <span className="text-[10px] text-[#EDE6DC]/70 tracking-widest uppercase font-semibold">
-                  SHOP GORAKHPUR
-                </span>
-              </div>
-            </Link>
+            <Logo variant="footer" withLink />
 
             <p className="text-xs text-[#EDE6DC]/80 leading-relaxed">
               {settings.tagline}. Authentic smartphones, official accessories,
@@ -70,7 +58,12 @@ export default function Footer({ settings }: { settings: IStoreSettings }) {
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-3.5 h-3.5 text-[#EDE6DC]/60 shrink-0" />
-                <span>{settings.email}</span>
+                <a
+                  href={`mailto:${settings.email}`}
+                  className="hover:text-white transition truncate"
+                >
+                  {settings.email}
+                </a>
               </div>
             </div>
 
@@ -157,7 +150,7 @@ export default function Footer({ settings }: { settings: IStoreSettings }) {
                   className="hover:text-[#26784F] font-semibold transition flex items-center gap-1.5"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-[#26784F]"></span>
-                  Instant Cash Valuation
+                  Sell Device via WhatsApp
                 </Link>
               </li>
               <li>

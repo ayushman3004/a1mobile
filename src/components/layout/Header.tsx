@@ -9,13 +9,13 @@ import {
   Heart,
   ShoppingBag,
   User as UserIcon,
-  Smartphone,
   ChevronDown,
   LogOut,
   Shield,
   Package,
   RotateCcw,
 } from "lucide-react";
+import Logo from "@/components/shared/Logo";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { useAuth } from "@/context/AuthContext";
@@ -43,21 +43,7 @@ export default function Header({ settings }: { settings: IStoreSettings }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
         <div className="flex items-center justify-between gap-4 lg:gap-8">
           {/* Left: Brand Identity */}
-          <Link href="/" className="flex items-center gap-3 shrink-0 group">
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-[#24211E] text-[#EDE6DC] flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
-              <Smartphone className="w-5 h-5 text-[#E66827]" />
-            </div>
-            <div>
-              <div className="flex items-center gap-1.5 leading-none">
-                <span className="font-extrabold text-xl sm:text-2xl tracking-tight text-[#24211E]">
-                  A1 MOBILE
-                </span>
-              </div>
-              <span className="text-[10px] sm:text-xs font-semibold tracking-widest text-[#77716A] uppercase block mt-0.5">
-                SHOP GORAKHPUR
-              </span>
-            </div>
-          </Link>
+          <Logo variant="header" withLink />
 
           {/* Center: Search Bar */}
           <div className="flex-1 max-w-xl hidden md:block">

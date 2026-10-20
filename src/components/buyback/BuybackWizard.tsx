@@ -1,24 +1,26 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 import {
+  Smartphone,
+  Laptop,
+  Tablet,
+  Watch,
+  Headphones,
   CheckCircle2,
-  ArrowRight,
-  ArrowLeft,
-  Calendar,
-  Clock,
-  MapPin,
-  CreditCard,
-  ShieldCheck,
-  Check,
-  RotateCcw,
-  AlertCircle,
   MessageSquare,
-  ExternalLink,
+  Copy,
+  Check,
+  Send,
+  RotateCcw,
+  Sparkles,
+  ShieldCheck,
+  MapPin,
+  User,
+  Phone,
+  AlertCircle,
 } from "lucide-react";
 import {
-  formatPrice,
   formatBuybackWhatsAppMessage,
   buildWhatsAppLink,
   getStoreWhatsAppNumber,
@@ -27,7 +29,6 @@ import {
 
 interface BuybackWizardProps {
   initialCategory?: string;
-  onSuccess?: (ref: string) => void;
   whatsappNumber?: string;
 }
 
@@ -35,1196 +36,560 @@ export default function BuybackWizard({
   initialCategory = "phone",
   whatsappNumber,
 }: BuybackWizardProps) {
-  const [step, setStep] = useState(1);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [referenceNumber, setReferenceNumber] = useState<string | null>(null);
-  const [whatsappUrl, setWhatsappUrl] = useState<string | null>(null);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const targetWhatsApp = getStoreWhatsAppNumber(whatsappNumber);
 
   // Form State
-  const [formData, setFormData] = useState({
-    deviceCategory: initialCategory,
-    brand: "Xiaomi",
-    model: "Redmi 15A 5G",
-    configuration: "128GB / 6GB",
-    condition: "Good" as "Flawless" | "Good" | "Average" | "Below Average",
-    functionalIssues: [] as string[],
-    accessoriesIncluded: ["Original Box & Charger", "Original Bill"] as string[],
-    estimatedValue: 8075,
-    customerName: "",
-    phone: "",
-    email: "",
-    pickupDate: "Tomorrow",
-    pickupTimeSlot: "11:00 AM - 02:00 PM",
-    street: "",
-    area: "Basharatpur",
-    city: "Gorakhpur",
-    pincode: "273004",
-    landmark: "",
-    paymentPreference: "UPI" as "UPI" | "Bank Transfer" | "Cash on Inspection",
-    upiId: "",
-  });
+  const [deviceCategory, setDeviceCategory] = useState<string>(initialCategory);
+  const [brand, setBrand] = useState("Apple");
+  const [customBrand, setCustomBrand] = useState("");
+  const [model, setModel] = useState("");
+  const [storage, setStorage] = useState("128GB");
+  const [customStorage, setCustomStorage] = useState("");
+  const [condition, setCondition] = useState<
+    "Like New / Flawless" | "Good" | "Average" | "Damaged / Screen Issue"
+  >("Good");
+  const [accessories, setAccessories] = useState<string[]>([
+    "Original Box",
+    "Original Charger",
+  ]);
+  const [remarks, setRemarks] = useState("");
 
-  const brandsMap: Record<string, string[]> = {
-    phone: ["Xiaomi", "Vivo", "Samsung", "Apple", "OnePlus"],
-    laptop: ["Apple", "Dell", "HP", "Lenovo", "Asus"],
-    tablet: ["Apple", "Samsung", "OnePlus", "Lenovo"],
-    smartwatch: ["Apple", "Samsung", "Noise", "boAt"],
+  // Customer Basic Info
+  const [customerName, setCustomerName] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
+  const [location, setLocation] = useState("");
+
+  // UI state
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [referenceId, setReferenceId] = useState("");
+  const [generatedWhatsAppUrl, setGeneratedWhatsAppUrl] = useState("");
+  const [generatedMessage, setGeneratedMessage] = useState("");
+
+  const categories = [
+    { id: "phone", label: "Smartphone", icon: Smartphone },
+    { id: "tablet", label: "Tablet / iPad", icon: Tablet },
+    { id: "laptop", label: "Laptop", icon: Laptop },
+    { id: "smartwatch", label: "Smartwatch", icon: Watch },
+    { id: "other", label: "Other Gadget", icon: Headphones },
+  ];
+
+  const brandOptions: Record<string, string[]> = {
+    phone: ["Apple", "Samsung", "Xiaomi / Redmi", "Vivo", "Realme", "OnePlus", "Oppo", "Motorola", "Other"],
+    tablet: ["Apple", "Samsung", "Lenovo", "OnePlus", "Xiaomi", "Other"],
+    laptop: ["Apple", "Dell", "HP", "Lenovo", "Asus", "Acer", "Other"],
+    smartwatch: ["Apple", "Samsung", "Noise", "boAt", "Fire-Boltt", "Other"],
+    other: ["Sony", "JBL", "Marshall", "Bose", "Other"],
   };
 
-  const modelsMap: Record<string, Record<string, string[]>> = {
-    phone: {
-      Xiaomi: ["Redmi 15A 5G", "Redmi Note 13 Pro 5G", "Xiaomi 14"],
-      Vivo: ["Vivo Y21 5G", "Vivo V29 5G", "Vivo X100 Pro"],
-      Samsung: ["Samsung Galaxy A17 5G", "Samsung Galaxy F17 5G", "Galaxy S24 Ultra"],
-      Apple: ["Apple iPhone 15 Pro", "iPhone 14", "iPhone 13", "iPhone 12"],
-      OnePlus: ["OnePlus Nord CE4 5G", "OnePlus 12R", "OnePlus 12"],
-    },
-    laptop: {
-      Apple: ["MacBook Air M2", "MacBook Pro M3", "MacBook Air M1"],
-      Dell: ["Dell XPS 13", "Dell Inspiron 15"],
-      HP: ["HP Pavilion 15", "HP Spectre x360"],
-      Lenovo: ["IdeaPad Slim 3", "ThinkPad E14"],
-      Asus: ["ZenBook 14", "TUF Gaming F15"],
-    },
-    tablet: {
-      Apple: ["Apple iPad 10th Gen", "iPad Air 5th Gen", "iPad Pro 11"],
-      Samsung: ["Galaxy Tab S9 FE", "Galaxy Tab A9+"],
-      OnePlus: ["OnePlus Pad Go 11.35 2.4K", "OnePlus Pad 2"],
-      Lenovo: ["Lenovo Tab M11", "Lenovo Tab P12"],
-    },
-    smartwatch: {
-      Apple: ["Apple Watch Series 9", "Apple Watch SE 2"],
-      Samsung: ["Samsung Galaxy Watch 6 BT", "Galaxy Watch 5 Pro"],
-      Noise: ["Noise ColorFit Pulse 3 AMOLED", "ColorFit Pro 5"],
-      boAt: ["boAt Wave Call 2", "boAt Lunar Mirage"],
-    },
-  };
+  const storageOptions = ["64GB", "128GB", "256GB", "512GB", "1TB", "Other"];
 
   const conditionOptions = [
     {
-      name: "Flawless",
-      desc: "Like new, zero scratches or dents, 100% functional, never opened or repaired.",
+      value: "Like New / Flawless",
+      label: "Like New / Flawless",
+      desc: "Zero scratches, 100% mint showroom condition with no issues",
+      badge: "Highest Value",
     },
     {
-      name: "Good",
-      desc: "Minor signs of normal use, light hairline scratches, fully functional display and battery.",
+      value: "Good",
+      label: "Good (Normal Use)",
+      desc: "Minor normal wear, clean display, fully working hardware",
+      badge: "Popular",
     },
     {
-      name: "Average",
-      desc: "Visible scratches or small body dings, screen intact, all buttons work normally.",
+      value: "Average",
+      label: "Average Condition",
+      desc: "Visible scratches, minor dents on body, fully functional",
+      badge: "Fair Price",
     },
     {
-      name: "Below Average",
-      desc: "Heavy scratches, chipped paint or slight body dent, but device powers on and works.",
+      value: "Damaged / Screen Issue",
+      label: "Damaged or Faulty",
+      desc: "Cracked glass, line on display, battery or speaker issue",
+      badge: "Needs Review",
     },
   ];
 
-  const commonIssues = [
-    "Screen Scratched / Cracked",
-    "Body Scratches / Dents",
-    "Battery Backup Issue",
-    "Camera / Speaker Fault",
+  const accessoryOptions = [
+    "Original Box",
+    "Original Charger",
+    "Charging Cable",
+    "Original Purchase Bill / Invoice",
   ];
 
-  const accessoriesOptions = [
-    "Original Box & Charger",
-    "Original Bill",
-    "Earphones / Extra Straps",
-  ];
+  const toggleAccessory = (acc: string) => {
+    if (accessories.includes(acc)) {
+      setAccessories(accessories.filter((a) => a !== acc));
+    } else {
+      setAccessories([...accessories, acc]);
+    }
+  };
 
-  // Recalculate valuation when relevant fields change
-  const fetchQuote = async (
-    cat: string,
-    brand: string,
-    model: string,
-    cond: any,
-    issues: string[],
-    acc: string[]
-  ) => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMsg(null);
+
+    const activeBrand = brand === "Other" ? customBrand.trim() : brand;
+    const activeStorage = storage === "Other" ? customStorage.trim() : storage;
+
+    if (!model.trim()) {
+      setErrorMsg("Please enter the exact device model name (e.g. iPhone 13, Vivo V29).");
+      return;
+    }
+
+    if (!customerName.trim()) {
+      setErrorMsg("Please enter your name.");
+      return;
+    }
+
+    if (!customerPhone.trim() || customerPhone.replace(/\D/g, "").length < 10) {
+      setErrorMsg("Please enter a valid 10-digit mobile / WhatsApp number.");
+      return;
+    }
+
+    const ref = generateBuybackReference();
+    setReferenceId(ref);
+
+    const message = formatBuybackWhatsAppMessage({
+      referenceNumber: ref,
+      customerName: customerName.trim(),
+      phone: customerPhone.trim(),
+      location: location.trim() || "Gorakhpur",
+      deviceCategory,
+      brand: activeBrand || "Device",
+      model: model.trim(),
+      configuration: activeStorage,
+      condition,
+      accessoriesIncluded: accessories,
+      remarks: remarks.trim() || undefined,
+    });
+
+    setGeneratedMessage(message);
+
+    const waLink = buildWhatsAppLink(targetWhatsApp, message);
+    setGeneratedWhatsAppUrl(waLink);
+
+    // Save inquiry to backend asynchronously (non-blocking)
     try {
-      const res = await fetch("/api/buyback", {
+      fetch("/api/buyback", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          action: "calculate",
-          deviceCategory: cat,
-          brand,
-          model,
-          condition: cond,
-          functionalIssues: issues,
-          accessoriesIncluded: acc,
-        }),
-      });
-      const data = await res.json();
-      if (data && data.quote) {
-        setFormData((prev) => ({
-          ...prev,
-          estimatedValue: data.quote.estimatedValue,
-        }));
-      }
-    } catch {
-      // fallback
-    }
-  };
-
-  const handleNext = () => {
-    setErrorMsg(null);
-    if (step === 8) {
-      if (!formData.customerName.trim() || !formData.phone.trim()) {
-        setErrorMsg("Please enter your name and 10-digit mobile number.");
-        return;
-      }
-    }
-    if (step === 10) {
-      if (!formData.street.trim() || !formData.pincode.trim()) {
-        setErrorMsg("Please enter your street address and postal code in Gorakhpur.");
-        return;
-      }
-    }
-    if (step === 11) {
-      if (formData.paymentPreference === "UPI" && !formData.upiId.trim()) {
-        setErrorMsg("Please provide your UPI ID (e.g. name@okhdfcbank or 9876543210@paytm).");
-        return;
-      }
-    }
-    setStep((prev) => Math.min(12, prev + 1));
-  };
-
-  const handlePrev = () => {
-    setErrorMsg(null);
-    setStep((prev) => Math.max(1, prev - 1));
-  };
-
-  const handleSubmit = async () => {
-    setIsSubmitting(true);
-    setErrorMsg(null);
-
-    try {
-      const payload = {
-        action: "submit",
-        requestData: {
-          customerName: formData.customerName,
-          phone: formData.phone,
-          email: formData.email,
-          deviceCategory: formData.deviceCategory,
-          brand: formData.brand,
-          model: formData.model,
-          configuration: formData.configuration,
-          condition: formData.condition,
-          functionalIssues: formData.functionalIssues,
-          accessoriesIncluded: formData.accessoriesIncluded,
-          estimatedValue: formData.estimatedValue,
-          pickupAddress: {
-            street: formData.street,
-            area: formData.area,
-            city: formData.city,
-            pincode: formData.pincode,
-            landmark: formData.landmark,
+          action: "submit",
+          requestData: {
+            referenceNumber: ref,
+            customerName: customerName.trim(),
+            phone: customerPhone.trim(),
+            deviceCategory,
+            brand: activeBrand || "Device",
+            model: model.trim(),
+            configuration: activeStorage || "Standard",
+            condition,
+            accessoriesIncluded: accessories,
+            estimatedValue: 0,
+            pickupAddress: {
+              street: location.trim() || "Gorakhpur",
+              area: "Gorakhpur",
+              city: "Gorakhpur",
+              pincode: "273004",
+            },
+            pickupDate: "Immediate",
+            pickupTimeSlot: "WhatsApp Inquiry",
+            paymentPreference: "UPI",
           },
-          pickupDate: formData.pickupDate,
-          pickupTimeSlot: formData.pickupTimeSlot,
-          paymentPreference: formData.paymentPreference,
-          upiId: formData.upiId,
-        },
-      };
-
-      const res = await fetch("/api/buyback", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await res.json();
-      const ref =
-        (res.ok && data?.request?.referenceNumber) || generateBuybackReference();
-      setReferenceNumber(ref);
-
-      const storeNumber = getStoreWhatsAppNumber(whatsappNumber);
-      const wpMsg = formatBuybackWhatsAppMessage({
-        referenceNumber: ref,
-        customerName: formData.customerName,
-        phone: formData.phone,
-        deviceCategory: formData.deviceCategory,
-        brand: formData.brand,
-        model: formData.model,
-        configuration: formData.configuration,
-        condition: formData.condition,
-        functionalIssues: formData.functionalIssues,
-        accessoriesIncluded: formData.accessoriesIncluded,
-        estimatedValue: formData.estimatedValue,
-        pickupDate: formData.pickupDate,
-        pickupTimeSlot: formData.pickupTimeSlot,
-        pickupAddress: {
-          street: formData.street,
-          area: formData.area,
-          city: formData.city,
-          pincode: formData.pincode,
-          landmark: formData.landmark,
-        },
-        paymentPreference: formData.paymentPreference,
-        upiId: formData.upiId,
-      });
-
-      const link = buildWhatsAppLink(storeNumber, wpMsg);
-      setWhatsappUrl(link);
-
-      try {
-        window.open(link, "_blank");
-      } catch {
-        // user clicks button
-      }
+        }),
+      }).catch(() => {});
     } catch {
-      // In case of network interruption, still generate reference and prepare WhatsApp redirect
-      const fallbackRef = generateBuybackReference();
-      setReferenceNumber(fallbackRef);
+      // non-blocking
+    }
 
-      const storeNumber = getStoreWhatsAppNumber(whatsappNumber);
-      const wpMsg = formatBuybackWhatsAppMessage({
-        referenceNumber: fallbackRef,
-        customerName: formData.customerName,
-        phone: formData.phone,
-        deviceCategory: formData.deviceCategory,
-        brand: formData.brand,
-        model: formData.model,
-        configuration: formData.configuration,
-        condition: formData.condition,
-        functionalIssues: formData.functionalIssues,
-        accessoriesIncluded: formData.accessoriesIncluded,
-        estimatedValue: formData.estimatedValue,
-        pickupDate: formData.pickupDate,
-        pickupTimeSlot: formData.pickupTimeSlot,
-        pickupAddress: {
-          street: formData.street,
-          area: formData.area,
-          city: formData.city,
-          pincode: formData.pincode,
-          landmark: formData.landmark,
-        },
-        paymentPreference: formData.paymentPreference,
-        upiId: formData.upiId,
-      });
+    setIsSubmitted(true);
 
-      const link = buildWhatsAppLink(storeNumber, wpMsg);
-      setWhatsappUrl(link);
-
-      try {
-        window.open(link, "_blank");
-      } catch {
-        // user clicks button
-      }
-    } finally {
-      setIsSubmitting(false);
+    // Open WhatsApp
+    if (typeof window !== "undefined") {
+      window.open(waLink, "_blank");
     }
   };
 
-  // SUCCESS SCREEN
-  if (referenceNumber) {
+  const handleCopy = () => {
+    if (navigator.clipboard && generatedMessage) {
+      navigator.clipboard.writeText(generatedMessage);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    }
+  };
+
+  const handleReset = () => {
+    setIsSubmitted(false);
+    setModel("");
+    setRemarks("");
+  };
+
+  if (isSubmitted) {
     return (
-      <div className="bg-[#EDE6DC] rounded-3xl border border-[#DED6CA] p-8 sm:p-12 text-center max-w-2xl mx-auto space-y-6 shadow-xl">
-        <div className="w-16 h-16 rounded-full bg-[#26784F] text-white flex items-center justify-center mx-auto shadow-md">
-          <Check className="w-8 h-8 stroke-[3]" />
+      <div
+        id="sell-device-form"
+        className="bg-[#EDE6DC] rounded-3xl border border-[#DED6CA] p-6 sm:p-10 shadow-xl max-w-2xl mx-auto text-center space-y-6 animate-in fade-in zoom-in-95 duration-300"
+      >
+        <div className="w-16 h-16 rounded-full bg-[#26784F]/15 text-[#26784F] flex items-center justify-center mx-auto ring-8 ring-[#26784F]/10">
+          <CheckCircle2 className="w-10 h-10" />
         </div>
 
         <div>
-          <span className="text-xs font-bold text-[#26784F] uppercase tracking-wider block">
-            Pickup Request Confirmed
+          <span className="text-xs font-bold tracking-widest text-[#26784F] uppercase block mb-1">
+            INQUIRY GENERATED #{referenceId}
           </span>
-          <h2 className="text-2xl sm:text-3xl font-black text-[#24211E] mt-1">
-            Doorstep Inspection Scheduled!
-          </h2>
-          <p className="text-xs sm:text-sm text-[#575047] mt-2">
-            Our representative in Gorakhpur will visit your address to inspect
-            the device and provide instant payment.
+          <h3 className="text-2xl sm:text-3xl font-black text-[#24211E]">
+            Device Details Ready on WhatsApp!
+          </h3>
+          <p className="text-xs sm:text-sm text-[#575047] mt-2 max-w-md mx-auto leading-relaxed">
+            We have prepared your device information. If WhatsApp did not open
+            automatically, click the green button below to chat directly with A1
+            Mobile Shop.
           </p>
         </div>
 
-        {/* WhatsApp Direct Notification & Action Card */}
-        {whatsappUrl && (
-          <div className="p-4 sm:p-5 rounded-2xl bg-[#26784F]/10 border border-[#26784F]/30 text-left space-y-3">
-            <div className="flex items-start gap-3">
-              <div className="w-8 h-8 rounded-full bg-[#26784F] text-white flex items-center justify-center shrink-0 mt-0.5">
-                <MessageSquare className="w-4 h-4 fill-current" />
-              </div>
-              <div>
-                <h4 className="text-xs font-bold text-[#24211E]">
-                  Confirming on WhatsApp
-                </h4>
-                <p className="text-[11px] text-[#575047] mt-0.5">
-                  We’ve generated a complete WhatsApp summary for this buyback quote. If WhatsApp did not open automatically, click the button below to confirm with our Gorakhpur inspection team:
-                </p>
-              </div>
-            </div>
-
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full py-3.5 px-4 rounded-xl bg-[#26784F] text-white text-xs font-bold flex items-center justify-center gap-2 hover:bg-[#1E5D3D] transition shadow-md group"
-            >
-              <MessageSquare className="w-4 h-4 fill-current" />
-              <span>Send Booking to WhatsApp (Ref #{referenceNumber})</span>
-              <ExternalLink className="w-3.5 h-3.5 opacity-80 group-hover:translate-x-0.5 transition-transform" />
-            </a>
-          </div>
-        )}
-
-        {/* Reference Number Card */}
-        <div className="p-6 rounded-2xl bg-[#F5EFE6] border border-[#DED6CA] space-y-3">
-          <span className="text-xs font-bold text-[#77716A] uppercase tracking-widest block">
-            Your Booking Reference
-          </span>
-          <p className="text-2xl sm:text-3xl font-mono font-black text-[#24211E]">
-            {referenceNumber}
-          </p>
-          <div className="flex flex-wrap justify-center gap-4 text-xs font-bold text-[#575047] pt-2 border-t border-[#DED6CA]">
-            <span>Device: {formData.brand} {formData.model}</span>
-            <span>•</span>
-            <span className="text-[#26784F]">
-              Estimated Quote: {formatPrice(formData.estimatedValue)}
-            </span>
-          </div>
+        <div className="p-4 rounded-2xl bg-[#F5EFE6] border border-[#DED6CA] text-left text-xs space-y-1.5 font-mono text-[#24211E] max-h-48 overflow-y-auto whitespace-pre-wrap">
+          {generatedMessage}
         </div>
 
-        <div className="text-xs text-[#77716A] space-y-1">
-          <p>
-            📅 Scheduled for <strong>{formData.pickupDate}</strong> during{" "}
-            <strong>{formData.pickupTimeSlot}</strong>
-          </p>
-          <p>
-            📍 Address: {formData.street}, {formData.area}, {formData.city} (
-            {formData.pincode})
-          </p>
-        </div>
-
-        <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-800 text-left">
-          <strong>Important Note:</strong> The estimated quote is based on the
-          details provided. Final cash transfer takes place immediately after
-          onsite physical testing and verification by our certified executive.
-        </div>
-
-        <div className="pt-2">
-          <button
-            onClick={() => {
-              setReferenceNumber(null);
-              setWhatsappUrl(null);
-              setStep(1);
-            }}
-            className="px-8 py-3 rounded-full bg-[#24211E] text-[#EDE6DC] text-xs font-bold hover:bg-[#3D3731] transition"
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+          <a
+            href={generatedWhatsAppUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-[#26784F] hover:bg-[#1E5D3D] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md transition"
           >
-            Submit Another Device
+            <MessageSquare className="w-4 h-4" />
+            <span>Open WhatsApp Chat Now</span>
+          </a>
+
+          <button
+            type="button"
+            onClick={handleCopy}
+            className="w-full sm:w-auto px-5 py-3.5 rounded-full bg-[#EDE6DC] border border-[#DED6CA] text-[#24211E] font-bold text-xs flex items-center justify-center gap-2 hover:bg-[#DED6CA] transition"
+          >
+            {copied ? (
+              <>
+                <Check className="w-4 h-4 text-[#26784F]" />
+                <span>Copied to Clipboard!</span>
+              </>
+            ) : (
+              <>
+                <Copy className="w-4 h-4 text-[#77716A]" />
+                <span>Copy Message</span>
+              </>
+            )}
+          </button>
+        </div>
+
+        <div className="pt-4 border-t border-[#DED6CA]">
+          <button
+            type="button"
+            onClick={handleReset}
+            className="text-xs text-[#77716A] hover:text-[#24211E] font-semibold underline underline-offset-4"
+          >
+            Submit details for another device
           </button>
         </div>
       </div>
     );
   }
 
+  const currentBrands = brandOptions[deviceCategory] || brandOptions.phone;
+
   return (
-    <div className="bg-[#EDE6DC] rounded-3xl border border-[#DED6CA] p-6 sm:p-10 shadow-xl max-w-3xl mx-auto">
-      {/* Progress Bar & Header */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between text-xs font-bold text-[#77716A] mb-2">
-          <span>STEP {step} OF 12</span>
-          <span>{Math.round((step / 12) * 100)}% COMPLETED</span>
-        </div>
-        <div className="w-full h-2 rounded-full bg-[#DED6CA] overflow-hidden">
-          <div
-            className="h-full bg-[#26784F] transition-all duration-300"
-            style={{ width: `${(step / 12) * 100}%` }}
-          />
-        </div>
-      </div>
-
-      {/* STEP 1: Device Category */}
-      {step === 1 && (
-        <div className="space-y-6">
-          <div>
-            <h3 className="text-xl sm:text-2xl font-black text-[#24211E]">
-              What type of device do you want to sell?
-            </h3>
-            <p className="text-xs sm:text-sm text-[#575047] mt-1">
-              Select device category to see accurate Gorakhpur resale rates.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {[
-              { id: "phone", label: "Smartphone", icon: "📱" },
-              { id: "laptop", label: "Laptop", icon: "💻" },
-              { id: "tablet", label: "Tablet / iPad", icon: "📟" },
-              { id: "smartwatch", label: "Smartwatch", icon: "⌚" },
-            ].map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => {
-                  setFormData((prev) => ({
-                    ...prev,
-                    deviceCategory: cat.id,
-                    brand: brandsMap[cat.id][0],
-                    model: modelsMap[cat.id][brandsMap[cat.id][0]][0],
-                  }));
-                }}
-                className={`p-5 rounded-2xl border text-center transition flex flex-col items-center justify-center gap-2 ${
-                  formData.deviceCategory === cat.id
-                    ? "bg-[#24211E] text-white border-[#24211E] shadow-md scale-105"
-                    : "bg-[#F5EFE6] text-[#24211E] border-[#DED6CA] hover:bg-[#DED6CA]"
-                }`}
-              >
-                <span className="text-3xl">{cat.icon}</span>
-                <span className="text-xs font-bold">{cat.label}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* STEP 2: Select Brand */}
-      {step === 2 && (
-        <div className="space-y-6">
-          <div>
-            <h3 className="text-xl sm:text-2xl font-black text-[#24211E]">
-              Select Brand
-            </h3>
-            <p className="text-xs sm:text-sm text-[#575047] mt-1">
-              Choose the manufacturer of your {formData.deviceCategory}.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {brandsMap[formData.deviceCategory]?.map((b) => (
-              <button
-                key={b}
-                onClick={() => {
-                  const firstModel = modelsMap[formData.deviceCategory][b]?.[0] || "";
-                  setFormData((prev) => ({ ...prev, brand: b, model: firstModel }));
-                  fetchQuote(
-                    formData.deviceCategory,
-                    b,
-                    firstModel,
-                    formData.condition,
-                    formData.functionalIssues,
-                    formData.accessoriesIncluded
-                  );
-                }}
-                className={`py-4 px-4 rounded-xl border text-xs font-bold transition text-center ${
-                  formData.brand === b
-                    ? "bg-[#24211E] text-white border-[#24211E] shadow-sm"
-                    : "bg-[#F5EFE6] text-[#24211E] border-[#DED6CA] hover:bg-[#DED6CA]"
-                }`}
-              >
-                {b}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* STEP 3: Select Model */}
-      {step === 3 && (
-        <div className="space-y-6">
-          <div>
-            <h3 className="text-xl sm:text-2xl font-black text-[#24211E]">
-              Select Model
-            </h3>
-            <p className="text-xs sm:text-sm text-[#575047] mt-1">
-              Select your specific {formData.brand} model.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {modelsMap[formData.deviceCategory][formData.brand]?.map((m) => (
-              <button
-                key={m}
-                onClick={() => {
-                  setFormData((prev) => ({ ...prev, model: m }));
-                  fetchQuote(
-                    formData.deviceCategory,
-                    formData.brand,
-                    m,
-                    formData.condition,
-                    formData.functionalIssues,
-                    formData.accessoriesIncluded
-                  );
-                }}
-                className={`p-4 rounded-xl border text-xs font-bold text-left transition ${
-                  formData.model === m
-                    ? "bg-[#24211E] text-white border-[#24211E] shadow-sm"
-                    : "bg-[#F5EFE6] text-[#24211E] border-[#DED6CA] hover:bg-[#DED6CA]"
-                }`}
-              >
-                {m}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* STEP 4: Configuration */}
-      {step === 4 && (
-        <div className="space-y-6">
-          <div>
-            <h3 className="text-xl sm:text-2xl font-black text-[#24211E]">
-              Select Storage & RAM
-            </h3>
-            <p className="text-xs sm:text-sm text-[#575047] mt-1">
-              Select the variant specified in your phone settings or box.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {[
-              "64GB / 4GB",
-              "128GB / 6GB",
-              "128GB / 8GB",
-              "256GB / 8GB",
-              "256GB / 12GB",
-              "512GB / 12GB",
-            ].map((cfg) => (
-              <button
-                key={cfg}
-                onClick={() => setFormData((prev) => ({ ...prev, configuration: cfg }))}
-                className={`p-4 rounded-xl border text-xs font-bold text-center transition ${
-                  formData.configuration === cfg
-                    ? "bg-[#24211E] text-white border-[#24211E]"
-                    : "bg-[#F5EFE6] text-[#24211E] border-[#DED6CA] hover:bg-[#DED6CA]"
-                }`}
-              >
-                {cfg}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* STEP 5: Physical Condition */}
-      {step === 5 && (
-        <div className="space-y-6">
-          <div>
-            <h3 className="text-xl sm:text-2xl font-black text-[#24211E]">
-              Physical Condition
-            </h3>
-            <p className="text-xs sm:text-sm text-[#575047] mt-1">
-              How would you describe the external condition of your phone?
-            </p>
-          </div>
-
-          <div className="space-y-3">
-            {conditionOptions.map((cond) => (
-              <button
-                key={cond.name}
-                onClick={() => {
-                  setFormData((prev) => ({
-                    ...prev,
-                    condition: cond.name as any,
-                  }));
-                  fetchQuote(
-                    formData.deviceCategory,
-                    formData.brand,
-                    formData.model,
-                    cond.name,
-                    formData.functionalIssues,
-                    formData.accessoriesIncluded
-                  );
-                }}
-                className={`w-full p-4 rounded-xl border text-left transition flex items-start justify-between gap-4 ${
-                  formData.condition === cond.name
-                    ? "bg-[#24211E] text-white border-[#24211E] shadow-sm"
-                    : "bg-[#F5EFE6] text-[#24211E] border-[#DED6CA] hover:bg-[#DED6CA]"
-                }`}
-              >
-                <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider">
-                    {cond.name}
-                  </h4>
-                  <p className="text-[11px] opacity-80 mt-1 leading-relaxed">
-                    {cond.desc}
-                  </p>
-                </div>
-                <div
-                  className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 mt-0.5 ${
-                    formData.condition === cond.name
-                      ? "border-white bg-[#26784F]"
-                      : "border-[#77716A]"
+    <div
+      id="sell-device-form"
+      className="bg-[#EDE6DC] rounded-3xl border border-[#DED6CA] p-6 sm:p-10 shadow-xl max-w-4xl mx-auto"
+    >
+      <form onSubmit={handleSubmit} className="space-y-8">
+        {/* STEP 1: CATEGORY SELECTION */}
+        <div>
+          <label className="block text-xs font-extrabold uppercase tracking-widest text-[#77716A] mb-3">
+            1. Select Device Type
+          </label>
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 sm:gap-3">
+            {categories.map((cat) => {
+              const Icon = cat.icon;
+              const isSelected = deviceCategory === cat.id;
+              return (
+                <button
+                  type="button"
+                  key={cat.id}
+                  onClick={() => {
+                    setDeviceCategory(cat.id);
+                    setBrand(brandOptions[cat.id]?.[0] || "Other");
+                  }}
+                  className={`flex flex-col items-center justify-center p-3 sm:p-4 rounded-2xl border text-center transition ${
+                    isSelected
+                      ? "bg-[#24211E] text-white border-[#24211E] shadow-sm"
+                      : "bg-[#F5EFE6] text-[#24211E] border-[#DED6CA] hover:border-[#77716A]"
                   }`}
                 >
-                  {formData.condition === cond.name && (
-                    <Check className="w-3 h-3 text-white" />
-                  )}
-                </div>
-              </button>
-            ))}
+                  <Icon className={`w-5 h-5 mb-1.5 ${isSelected ? "text-[#E66827]" : "text-[#77716A]"}`} />
+                  <span className="text-xs font-bold leading-tight">{cat.label}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
-      )}
 
-      {/* STEP 6: Condition Questions / Functional Issues */}
-      {step === 6 && (
-        <div className="space-y-6">
+        {/* STEP 2: BRAND & MODEL */}
+        <div className="space-y-4">
           <div>
-            <h3 className="text-xl sm:text-2xl font-black text-[#24211E]">
-              Condition Checklist
-            </h3>
-            <p className="text-xs sm:text-sm text-[#575047] mt-1">
-              Select any existing defects or available accessories.
-            </p>
+            <label className="block text-xs font-extrabold uppercase tracking-widest text-[#77716A] mb-2.5">
+              2. Select Brand
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {currentBrands.map((b) => (
+                <button
+                  type="button"
+                  key={b}
+                  onClick={() => setBrand(b)}
+                  className={`px-3.5 py-2 rounded-xl text-xs font-bold transition border ${
+                    brand === b
+                      ? "bg-[#24211E] text-white border-[#24211E] shadow-xs"
+                      : "bg-[#F5EFE6] text-[#575047] border-[#DED6CA] hover:bg-[#DED6CA]"
+                  }`}
+                >
+                  {b}
+                </button>
+              ))}
+            </div>
+
+            {brand === "Other" && (
+              <input
+                type="text"
+                placeholder="Enter Brand Name (e.g. Poco, Google Pixel, Nothing)"
+                value={customBrand}
+                onChange={(e) => setCustomBrand(e.target.value)}
+                className="mt-2.5 w-full px-4 py-2.5 rounded-xl bg-[#F5EFE6] border border-[#DED6CA] text-xs font-medium text-[#24211E] focus:outline-none focus:ring-2 focus:ring-[#24211E]"
+              />
+            )}
           </div>
 
-          <div className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="text-xs font-bold text-[#575047] block mb-2">
-                Defects / Functional Flaws (if any):
-              </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                {commonIssues.map((issue) => {
-                  const checked = formData.functionalIssues.includes(issue);
-                  return (
-                    <button
-                      key={issue}
-                      onClick={() => {
-                        const updated = checked
-                          ? formData.functionalIssues.filter((i) => i !== issue)
-                          : [...formData.functionalIssues, issue];
-                        setFormData((prev) => ({
-                          ...prev,
-                          functionalIssues: updated,
-                        }));
-                        fetchQuote(
-                          formData.deviceCategory,
-                          formData.brand,
-                          formData.model,
-                          formData.condition,
-                          updated,
-                          formData.accessoriesIncluded
-                        );
-                      }}
-                      className={`p-3 rounded-xl border text-xs font-medium text-left flex items-center justify-between transition ${
-                        checked
-                          ? "bg-amber-100 border-amber-300 text-amber-900"
-                          : "bg-[#F5EFE6] border-[#DED6CA] text-[#24211E]"
-                      }`}
-                    >
-                      <span>{issue}</span>
-                      <div
-                        className={`w-4 h-4 rounded border flex items-center justify-center ${
-                          checked
-                            ? "bg-[#24211E] border-[#24211E] text-white"
-                            : "border-[#77716A]"
-                        }`}
-                      >
-                        {checked && <Check className="w-3 h-3" />}
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div>
-              <label className="text-xs font-bold text-[#575047] block mb-2">
-                Accessories available:
-              </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                {accessoriesOptions.map((acc) => {
-                  const checked = formData.accessoriesIncluded.includes(acc);
-                  return (
-                    <button
-                      key={acc}
-                      onClick={() => {
-                        const updated = checked
-                          ? formData.accessoriesIncluded.filter((i) => i !== acc)
-                          : [...formData.accessoriesIncluded, acc];
-                        setFormData((prev) => ({
-                          ...prev,
-                          accessoriesIncluded: updated,
-                        }));
-                        fetchQuote(
-                          formData.deviceCategory,
-                          formData.brand,
-                          formData.model,
-                          formData.condition,
-                          formData.functionalIssues,
-                          updated
-                        );
-                      }}
-                      className={`p-3 rounded-xl border text-xs font-medium text-left flex items-center justify-between transition ${
-                        checked
-                          ? "bg-green-100 border-green-300 text-green-900"
-                          : "bg-[#F5EFE6] border-[#DED6CA] text-[#24211E]"
-                      }`}
-                    >
-                      <span>{acc}</span>
-                      <div
-                        className={`w-4 h-4 rounded border flex items-center justify-center ${
-                          checked
-                            ? "bg-[#26784F] border-[#26784F] text-white"
-                            : "border-[#77716A]"
-                        }`}
-                      >
-                        {checked && <Check className="w-3 h-3" />}
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* STEP 7: Estimated Resale Value Display */}
-      {step === 7 && (
-        <div className="space-y-6 text-center">
-          <div>
-            <span className="text-xs font-extrabold uppercase tracking-widest text-[#26784F]">
-              VALUATION GENERATED
-            </span>
-            <h3 className="text-2xl sm:text-3xl font-black text-[#24211E] mt-1">
-              Estimated Instant Cash Value
-            </h3>
-            <p className="text-xs sm:text-sm text-[#575047] mt-1">
-              Calculated using live Gorakhpur market exchange metrics.
-            </p>
-          </div>
-
-          <div className="p-8 rounded-3xl bg-[#F5EFE6] border border-[#DED6CA] max-w-md mx-auto space-y-4">
-            <span className="text-xs font-bold text-[#77716A] uppercase tracking-wider block">
-              {formData.brand} • {formData.model} ({formData.configuration})
-            </span>
-
-            <div className="text-4xl sm:text-5xl font-black text-[#26784F]">
-              {formatPrice(formData.estimatedValue)}
-            </div>
-
-            <div className="text-xs text-[#575047] space-y-1 pt-2 border-t border-[#DED6CA]">
-              <p>Condition: {formData.condition}</p>
-              <p>Free doorstep pickup included in Gorakhpur</p>
-            </div>
-          </div>
-
-          <div className="text-xs text-[#77716A] max-w-md mx-auto leading-relaxed">
-            *Final valuation is confirmed after physical inspection of screen,
-            battery, and components by our representative at your address.
-          </div>
-        </div>
-      )}
-
-      {/* STEP 8: Contact Details */}
-      {step === 8 && (
-        <div className="space-y-6">
-          <div>
-            <h3 className="text-xl sm:text-2xl font-black text-[#24211E]">
-              Your Contact Details
-            </h3>
-            <p className="text-xs sm:text-sm text-[#575047] mt-1">
-              Who should our executive contact for pickup?
-            </p>
-          </div>
-
-          <div className="space-y-4">
-            <div>
-              <label className="text-xs font-bold text-[#24211E] block mb-1">
-                Full Name *
+              <label className="block text-xs font-bold text-[#24211E] mb-1.5">
+                Exact Model Name <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
-                value={formData.customerName}
-                onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, customerName: e.target.value }))
-                }
-                placeholder="e.g. Ramesh Chandra"
-                className="w-full px-4 py-2.5 rounded-xl bg-[#F5EFE6] border border-[#DED6CA] text-xs font-medium focus:outline-none focus:ring-1 focus:ring-[#24211E]"
+                required
+                placeholder="e.g. iPhone 13 / Redmi Note 12 / Vivo V29"
+                value={model}
+                onChange={(e) => setModel(e.target.value)}
+                className="w-full px-4 py-2.5 rounded-xl bg-[#F5EFE6] border border-[#DED6CA] text-xs font-medium text-[#24211E] placeholder-[#77716A] focus:outline-none focus:ring-2 focus:ring-[#24211E]"
               />
             </div>
 
             <div>
-              <label className="text-xs font-bold text-[#24211E] block mb-1">
-                Mobile Number (WhatsApp Preferred) *
+              <label className="block text-xs font-bold text-[#24211E] mb-1.5">
+                Storage / RAM Variant
               </label>
-              <input
-                type="tel"
-                value={formData.phone}
-                onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, phone: e.target.value }))
-                }
-                placeholder="e.g. 9876543210"
-                className="w-full px-4 py-2.5 rounded-xl bg-[#F5EFE6] border border-[#DED6CA] text-xs font-medium focus:outline-none focus:ring-1 focus:ring-[#24211E]"
-              />
-            </div>
-
-            <div>
-              <label className="text-xs font-bold text-[#24211E] block mb-1">
-                Email Address (Optional)
-              </label>
-              <input
-                type="email"
-                value={formData.email}
-                onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, email: e.target.value }))
-                }
-                placeholder="e.g. ramesh@gmail.com"
-                className="w-full px-4 py-2.5 rounded-xl bg-[#F5EFE6] border border-[#DED6CA] text-xs font-medium focus:outline-none focus:ring-1 focus:ring-[#24211E]"
-              />
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* STEP 9: Pickup Date & Slot */}
-      {step === 9 && (
-        <div className="space-y-6">
-          <div>
-            <h3 className="text-xl sm:text-2xl font-black text-[#24211E]">
-              Schedule Free Pickup
-            </h3>
-            <p className="text-xs sm:text-sm text-[#575047] mt-1">
-              Select your preferred day and time slot in Gorakhpur.
-            </p>
-          </div>
-
-          <div className="space-y-4">
-            <div>
-              <label className="text-xs font-bold text-[#575047] block mb-2">
-                Pickup Date:
-              </label>
-              <div className="grid grid-cols-3 gap-2.5">
-                {["Today", "Tomorrow", "Day After Tomorrow"].map((d) => (
-                  <button
-                    key={d}
-                    onClick={() => setFormData((prev) => ({ ...prev, pickupDate: d }))}
-                    className={`py-3 rounded-xl border text-xs font-bold transition flex items-center justify-center gap-1.5 ${
-                      formData.pickupDate === d
-                        ? "bg-[#24211E] text-white border-[#24211E]"
-                        : "bg-[#F5EFE6] text-[#24211E] border-[#DED6CA] hover:bg-[#DED6CA]"
-                    }`}
-                  >
-                    <Calendar className="w-3.5 h-3.5" />
-                    <span>{d}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <label className="text-xs font-bold text-[#575047] block mb-2">
-                Available Time Slot:
-              </label>
-              <div className="space-y-2">
-                {[
-                  "10:00 AM - 01:00 PM (Morning)",
-                  "01:00 PM - 04:00 PM (Afternoon)",
-                  "04:00 PM - 07:30 PM (Evening)",
-                ].map((slot) => (
-                  <button
-                    key={slot}
-                    onClick={() =>
-                      setFormData((prev) => ({ ...prev, pickupTimeSlot: slot }))
-                    }
-                    className={`w-full p-3 rounded-xl border text-xs font-bold text-left transition flex items-center justify-between ${
-                      formData.pickupTimeSlot === slot
-                        ? "bg-[#24211E] text-white border-[#24211E]"
-                        : "bg-[#F5EFE6] text-[#24211E] border-[#DED6CA] hover:bg-[#DED6CA]"
-                    }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-[#E66827]" />
-                      <span>{slot}</span>
-                    </div>
-                    {formData.pickupTimeSlot === slot && (
-                      <Check className="w-4 h-4" />
-                    )}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* STEP 10: Pickup Address */}
-      {step === 10 && (
-        <div className="space-y-6">
-          <div>
-            <h3 className="text-xl sm:text-2xl font-black text-[#24211E]">
-              Doorstep Pickup Address
-            </h3>
-            <p className="text-xs sm:text-sm text-[#575047] mt-1">
-              Where in Gorakhpur should we collect the device?
-            </p>
-          </div>
-
-          <div className="space-y-4">
-            <div>
-              <label className="text-xs font-bold text-[#24211E] block mb-1">
-                House / Street Address *
-              </label>
-              <input
-                type="text"
-                value={formData.street}
-                onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, street: e.target.value }))
-                }
-                placeholder="e.g. Flat 302, Green Enclave, Medical College Road"
-                className="w-full px-4 py-2.5 rounded-xl bg-[#F5EFE6] border border-[#DED6CA] text-xs font-medium focus:outline-none focus:ring-1 focus:ring-[#24211E]"
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="text-xs font-bold text-[#24211E] block mb-1">
-                  Area / Locality *
-                </label>
-                <input
-                  type="text"
-                  value={formData.area}
-                  onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, area: e.target.value }))
-                  }
-                  placeholder="e.g. Basharatpur"
-                  className="w-full px-4 py-2.5 rounded-xl bg-[#F5EFE6] border border-[#DED6CA] text-xs font-medium focus:outline-none focus:ring-1 focus:ring-[#24211E]"
-                />
-              </div>
-
-              <div>
-                <label className="text-xs font-bold text-[#24211E] block mb-1">
-                  City
-                </label>
-                <input
-                  type="text"
-                  value={formData.city}
-                  readOnly
-                  className="w-full px-4 py-2.5 rounded-xl bg-[#DED6CA]/50 border border-[#DED6CA] text-xs font-bold text-[#575047]"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="text-xs font-bold text-[#24211E] block mb-1">
-                  Gorakhpur Pincode *
-                </label>
-                <input
-                  type="text"
-                  value={formData.pincode}
-                  onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, pincode: e.target.value }))
-                  }
-                  placeholder="273004"
-                  className="w-full px-4 py-2.5 rounded-xl bg-[#F5EFE6] border border-[#DED6CA] text-xs font-medium focus:outline-none focus:ring-1 focus:ring-[#24211E]"
-                />
-              </div>
-
-              <div>
-                <label className="text-xs font-bold text-[#24211E] block mb-1">
-                  Nearby Landmark
-                </label>
-                <input
-                  type="text"
-                  value={formData.landmark}
-                  onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, landmark: e.target.value }))
-                  }
-                  placeholder="e.g. Near City Hospital"
-                  className="w-full px-4 py-2.5 rounded-xl bg-[#F5EFE6] border border-[#DED6CA] text-xs font-medium focus:outline-none focus:ring-1 focus:ring-[#24211E]"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* STEP 11: Payment Preference */}
-      {step === 11 && (
-        <div className="space-y-6">
-          <div>
-            <h3 className="text-xl sm:text-2xl font-black text-[#24211E]">
-              Payment Preference
-            </h3>
-            <p className="text-xs sm:text-sm text-[#575047] mt-1">
-              How would you like to receive the cash after inspection?
-            </p>
-          </div>
-
-          <div className="space-y-3">
-            {[
-              {
-                id: "UPI",
-                label: "Instant UPI Transfer (Recommended)",
-                desc: "Instant transfer to GPay, PhonePe, Paytm or BHIM at your doorstep.",
-              },
-              {
-                id: "Bank Transfer",
-                label: "IMPS / NEFT Bank Transfer",
-                desc: "Direct bank transfer within 15 minutes of verification.",
-              },
-              {
-                id: "Cash on Inspection",
-                label: "Cash On Inspection",
-                desc: "Direct cash handed over in-person by our executive.",
-              },
-            ].map((pm) => (
-              <button
-                key={pm.id}
-                onClick={() =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    paymentPreference: pm.id as any,
-                  }))
-                }
-                className={`w-full p-4 rounded-xl border text-left transition flex items-start justify-between gap-4 ${
-                  formData.paymentPreference === pm.id
-                    ? "bg-[#24211E] text-white border-[#24211E] shadow-sm"
-                    : "bg-[#F5EFE6] text-[#24211E] border-[#DED6CA] hover:bg-[#DED6CA]"
-                }`}
-              >
-                <div>
-                  <h4 className="text-xs font-bold">{pm.label}</h4>
-                  <p className="text-[11px] opacity-80 mt-1">{pm.desc}</p>
-                </div>
-                {formData.paymentPreference === pm.id && (
-                  <Check className="w-4 h-4 text-[#26784F]" />
+              <div className="flex gap-2">
+                <select
+                  value={storage}
+                  onChange={(e) => setStorage(e.target.value)}
+                  className="flex-1 px-3 py-2.5 rounded-xl bg-[#F5EFE6] border border-[#DED6CA] text-xs font-bold text-[#24211E] focus:outline-none focus:ring-2 focus:ring-[#24211E]"
+                >
+                  {storageOptions.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt}
+                    </option>
+                  ))}
+                </select>
+                {storage === "Other" && (
+                  <input
+                    type="text"
+                    placeholder="e.g. 12GB / 256GB"
+                    value={customStorage}
+                    onChange={(e) => setCustomStorage(e.target.value)}
+                    className="flex-1 px-3 py-2.5 rounded-xl bg-[#F5EFE6] border border-[#DED6CA] text-xs font-medium text-[#24211E] focus:outline-none focus:ring-2 focus:ring-[#24211E]"
+                  />
                 )}
-              </button>
-            ))}
+              </div>
+            </div>
+          </div>
+        </div>
 
-            {formData.paymentPreference === "UPI" && (
-              <div className="pt-2">
-                <label className="text-xs font-bold text-[#24211E] block mb-1">
-                  Your UPI ID *
-                </label>
+        {/* STEP 3: CONDITION */}
+        <div>
+          <label className="block text-xs font-extrabold uppercase tracking-widest text-[#77716A] mb-2.5">
+            3. Overall Physical Condition
+          </label>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {conditionOptions.map((opt) => {
+              const isSelected = condition === opt.value;
+              return (
+                <div
+                  key={opt.value}
+                  onClick={() => setCondition(opt.value as any)}
+                  className={`p-3.5 rounded-2xl border cursor-pointer transition flex items-start justify-between ${
+                    isSelected
+                      ? "bg-[#24211E] text-white border-[#24211E] shadow-sm"
+                      : "bg-[#F5EFE6] text-[#24211E] border-[#DED6CA] hover:border-[#77716A]"
+                  }`}
+                >
+                  <div className="space-y-1">
+                    <span className="text-xs font-extrabold block">
+                      {opt.label}
+                    </span>
+                    <span
+                      className={`text-[11px] block leading-tight ${
+                        isSelected ? "text-white/80" : "text-[#575047]"
+                      }`}
+                    >
+                      {opt.desc}
+                    </span>
+                  </div>
+                  <span
+                    className={`text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full shrink-0 ${
+                      isSelected
+                        ? "bg-[#E66827] text-white"
+                        : "bg-[#DED6CA] text-[#575047]"
+                    }`}
+                  >
+                    {opt.badge}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* STEP 4: ACCESSORIES & REMARKS */}
+        <div className="space-y-4">
+          <div>
+            <label className="block text-xs font-extrabold uppercase tracking-widest text-[#77716A] mb-2.5">
+              4. Available Accessories
+            </label>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              {accessoryOptions.map((acc) => {
+                const checked = accessories.includes(acc);
+                return (
+                  <button
+                    type="button"
+                    key={acc}
+                    onClick={() => toggleAccessory(acc)}
+                    className={`px-3 py-2.5 rounded-xl border text-xs font-bold text-left flex items-center justify-between transition ${
+                      checked
+                        ? "bg-[#26784F]/10 border-[#26784F] text-[#26784F]"
+                        : "bg-[#F5EFE6] border-[#DED6CA] text-[#575047] hover:bg-[#DED6CA]"
+                    }`}
+                  >
+                    <span className="truncate">{acc}</span>
+                    {checked && <Check className="w-3.5 h-3.5 shrink-0 ml-1" />}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-[#24211E] mb-1.5">
+              Any Specific Issues, Battery Health, or Remarks (Optional)
+            </label>
+            <textarea
+              rows={2}
+              placeholder="e.g. Battery health 86%, all cameras and touch working, minor scratch on back panel"
+              value={remarks}
+              onChange={(e) => setRemarks(e.target.value)}
+              className="w-full px-4 py-2.5 rounded-xl bg-[#F5EFE6] border border-[#DED6CA] text-xs font-medium text-[#24211E] placeholder-[#77716A] focus:outline-none focus:ring-2 focus:ring-[#24211E]"
+            />
+          </div>
+        </div>
+
+        {/* STEP 5: CUSTOMER BASIC INFO */}
+        <div className="pt-4 border-t border-[#DED6CA] space-y-4">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#26784F]"></span>
+            <label className="text-xs font-extrabold uppercase tracking-widest text-[#24211E]">
+              5. Your Contact Information
+            </label>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+            <div>
+              <label className="block text-xs font-bold text-[#24211E] mb-1">
+                Your Name <span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
+                <User className="w-4 h-4 text-[#77716A] absolute left-3 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
-                  value={formData.upiId}
-                  onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, upiId: e.target.value }))
-                  }
-                  placeholder="e.g. yourname@okaxis or 9876543210@paytm"
-                  className="w-full px-4 py-2.5 rounded-xl bg-[#F5EFE6] border border-[#DED6CA] text-xs font-medium focus:outline-none focus:ring-1 focus:ring-[#24211E]"
+                  required
+                  placeholder="e.g. Rahul Sharma"
+                  value={customerName}
+                  onChange={(e) => setCustomerName(e.target.value)}
+                  className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-[#F5EFE6] border border-[#DED6CA] text-xs font-medium text-[#24211E] focus:outline-none focus:ring-2 focus:ring-[#24211E]"
                 />
               </div>
-            )}
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-[#24211E] mb-1">
+                WhatsApp / Phone Number <span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
+                <Phone className="w-4 h-4 text-[#26784F] absolute left-3 top-1/2 -translate-y-1/2" />
+                <input
+                  type="tel"
+                  required
+                  placeholder="e.g. 8726942338"
+                  value={customerPhone}
+                  onChange={(e) => setCustomerPhone(e.target.value)}
+                  className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-[#F5EFE6] border border-[#DED6CA] text-xs font-medium text-[#24211E] focus:outline-none focus:ring-2 focus:ring-[#24211E]"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-[#24211E] mb-1">
+                Area / Locality in Gorakhpur
+              </label>
+              <div className="relative">
+                <MapPin className="w-4 h-4 text-[#E66827] absolute left-3 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  placeholder="e.g. Basharatpur, Medical Road"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-[#F5EFE6] border border-[#DED6CA] text-xs font-medium text-[#24211E] focus:outline-none focus:ring-2 focus:ring-[#24211E]"
+                />
+              </div>
+            </div>
           </div>
         </div>
-      )}
 
-      {/* STEP 12: Final Review & Submit */}
-      {step === 12 && (
-        <div className="space-y-6">
-          <div>
-            <h3 className="text-xl sm:text-2xl font-black text-[#24211E]">
-              Confirm Buyback Request
-            </h3>
-            <p className="text-xs sm:text-sm text-[#575047] mt-1">
-              Please review your quote and pickup details before submitting.
-            </p>
+        {/* ERROR DISPLAY */}
+        {errorMsg && (
+          <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-700 text-xs font-semibold flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 shrink-0" />
+            <span>{errorMsg}</span>
           </div>
-
-          <div className="space-y-4 bg-[#F5EFE6] p-6 rounded-2xl border border-[#DED6CA] text-xs text-[#575047]">
-            <div className="flex items-center justify-between border-b border-[#DED6CA] pb-3">
-              <span className="font-bold text-[#24211E]">Device:</span>
-              <span className="font-bold text-sm text-[#24211E]">
-                {formData.brand} {formData.model} ({formData.configuration})
-              </span>
-            </div>
-
-            <div className="flex items-center justify-between border-b border-[#DED6CA] pb-3">
-              <span className="font-bold text-[#24211E]">Condition:</span>
-              <span>{formData.condition}</span>
-            </div>
-
-            <div className="flex items-center justify-between border-b border-[#DED6CA] pb-3">
-              <span className="font-bold text-[#24211E]">Estimated Value:</span>
-              <span className="text-lg font-black text-[#26784F]">
-                {formatPrice(formData.estimatedValue)}
-              </span>
-            </div>
-
-            <div className="flex items-center justify-between border-b border-[#DED6CA] pb-3">
-              <span className="font-bold text-[#24211E]">Pickup Contact:</span>
-              <span>
-                {formData.customerName} ({formData.phone})
-              </span>
-            </div>
-
-            <div className="flex items-center justify-between border-b border-[#DED6CA] pb-3">
-              <span className="font-bold text-[#24211E]">Schedule:</span>
-              <span>
-                {formData.pickupDate} • {formData.pickupTimeSlot}
-              </span>
-            </div>
-
-            <div className="flex items-center justify-between border-b border-[#DED6CA] pb-3">
-              <span className="font-bold text-[#24211E]">Pickup Address:</span>
-              <span className="text-right">
-                {formData.street}, {formData.area}, {formData.city} (
-                {formData.pincode})
-              </span>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <span className="font-bold text-[#24211E]">Payment Mode:</span>
-              <span className="font-bold text-[#26784F]">
-                {formData.paymentPreference}{" "}
-                {formData.upiId ? `(${formData.upiId})` : ""}
-              </span>
-            </div>
-          </div>
-
-          <div className="p-3.5 rounded-xl bg-[#EDE6DC] border border-[#DED6CA] text-[11px] text-[#77716A]">
-            🛡️ <strong>Safety Guarantee:</strong> Our executive will assist in
-            performing a 100% factory data reset and Google account sign-out in
-            front of you before sealing the package.
-          </div>
-        </div>
-      )}
-
-      {/* Error feedback */}
-      {errorMsg && (
-        <div className="mt-4 p-3 rounded-xl bg-red-500/15 border border-red-500/30 text-red-700 text-xs font-semibold flex items-center gap-2">
-          <AlertCircle className="w-4 h-4 shrink-0" />
-          <span>{errorMsg}</span>
-        </div>
-      )}
-
-      {/* Navigation Controls */}
-      <div className="flex items-center justify-between gap-4 pt-8 mt-8 border-t border-[#DED6CA]">
-        {step > 1 ? (
-          <button
-            onClick={handlePrev}
-            disabled={isSubmitting}
-            className="px-5 py-2.5 rounded-full bg-[#F5EFE6] text-[#24211E] border border-[#DED6CA] text-xs font-bold flex items-center gap-1.5 hover:bg-[#DED6CA] transition"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Back</span>
-          </button>
-        ) : (
-          <div />
         )}
 
-        {step < 12 ? (
+        {/* SUBMIT BUTTON */}
+        <div className="pt-2">
           <button
-            onClick={handleNext}
-            className="px-7 py-3 rounded-full bg-[#24211E] text-[#EDE6DC] text-xs font-bold flex items-center gap-2 hover:bg-[#3D3731] transition shadow-md"
+            type="submit"
+            className="w-full py-4 rounded-2xl bg-[#26784F] hover:bg-[#1E5D3D] text-white font-extrabold text-sm sm:text-base flex items-center justify-center gap-2.5 shadow-lg hover:shadow-xl transition transform active:scale-[0.99]"
           >
-            <span>Continue</span>
-            <ArrowRight className="w-4 h-4" />
+            <MessageSquare className="w-5 h-5" />
+            <span>Send Details to WhatsApp for Best Cash Offer</span>
           </button>
-        ) : (
-          <button
-            onClick={handleSubmit}
-            disabled={isSubmitting}
-            className="px-8 py-3.5 rounded-full bg-[#26784F] text-white text-xs font-black uppercase tracking-wider flex items-center gap-2 hover:bg-[#1E5D3D] transition shadow-lg disabled:opacity-50"
-          >
-            {isSubmitting ? (
-              <span>Submitting Request...</span>
-            ) : (
-              <>
-                <Check className="w-4 h-4 stroke-[3]" />
-                <span>Confirm & Schedule Free Pickup</span>
-              </>
-            )}
-          </button>
-        )}
-      </div>
+          <p className="text-center text-[11px] text-[#77716A] mt-2.5 flex items-center justify-center gap-1.5">
+            <ShieldCheck className="w-3.5 h-3.5 text-[#26784F]" />
+            <span>
+              Direct conversation with A1 Mobile Shop team • Free doorstep inspection & instant cash
+            </span>
+          </p>
+        </div>
+      </form>
     </div>
   );
 }

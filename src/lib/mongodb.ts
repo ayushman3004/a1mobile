@@ -23,7 +23,11 @@ if (!cached) {
 }
 
 export async function connectToDatabase(): Promise<typeof mongoose> {
-  if (cached.conn) {
+  const uri =
+    process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/a1_mobile_shop";
+  const dbName = process.env.MONGODB_DB_NAME || "a1_mobile_shop";
+
+  if (cached.conn && cached.conn.connection.readyState === 1) {
     return cached.conn;
   }
 
@@ -31,12 +35,12 @@ export async function connectToDatabase(): Promise<typeof mongoose> {
     const opts: mongoose.ConnectOptions = {
       bufferCommands: false,
       maxPoolSize: 10,
-      serverSelectionTimeoutMS: 5000,
+      serverSelectionTimeoutMS: 10000,
+      dbName,
     };
 
-
     cached.promise = mongoose
-      .connect(MONGODB_URI, opts)
+      .connect(uri, opts)
       .then((mongooseInstance) => {
         return mongooseInstance;
       });
@@ -46,6 +50,7 @@ export async function connectToDatabase(): Promise<typeof mongoose> {
     cached.conn = await cached.promise;
   } catch (e) {
     cached.promise = null;
+    cached.conn = null;
     throw e;
   }
 

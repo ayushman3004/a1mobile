@@ -14,16 +14,16 @@ const StoreSettingsSchema = new Schema<IStoreSettingsDocument>(
     },
     address: {
       type: String,
-      default: "Near Basharatpur Chauraha, Medical Road, Basharatpur",
+      default: "Aluminium Factory Road, Basharatpur",
     },
     city: { type: String, default: "Gorakhpur" },
     state: { type: String, default: "Uttar Pradesh" },
     pincode: { type: String, default: "273004" },
-    landmark: { type: String, default: "Opposite City Hospital" },
-    phone: { type: String, default: "+91 98765 43210" },
-    altPhone: { type: String, default: "+91 91234 56789" },
-    email: { type: String, default: "contact@a1mobileshop.com" },
-    whatsappNumber: { type: String, default: "+919876543210" },
+    landmark: { type: String, default: "Aluminium Factory Road" },
+    phone: { type: String, default: "+91 87269 42338" },
+    altPhone: { type: String, default: "+91 87269 42338" },
+    email: { type: String, default: "Jaikishanhome1998@gmail.com" },
+    whatsappNumber: { type: String, default: "+918726942338" },
     openingHours: {
       type: String,
       default: "Mon - Sun: 10:00 AM - 09:30 PM",
@@ -32,7 +32,7 @@ const StoreSettingsSchema = new Schema<IStoreSettingsDocument>(
     googleMapsUrl: {
       type: String,
       default:
-        "https://maps.google.com/?q=Basharatpur,Gorakhpur,Uttar+Pradesh+273004",
+        "https://maps.google.com/?q=Aluminium+Factory+Road,+Basharatpur,+Gorakhpur,+Uttar+Pradesh+273004",
     },
     instagramHandle: { type: String, default: "@a1mobileshop26" },
     instagramUrl: {
