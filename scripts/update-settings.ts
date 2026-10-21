@@ -14,7 +14,7 @@ async function main() {
       altPhone: "+91 87269 42338",
       whatsappNumber: "+918726942338",
       googleMapsUrl: "https://maps.google.com/?q=Aluminium+Factory+Road,+Basharatpur,+Gorakhpur,+Uttar+Pradesh+273004",
-      storeImageUrl: "/store.jpg",
+      storeImageUrl: "/store-real.jpg",
     };
 
     const res = await StoreSettings.updateMany({}, { $set: updateData });

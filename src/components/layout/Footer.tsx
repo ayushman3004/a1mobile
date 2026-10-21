@@ -177,14 +177,6 @@ export default function Footer({ settings }: { settings: IStoreSettings }) {
                   Instant UPI / Bank Transfer
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="/sell-old-device#corporate"
-                  className="hover:text-white transition"
-                >
-                  Corporate Device Buyback
-                </Link>
-              </li>
             </ul>
           </div>
 

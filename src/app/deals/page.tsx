@@ -26,7 +26,7 @@ export default async function DealsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           {/* Header */}
           <div className="text-center max-w-2xl mx-auto space-y-3">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E66827]/15 text-[#E66827] text-xs font-black uppercase tracking-wider">
+            <div className="inline-flex items-center gap-1.5 text-xs font-black tracking-widest text-[#E66827] uppercase">
               <Flame className="w-4 h-4 fill-current" />
               <span>Limited-Time Price Cuts</span>
             </div>
@@ -53,7 +53,7 @@ export default async function DealsPage() {
           <div className="text-center pt-8">
             <Link
               href="/products"
-              className="inline-block px-7 py-3 rounded-full bg-[#24211E] text-[#EDE6DC] text-xs font-bold hover:bg-[#3D3731] transition"
+              className="inline-block px-7 py-3 rounded-xl bg-[#24211E] text-[#EDE6DC] text-xs font-bold hover:bg-[#3D3731] transition"
             >
               Browse Complete Catalog →
             </Link>

@@ -93,12 +93,12 @@ export default function ProductCard({
           {/* Discount Badge */}
           <div className="absolute top-3 left-3 z-10 flex flex-col gap-1">
             {product.discountPercentage > 0 && (
-              <span className="px-2 py-0.5 rounded-full bg-[#E66827] text-white text-[11px] font-extrabold tracking-wide shadow-2xs">
+              <span className="px-1.5 py-0.5 rounded bg-[#E66827] text-white text-[10px] font-extrabold tracking-wider uppercase shadow-2xs">
                 -{product.discountPercentage}%
               </span>
             )}
             {specBadge && (
-              <span className="px-2 py-0.5 rounded-full bg-[#24211E] text-[#EDE6DC] text-[10px] font-bold tracking-wider">
+              <span className="px-1.5 py-0.5 rounded bg-[#24211E] text-[#EDE6DC] text-[10px] font-bold tracking-wider uppercase">
                 {specBadge}
               </span>
             )}
@@ -107,7 +107,7 @@ export default function ProductCard({
           {/* Wishlist Button */}
           <button
             onClick={handleToggleWishlist}
-            className={`absolute top-3 right-3 z-10 p-2 rounded-full backdrop-blur-xs transition ${
+            className={`absolute top-3 right-3 z-10 p-2 rounded-lg backdrop-blur-xs transition ${
               wishlisted
                 ? "bg-red-50 text-red-500 shadow-xs"
                 : "bg-white/70 text-[#24211E] hover:bg-white"
@@ -137,7 +137,7 @@ export default function ProductCard({
           <div className="absolute inset-x-0 bottom-2 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
             <button
               onClick={handleQuickView}
-              className="px-3 py-1.5 rounded-full bg-[#24211E]/90 text-white text-xs font-semibold flex items-center gap-1.5 backdrop-blur-xs hover:bg-[#24211E] transition shadow-md"
+              className="px-3 py-1.5 rounded-lg bg-[#24211E]/90 text-white text-xs font-semibold flex items-center gap-1.5 backdrop-blur-xs hover:bg-[#24211E] transition shadow-md"
             >
               <Eye className="w-3.5 h-3.5" />
               <span>Quick View</span>

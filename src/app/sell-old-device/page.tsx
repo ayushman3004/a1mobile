@@ -48,8 +48,8 @@ export default async function SellOldDevicePage({
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
               {/* Left Column */}
               <div className="lg:col-span-7 space-y-6">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EDE6DC] border border-[#26784F]/30 text-xs font-black tracking-widest text-[#26784F] uppercase">
-                  <Zap className="w-3.5 h-3.5" />
+                <div className="flex items-center gap-2 text-xs font-black tracking-widest text-[#26784F] uppercase">
+                  <Zap className="w-4 h-4" />
                   <span>INSTANT CASH • FREE DOORSTEP PICKUP</span>
                 </div>
 
@@ -67,7 +67,7 @@ export default async function SellOldDevicePage({
                 <div className="pt-2">
                   <a
                     href="#valuation-wizard"
-                    className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[#26784F] text-white font-black text-xs sm:text-sm uppercase tracking-wider hover:bg-[#1E5D3D] transition shadow-lg group"
+                    className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-[#26784F] text-white font-black text-xs sm:text-sm uppercase tracking-wider hover:bg-[#1E5D3D] transition shadow-lg group"
                   >
                     <span>SELL ON WHATSAPP NOW</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
@@ -254,50 +254,6 @@ export default async function SellOldDevicePage({
               initialCategory={selectedCat}
               whatsappNumber={settings.whatsappNumber}
             />
-          </div>
-        </section>
-
-        {/* CORPORATE BUYBACK SECTION */}
-        <section
-          id="corporate"
-          className="py-14 sm:py-16 bg-[#24211E] text-[#EDE6DC]"
-        >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="bg-[#2D2925] border border-[#3D3731] rounded-3xl p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
-              <div className="space-y-3 max-w-xl">
-                <span className="text-xs font-extrabold uppercase tracking-widest text-[#E66827]">
-                  B2B & ENTERPRISE
-                </span>
-                <h3 className="text-2xl sm:text-3xl font-black text-white">
-                  Corporate IT & Smartphone Buyback
-                </h3>
-                <p className="text-xs sm:text-sm text-[#EDE6DC]/80 leading-relaxed">
-                  Upgrading office laptops, executive phones, or tablet fleets?
-                  We provide bulk asset valuation, certified data destruction,
-                  and GST invoicing for businesses in Gorakhpur and Eastern UP.
-                </p>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-                <a
-                  href={`tel:${settings.phone}`}
-                  className="px-6 py-3.5 rounded-full bg-[#E66827] text-white text-xs font-bold text-center hover:bg-[#d55819] transition"
-                >
-                  Call Commercial Desk
-                </a>
-                <a
-                  href={buildWhatsAppLink(
-                    settings.whatsappNumber,
-                    "Hello A1 Mobile! We need a corporate bulk device buyback quote."
-                  )}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-6 py-3.5 rounded-full bg-[#3D3731] text-[#EDE6DC] text-xs font-bold text-center hover:bg-[#575047] transition"
-                >
-                  WhatsApp Corporate Enquiry
-                </a>
-              </div>
-            </div>
           </div>
         </section>
       </main>

@@ -499,8 +499,7 @@ async function runSeed() {
     { title: "Accessories", href: "/products?category=accessories", order: 3, isActive: true },
     { title: "Deals", href: "/deals", order: 4, isActive: true },
     { title: "Brands", href: "/brands/all", order: 5, isActive: true },
-    { title: "Corporate Buyback", href: "/sell-old-device#corporate", order: 6, isActive: true },
-    { title: "Contact Us", href: "/#store-location", order: 7, isActive: true },
+    { title: "Contact Us", href: "/#store-location", order: 6, isActive: true },
   ];
 
   await NavigationItem.deleteMany({});

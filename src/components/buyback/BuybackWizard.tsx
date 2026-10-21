@@ -260,7 +260,7 @@ export default function BuybackWizard({
             href={generatedWhatsAppUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-[#26784F] hover:bg-[#1E5D3D] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md transition"
+            className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-[#26784F] hover:bg-[#1E5D3D] text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md transition"
           >
             <MessageSquare className="w-4 h-4" />
             <span>Open WhatsApp Chat Now</span>
@@ -269,7 +269,7 @@ export default function BuybackWizard({
           <button
             type="button"
             onClick={handleCopy}
-            className="w-full sm:w-auto px-5 py-3.5 rounded-full bg-[#EDE6DC] border border-[#DED6CA] text-[#24211E] font-bold text-xs flex items-center justify-center gap-2 hover:bg-[#DED6CA] transition"
+            className="w-full sm:w-auto px-5 py-3.5 rounded-xl bg-[#EDE6DC] border border-[#DED6CA] text-[#24211E] font-bold text-xs flex items-center justify-center gap-2 hover:bg-[#DED6CA] transition"
           >
             {copied ? (
               <>
@@ -447,7 +447,7 @@ export default function BuybackWizard({
                     </span>
                   </div>
                   <span
-                    className={`text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full shrink-0 ${
+                    className={`text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded shrink-0 ${
                       isSelected
                         ? "bg-[#E66827] text-white"
                         : "bg-[#DED6CA] text-[#575047]"

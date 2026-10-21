@@ -30,7 +30,7 @@ const FALLBACK_SETTINGS: IStoreSettings = {
     "https://maps.google.com/?q=Aluminium+Factory+Road,+Basharatpur,+Gorakhpur,+Uttar+Pradesh+273004",
   instagramHandle: "@a1mobileshop26",
   instagramUrl: "https://instagram.com/a1mobileshop26",
-  storeImageUrl: "/store.jpg",
+  storeImageUrl: "/store-real.jpg",
   announcementText:
     "Special Offers Available | Free Delivery on Selected Orders across Gorakhpur",
   announcementActive: true,
@@ -117,11 +117,16 @@ export async function getStoreSettings(): Promise<IStoreSettings> {
 export async function getNavigationItems(): Promise<INavigationItem[]> {
   try {
     await connectToDatabase();
-    const items = await NavigationItem.find({ isActive: true })
+    const items = await NavigationItem.find({
+      isActive: true,
+      title: { $ne: "Corporate Buyback" },
+    })
       .sort({ order: 1 })
       .lean();
     if (items && items.length > 0) {
-      return JSON.parse(JSON.stringify(items)) as INavigationItem[];
+      return (JSON.parse(JSON.stringify(items)) as INavigationItem[]).filter(
+        (i) => i.title !== "Corporate Buyback" && !i.href?.includes("corporate")
+      );
     }
   } catch {
     // fallback

@@ -67,7 +67,7 @@ export default function CategoryGrid({
               {/* Footer CTA */}
               <div className="flex items-center justify-between text-xs font-bold text-[#24211E] pt-2 border-t border-[#DED6CA]/50 group-hover:text-[#E66827] transition">
                 <span>Explore {cat.name}</span>
-                <div className="w-7 h-7 rounded-full bg-[#F5EFE6] flex items-center justify-center border border-[#DED6CA] group-hover:bg-[#24211E] group-hover:text-white transition">
+                <div className="w-7 h-7 rounded-lg bg-[#F5EFE6] flex items-center justify-center border border-[#DED6CA] group-hover:bg-[#24211E] group-hover:text-white transition">
                   <ArrowRight className="w-3.5 h-3.5" />
                 </div>
               </div>

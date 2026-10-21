@@ -40,15 +40,15 @@ export default function PhysicalStore({
           {/* Left: Store Photograph */}
           <div className="lg:col-span-6 relative aspect-[4/3] lg:aspect-auto min-h-[300px] bg-[#F5EFE6]">
             <Image
-              src={settings.storeImageUrl || "/store.jpg"}
+              src="/store-real.jpg"
               alt="A1 Mobile Shop Gorakhpur Interior & Storefront"
               fill
               priority
               className="object-cover hover:scale-102 transition-transform duration-500"
               sizes="(max-width: 1024px) 100vw, 600px"
             />
-            <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full bg-[#24211E]/80 backdrop-blur-xs text-[#EDE6DC] text-xs font-bold flex items-center gap-1.5 shadow-md">
-              <span className="w-2 h-2 rounded-full bg-[#26784F] animate-pulse"></span>
+            <div className="absolute top-4 left-4 px-2.5 py-1 rounded-md bg-[#24211E]/85 backdrop-blur-xs text-[#EDE6DC] text-xs font-bold flex items-center gap-1.5 shadow-md">
+              <span className="w-2 h-2 rounded-full bg-[#26784F]"></span>
               <span>Basharatpur Hub</span>
             </div>
           </div>
@@ -61,12 +61,12 @@ export default function PhysicalStore({
                   FLAGSHIP STORE
                 </span>
                 {settings.isOpenToday ? (
-                  <span className="px-2.5 py-1 rounded-full bg-[#26784F]/10 text-[#26784F] text-xs font-bold flex items-center gap-1">
+                  <span className="px-2 py-0.5 rounded-md bg-[#26784F]/10 text-[#26784F] text-xs font-bold flex items-center gap-1">
                     <CheckCircle className="w-3.5 h-3.5" />
                     Open Today
                   </span>
                 ) : (
-                  <span className="px-2.5 py-1 rounded-full bg-red-100 text-red-600 text-xs font-bold">
+                  <span className="px-2 py-0.5 rounded-md bg-red-100 text-red-600 text-xs font-bold">
                     Closed
                   </span>
                 )}
@@ -144,7 +144,7 @@ export default function PhysicalStore({
                 href={settings.googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 py-3 px-5 rounded-full bg-[#24211E] text-[#EDE6DC] font-bold text-xs flex items-center justify-center gap-2 hover:bg-[#3D3731] transition shadow-xs"
+                className="flex-1 py-3 px-5 rounded-xl bg-[#24211E] text-[#EDE6DC] font-bold text-xs flex items-center justify-center gap-2 hover:bg-[#3D3731] transition shadow-xs"
               >
                 <Navigation className="w-4 h-4 text-[#E66827]" />
                 <span>Get Directions</span>
@@ -152,7 +152,7 @@ export default function PhysicalStore({
 
               <a
                 href={`tel:${settings.phone.replace(/\s+/g, "")}`}
-                className="flex-1 py-3 px-5 rounded-full bg-[#F5EFE6] text-[#24211E] border border-[#DED6CA] font-bold text-xs flex items-center justify-center gap-2 hover:bg-[#DED6CA] transition"
+                className="flex-1 py-3 px-5 rounded-xl bg-[#F5EFE6] text-[#24211E] border border-[#DED6CA] font-bold text-xs flex items-center justify-center gap-2 hover:bg-[#DED6CA] transition"
               >
                 <PhoneCall className="w-4 h-4 text-[#26784F]" />
                 <span>Call Store</span>

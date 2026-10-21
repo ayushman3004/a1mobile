@@ -71,7 +71,7 @@ export default function CartPage() {
           <div className="pt-2">
             <Link
               href="/products"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#24211E] text-[#EDE6DC] text-xs font-bold hover:bg-[#3D3731] transition"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#24211E] text-[#EDE6DC] text-xs font-bold hover:bg-[#3D3731] transition"
             >
               <span>Explore Products</span>
               <ArrowRight className="w-4 h-4" />
@@ -274,7 +274,7 @@ export default function CartPage() {
               {/* Checkout Button */}
               <Link
                 href="/checkout"
-                className="w-full py-3.5 rounded-full bg-[#24211E] text-[#EDE6DC] text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 hover:bg-[#3D3731] transition shadow-md"
+                className="w-full py-3.5 rounded-xl bg-[#24211E] text-[#EDE6DC] text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 hover:bg-[#3D3731] transition shadow-md"
               >
                 <span>Proceed to Checkout</span>
                 <ArrowRight className="w-4 h-4" />
@@ -296,7 +296,7 @@ Please confirm item availability and arrange delivery.`
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-3 rounded-full bg-[#26784F] text-white text-xs font-bold flex items-center justify-center gap-2 hover:bg-[#1E5D3D] transition shadow-xs"
+                className="w-full py-3 rounded-xl bg-[#26784F] text-white text-xs font-bold flex items-center justify-center gap-2 hover:bg-[#1E5D3D] transition shadow-xs"
               >
                 <MessageSquare className="w-4 h-4 fill-current" />
                 <span>Order Directly on WhatsApp</span>

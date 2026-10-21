@@ -277,13 +277,13 @@ export default function CheckoutPage() {
           <div className="flex flex-col sm:flex-row gap-3 pt-2">
             <Link
               href="/orders"
-              className="flex-1 py-3 rounded-full bg-[#24211E] text-[#EDE6DC] text-xs font-bold hover:bg-[#3D3731] transition"
+              className="flex-1 py-3 rounded-xl bg-[#24211E] text-[#EDE6DC] text-xs font-bold hover:bg-[#3D3731] transition text-center"
             >
               Track Order Status
             </Link>
             <Link
               href="/"
-              className="flex-1 py-3 rounded-full bg-[#F5EFE6] text-[#24211E] border border-[#DED6CA] text-xs font-bold hover:bg-[#DED6CA] transition"
+              className="flex-1 py-3 rounded-xl bg-[#F5EFE6] text-[#24211E] border border-[#DED6CA] text-xs font-bold hover:bg-[#DED6CA] transition text-center"
             >
               Return Home
             </Link>
@@ -559,7 +559,7 @@ export default function CheckoutPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-4 rounded-full bg-[#24211E] text-[#EDE6DC] text-xs font-bold uppercase tracking-wider hover:bg-[#3D3731] transition shadow-md disabled:opacity-50"
+                  className="w-full py-4 rounded-xl bg-[#24211E] text-[#EDE6DC] text-xs font-bold uppercase tracking-wider hover:bg-[#3D3731] transition shadow-md disabled:opacity-50"
                 >
                   {isSubmitting ? (
                     <span>Placing Order...</span>

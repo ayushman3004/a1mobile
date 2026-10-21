@@ -113,14 +113,14 @@ export default function ProductDetailClient({
         {/* Main Image Stage */}
         <div className="relative aspect-square bg-[#EDE6DC] rounded-3xl border border-[#DED6CA] p-8 flex items-center justify-center overflow-hidden shadow-sm">
           {product.discountPercentage > 0 && (
-            <span className="absolute top-4 left-4 px-3 py-1.5 rounded-full bg-[#E66827] text-white text-xs font-black shadow-xs z-10">
+            <span className="absolute top-4 left-4 px-2.5 py-1 rounded-md bg-[#E66827] text-white text-xs font-black shadow-xs z-10">
               Save {product.discountPercentage}%
             </span>
           )}
 
           <button
             onClick={() => toggleWishlist(product)}
-            className={`absolute top-4 right-4 z-10 p-2.5 rounded-full backdrop-blur-xs transition ${
+            className={`absolute top-4 right-4 z-10 p-2.5 rounded-xl backdrop-blur-xs transition ${
               wishlisted
                 ? "bg-red-50 text-red-500 shadow-sm"
                 : "bg-white/80 text-[#24211E] hover:bg-white"
@@ -176,7 +176,7 @@ export default function ProductDetailClient({
             <span className="text-xs font-extrabold uppercase tracking-widest text-[#77716A]">
               {product.brand}
             </span>
-            <span className="px-2.5 py-0.5 rounded-full bg-[#26784F]/10 text-[#26784F] text-xs font-bold">
+            <span className="px-2 py-0.5 rounded-md bg-[#26784F]/10 text-[#26784F] text-xs font-bold">
               ✓ In Stock (Gorakhpur Store)
             </span>
           </div>
@@ -254,7 +254,7 @@ export default function ProductDetailClient({
                 <button
                   key={c.name}
                   onClick={() => setSelectedColor(c.name)}
-                  className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-medium transition ${
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-xl border text-xs font-medium transition ${
                     selectedColor === c.name
                       ? "bg-[#EDE6DC] border-[#24211E] font-bold"
                       : "bg-[#F5EFE6] border-[#DED6CA]"

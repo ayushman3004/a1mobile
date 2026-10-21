@@ -56,9 +56,9 @@ export default function Hero({ newArrivals, currentArrivals }: HeroProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left Column */}
           <div className="lg:col-span-7 space-y-6 sm:space-y-8">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EDE6DC] border border-[#DED6CA] text-xs font-bold text-[#575047]">
+            <div className="flex items-center gap-2 text-xs font-bold tracking-wider uppercase text-[#575047]">
               <span className="w-2 h-2 rounded-full bg-[#26784F]"></span>
-              <span>Gorakhpur Flagship Retail & Doorstep Buyback</span>
+              <span>Gorakhpur Flagship Retail &amp; Doorstep Buyback</span>
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#24211E] tracking-tight leading-[1.08]">
@@ -75,7 +75,7 @@ export default function Hero({ newArrivals, currentArrivals }: HeroProps) {
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
               <Link
                 href="/products?category=smartphones"
-                className="px-7 py-3.5 rounded-full bg-[#24211E] text-[#EDE6DC] font-bold text-sm flex items-center justify-center gap-2 hover:bg-[#3D3731] transition shadow-md group"
+                className="px-7 py-3.5 rounded-xl bg-[#24211E] text-[#EDE6DC] font-bold text-sm flex items-center justify-center gap-2 hover:bg-[#3D3731] transition shadow-md group"
               >
                 <span>Shop smartphones</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -83,7 +83,7 @@ export default function Hero({ newArrivals, currentArrivals }: HeroProps) {
 
               <Link
                 href="/sell-old-device"
-                className="px-7 py-3.5 rounded-full bg-[#EDE6DC] text-[#24211E] border border-[#DED6CA] font-bold text-sm flex items-center justify-center gap-2 hover:bg-[#DED6CA] transition shadow-xs"
+                className="px-7 py-3.5 rounded-xl bg-[#EDE6DC] text-[#24211E] border border-[#DED6CA] font-bold text-sm flex items-center justify-center gap-2 hover:bg-[#DED6CA] transition shadow-xs"
               >
                 <RotateCcw className="w-4 h-4 text-[#26784F]" />
                 <span>Sell your old phone</span>
@@ -105,13 +105,13 @@ export default function Hero({ newArrivals, currentArrivals }: HeroProps) {
               <div className="bg-[#EDE6DC] rounded-3xl border border-[#DED6CA] p-6 sm:p-8 shadow-lg relative overflow-hidden flex flex-col justify-between">
                 {/* Tabs & Controls */}
                 <div className="flex items-center justify-between gap-2 border-b border-[#DED6CA] pb-4 mb-4">
-                  <div className="flex items-center gap-1.5 bg-[#F5EFE6] p-1 rounded-full border border-[#DED6CA]">
+                  <div className="flex items-center gap-1 bg-[#F5EFE6] p-1 rounded-xl border border-[#DED6CA]">
                     <button
                       onClick={() => {
                         setActiveTab("new");
                         setCurrentIndex(0);
                       }}
-                      className={`px-3 py-1 text-xs font-bold rounded-full transition ${
+                      className={`px-3 py-1.5 text-xs font-bold rounded-lg transition ${
                         activeTab === "new"
                           ? "bg-[#24211E] text-[#EDE6DC]"
                           : "text-[#77716A] hover:text-[#24211E]"
@@ -124,7 +124,7 @@ export default function Hero({ newArrivals, currentArrivals }: HeroProps) {
                         setActiveTab("current");
                         setCurrentIndex(0);
                       }}
-                      className={`px-3 py-1 text-xs font-bold rounded-full transition ${
+                      className={`px-3 py-1.5 text-xs font-bold rounded-lg transition ${
                         activeTab === "current"
                           ? "bg-[#24211E] text-[#EDE6DC]"
                           : "text-[#77716A] hover:text-[#24211E]"
@@ -138,14 +138,14 @@ export default function Hero({ newArrivals, currentArrivals }: HeroProps) {
                   <div className="flex items-center gap-1">
                     <button
                       onClick={handlePrev}
-                      className="p-1.5 rounded-full bg-[#F5EFE6] hover:bg-[#DED6CA] border border-[#DED6CA] text-[#24211E] transition"
+                      className="p-1.5 rounded-lg bg-[#F5EFE6] hover:bg-[#DED6CA] border border-[#DED6CA] text-[#24211E] transition"
                       aria-label="Previous item"
                     >
                       <ChevronLeft className="w-4 h-4" />
                     </button>
                     <button
                       onClick={handleNext}
-                      className="p-1.5 rounded-full bg-[#F5EFE6] hover:bg-[#DED6CA] border border-[#DED6CA] text-[#24211E] transition"
+                      className="p-1.5 rounded-lg bg-[#F5EFE6] hover:bg-[#DED6CA] border border-[#DED6CA] text-[#24211E] transition"
                       aria-label="Next item"
                     >
                       <ChevronRight className="w-4 h-4" />
@@ -156,7 +156,7 @@ export default function Hero({ newArrivals, currentArrivals }: HeroProps) {
                 {/* Product Image Stage */}
                 <div className="relative aspect-[4/3] w-full bg-[#F5EFE6]/70 rounded-2xl p-4 flex items-center justify-center my-2 border border-[#DED6CA]">
                   {currentProduct.discountPercentage > 0 && (
-                    <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-[#E66827] text-white text-xs font-black shadow-xs z-10">
+                    <span className="absolute top-3 left-3 px-2 py-0.5 rounded-md bg-[#E66827] text-white text-[11px] font-black uppercase tracking-wider shadow-xs z-10">
                       Save {currentProduct.discountPercentage}%
                     </span>
                   )}

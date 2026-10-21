@@ -103,7 +103,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 rounded-full bg-[#24211E] text-[#EDE6DC] text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 hover:bg-[#3D3731] transition shadow-md disabled:opacity-50"
+            className="w-full py-3.5 rounded-xl bg-[#24211E] text-[#EDE6DC] text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 hover:bg-[#3D3731] transition shadow-md disabled:opacity-50"
           >
             {loading ? (
               <span>Signing In...</span>
@@ -126,10 +126,6 @@ export default function LoginPage() {
           </Link>
         </div>
 
-        <div className="p-3 rounded-xl bg-[#F5EFE6] border border-[#DED6CA] text-[11px] text-[#77716A] text-center">
-          Admin demo credentials: <strong>admin@a1mobileshop.com</strong> /{" "}
-          <strong>AdminPassword123!</strong>
-        </div>
       </div>
     </div>
   );

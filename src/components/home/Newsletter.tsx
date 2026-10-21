@@ -70,7 +70,7 @@ export default function Newsletter() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email address"
-              className="w-full px-5 py-3.5 rounded-full bg-[#2D2925] border border-[#575047] text-sm text-white placeholder-[#EDE6DC]/50 focus:outline-none focus:ring-2 focus:ring-[#E66827] transition"
+              className="w-full px-5 py-3.5 rounded-xl bg-[#2D2925] border border-[#575047] text-sm text-white placeholder-[#EDE6DC]/50 focus:outline-none focus:ring-2 focus:ring-[#E66827] transition"
               disabled={status === "loading"}
             />
           </div>
@@ -78,7 +78,7 @@ export default function Newsletter() {
           <button
             type="submit"
             disabled={status === "loading"}
-            className="px-8 py-3.5 rounded-full bg-[#E66827] text-white font-bold text-xs uppercase tracking-wider hover:bg-[#d55819] transition flex items-center justify-center gap-2 shadow-md shrink-0 disabled:opacity-50"
+            className="px-8 py-3.5 rounded-xl bg-[#E66827] text-white font-bold text-xs uppercase tracking-wider hover:bg-[#d55819] transition flex items-center justify-center gap-2 shadow-md shrink-0 disabled:opacity-50"
           >
             {status === "loading" ? (
               <span>Subscribing...</span>

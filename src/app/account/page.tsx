@@ -300,7 +300,7 @@ export default function AccountPage() {
                     </p>
                     <Link
                       href="/sell-old-device"
-                      className="inline-block px-5 py-2.5 rounded-full bg-[#24211E] text-white text-xs font-bold"
+                      className="inline-block px-5 py-2.5 rounded-xl bg-[#24211E] text-white text-xs font-bold"
                     >
                       Get Buyback Quote Now
                     </Link>

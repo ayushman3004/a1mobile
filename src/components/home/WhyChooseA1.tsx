@@ -55,7 +55,7 @@ export default function WhyChooseA1() {
                   <div className="w-12 h-12 rounded-xl bg-[#F5EFE6] border border-[#DED6CA] flex items-center justify-center">
                     {card.icon}
                   </div>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#DED6CA] text-[#575047]">
+                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#DED6CA] text-[#575047] uppercase tracking-wider">
                     {card.badge}
                   </span>
                 </div>

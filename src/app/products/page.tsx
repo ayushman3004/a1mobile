@@ -245,7 +245,7 @@ export default async function ProductsPage({
                   </p>
                   <Link
                     href="/products"
-                    className="inline-block px-6 py-2.5 rounded-full bg-[#24211E] text-[#EDE6DC] text-xs font-bold"
+                    className="inline-block px-6 py-2.5 rounded-xl bg-[#24211E] text-[#EDE6DC] text-xs font-bold"
                   >
                     View All Products
                   </Link>

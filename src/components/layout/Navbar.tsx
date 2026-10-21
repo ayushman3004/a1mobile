@@ -32,7 +32,7 @@ export default function Navbar({ items }: { items: INavigationItem[] }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="bg-[#EEE7DC] border-b border-[#DED6CA] sticky top-[69px] sm:top-[77px] z-30">
+    <nav className="bg-[#EEE7DC] border-b border-[#DED6CA] sticky top-[104px] sm:top-[114px] lg:top-[69px] z-30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-12">
           {/* Desktop Links */}
@@ -56,7 +56,7 @@ export default function Navbar({ items }: { items: INavigationItem[] }) {
                   <span>{item.title}</span>
 
                   {hasBadge && (
-                    <span className="ml-1 inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-[#26784F] text-white uppercase tracking-wider animate-pulse">
+                    <span className="ml-1 inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[10px] font-bold bg-[#26784F] text-white uppercase tracking-wider">
                       <Sparkles className="w-2.5 h-2.5" />
                       {item.badge}
                     </span>
@@ -70,7 +70,7 @@ export default function Navbar({ items }: { items: INavigationItem[] }) {
           <div className="hidden lg:flex items-center">
             <Link
               href="/sell-old-device"
-              className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full bg-[#EDE6DC] border border-[#26784F]/30 text-[#26784F] hover:bg-[#26784F] hover:text-white transition"
+              className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg bg-[#EDE6DC] border border-[#26784F]/30 text-[#26784F] hover:bg-[#26784F] hover:text-white transition"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>Doorstep Pickup in Gorakhpur</span>
@@ -117,7 +117,7 @@ export default function Navbar({ items }: { items: INavigationItem[] }) {
                     <span>{item.title}</span>
                   </div>
                   {item.badge && (
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#26784F] text-white">
+                    <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-[#26784F] text-white uppercase tracking-wider">
                       {item.badge}
                     </span>
                   )}

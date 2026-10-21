@@ -17,7 +17,7 @@ export default function PromoBanner({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
             {/* Left Content */}
             <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#3D3731] border border-[#575047] text-[11px] font-black tracking-widest text-[#E66827] uppercase">
+              <div className="flex items-center gap-2 text-xs font-black tracking-widest text-[#E66827] uppercase">
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>{banner.tag}</span>
               </div>
@@ -39,7 +39,7 @@ export default function PromoBanner({
               <div className="pt-2">
                 <Link
                   href={banner.buttonLink || "/deals"}
-                  className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[#E66827] text-white font-black text-sm uppercase tracking-wider hover:bg-[#d55819] transition shadow-lg group"
+                  className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-[#E66827] text-white font-black text-sm uppercase tracking-wider hover:bg-[#d55819] transition shadow-lg group"
                 >
                   <span>{banner.buttonText || "Shop Deals"}</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
@@ -59,7 +59,7 @@ export default function PromoBanner({
                   sizes="(max-width: 1024px) 100vw, 400px"
                 />
                 {banner.discountBadge && (
-                  <div className="absolute top-4 right-4 px-3 py-1.5 rounded-full bg-[#E66827] text-white text-xs font-black shadow-lg">
+                  <div className="absolute top-4 right-4 px-2.5 py-1 rounded-md bg-[#E66827] text-white text-xs font-black uppercase tracking-wider shadow-lg">
                     {banner.discountBadge}
                   </div>
                 )}

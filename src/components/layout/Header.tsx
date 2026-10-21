@@ -40,8 +40,8 @@ export default function Header({ settings }: { settings: IStoreSettings }) {
 
   return (
     <header className="bg-[#F5EFE6] border-b border-[#DED6CA] sticky top-0 z-40 transition-all">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
-        <div className="flex items-center justify-between gap-4 lg:gap-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 sm:py-4">
+        <div className="flex items-center justify-between gap-2 sm:gap-4 lg:gap-8">
           {/* Left: Brand Identity */}
           <Logo variant="header" withLink />
 
@@ -55,12 +55,12 @@ export default function Header({ settings }: { settings: IStoreSettings }) {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search smartphones, 5G devices, audio, accessories..."
-                  className="w-full pl-10 pr-24 py-2.5 rounded-full bg-[#EDE6DC]/70 border border-[#DED6CA] text-sm text-[#24211E] placeholder-[#77716A] focus:outline-none focus:ring-2 focus:ring-[#24211E] focus:bg-[#EDE6DC] transition"
+                  className="w-full pl-10 pr-24 py-2.5 rounded-xl bg-[#EDE6DC]/70 border border-[#DED6CA] text-sm text-[#24211E] placeholder-[#77716A] focus:outline-none focus:ring-2 focus:ring-[#24211E] focus:bg-[#EDE6DC] transition"
                 />
               </div>
               <button
                 type="submit"
-                className="absolute right-1 px-4 py-1.5 rounded-full bg-[#24211E] text-[#EDE6DC] text-xs font-medium hover:bg-[#3D3731] transition shadow-xs"
+                className="absolute right-1.5 px-4 py-1.5 rounded-lg bg-[#24211E] text-[#EDE6DC] text-xs font-medium hover:bg-[#3D3731] transition shadow-xs"
               >
                 Search
               </button>
@@ -68,13 +68,13 @@ export default function Header({ settings }: { settings: IStoreSettings }) {
           </div>
 
           {/* Right: Actions & Contacts */}
-          <div className="flex items-center gap-3 sm:gap-6 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-4 lg:gap-6 shrink-0">
             {/* Call Store */}
             <a
               href={`tel:${settings.phone.replace(/\s+/g, "")}`}
               className="hidden lg:flex items-center gap-2 text-left group"
             >
-              <div className="w-9 h-9 rounded-full bg-[#EDE6DC] border border-[#DED6CA] flex items-center justify-center text-[#24211E] group-hover:bg-[#24211E] group-hover:text-white transition">
+              <div className="w-9 h-9 rounded-xl bg-[#EDE6DC] border border-[#DED6CA] flex items-center justify-center text-[#24211E] group-hover:bg-[#24211E] group-hover:text-white transition">
                 <PhoneCall className="w-4 h-4 text-[#26784F]" />
               </div>
               <div className="leading-tight">
@@ -93,7 +93,7 @@ export default function Header({ settings }: { settings: IStoreSettings }) {
                 <div>
                   <button
                     onClick={() => setIsAccountOpen(!isAccountOpen)}
-                    className="flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-full bg-[#EDE6DC] border border-[#DED6CA] hover:bg-[#DED6CA] transition text-[#24211E]"
+                    className="flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-lg bg-[#EDE6DC] border border-[#DED6CA] hover:bg-[#DED6CA] transition text-[#24211E]"
                   >
                     <UserIcon className="w-4 h-4 text-[#24211E]" />
                     <span className="max-w-[80px] truncate hidden sm:inline">
@@ -161,7 +161,7 @@ export default function Header({ settings }: { settings: IStoreSettings }) {
               ) : (
                 <Link
                   href="/account/login"
-                  className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full bg-[#EDE6DC] border border-[#DED6CA] hover:bg-[#24211E] hover:text-white transition text-[#24211E]"
+                  className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-[#EDE6DC] border border-[#DED6CA] hover:bg-[#24211E] hover:text-white transition text-[#24211E]"
                 >
                   <UserIcon className="w-4 h-4" />
                   <span className="hidden sm:inline">Sign In</span>
@@ -172,10 +172,10 @@ export default function Header({ settings }: { settings: IStoreSettings }) {
             {/* Wishlist */}
             <Link
               href="/account#wishlist"
-              className="relative p-2 rounded-full hover:bg-[#EDE6DC] transition text-[#24211E]"
+              className="relative p-1.5 sm:p-2 rounded-lg hover:bg-[#EDE6DC] transition text-[#24211E]"
               title="Wishlist"
             >
-              <Heart className="w-5 h-5 text-[#24211E]" />
+              <Heart className="w-4 h-4 sm:w-5 sm:h-5 text-[#24211E]" />
               {wishlistCount > 0 && (
                 <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-[#E66827] text-white text-[10px] font-bold flex items-center justify-center">
                   {wishlistCount}
@@ -186,7 +186,7 @@ export default function Header({ settings }: { settings: IStoreSettings }) {
             {/* Cart Button */}
             <Link
               href="/cart"
-              className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#24211E] text-[#EDE6DC] hover:bg-[#3D3731] transition shadow-xs group"
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-[#24211E] text-[#EDE6DC] hover:bg-[#3D3731] transition shadow-xs group"
             >
               <div className="relative">
                 <ShoppingBag className="w-4 h-4 group-hover:scale-110 transition-transform" />
@@ -212,11 +212,11 @@ export default function Header({ settings }: { settings: IStoreSettings }) {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search smartphones, 5G..."
-              className="w-full pl-9 pr-20 py-2 rounded-full bg-[#EDE6DC]/70 border border-[#DED6CA] text-xs text-[#24211E] placeholder-[#77716A] focus:outline-none focus:ring-1 focus:ring-[#24211E]"
+              className="w-full pl-9 pr-20 py-2 rounded-xl bg-[#EDE6DC]/70 border border-[#DED6CA] text-xs text-[#24211E] placeholder-[#77716A] focus:outline-none focus:ring-1 focus:ring-[#24211E]"
             />
             <button
               type="submit"
-              className="absolute right-1 px-3 py-1 rounded-full bg-[#24211E] text-[#EDE6DC] text-[11px] font-medium"
+              className="absolute right-1 px-3 py-1 rounded-lg bg-[#24211E] text-[#EDE6DC] text-[11px] font-medium"
             >
               Search
             </button>
