@@ -30,8 +30,9 @@ import {
   getBestDeals,
 } from "@/services/products";
 
-// Revalidate every 60 seconds or on-demand
-export const revalidate = 60;
+// Force dynamic rendering so newly updated products immediately appear first
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function HomePage() {
   const [

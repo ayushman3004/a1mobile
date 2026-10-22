@@ -36,6 +36,7 @@ export async function PATCH(
     await connectToDatabase();
     const { id } = await params;
     const body = await req.json();
+    body.updatedAt = new Date();
 
     const updated = await Product.findByIdAndUpdate(id, body, {
       new: true,

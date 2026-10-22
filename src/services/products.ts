@@ -136,7 +136,7 @@ export async function getProducts(params: ProductFilterParams = {}) {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let sortOption: Record<string, any> = { createdAt: -1 };
+    let sortOption: Record<string, any> = { updatedAt: -1, createdAt: -1 };
     if (sort === "price-asc") sortOption = { price: 1 };
     if (sort === "price-desc") sortOption = { price: -1 };
     if (sort === "rating") sortOption = { rating: -1 };
@@ -204,11 +204,12 @@ export async function getFeaturedProducts(limit = 8): Promise<IProduct[]> {
   return JSON.parse(JSON.stringify(featured));
 }
 
-export async function getNewArrivals(limit = 6): Promise<IProduct[]> {
+export async function getNewArrivals(limit = 8): Promise<IProduct[]> {
   try {
     await connectToDatabase();
-    const products = await Product.find({ isActive: true, isNewArrival: true })
-      .sort({ createdAt: -1 })
+    // Prioritize active products sorted by most recently updated or created first
+    const products = await Product.find({ isActive: true })
+      .sort({ updatedAt: -1, createdAt: -1 })
       .limit(limit)
       .lean();
     if (products && products.length > 0) {
@@ -218,15 +219,24 @@ export async function getNewArrivals(limit = 6): Promise<IProduct[]> {
     // fallback
   }
 
-  const arrivals = FALLBACK_PRODUCTS.filter((p) => p.isNewArrival).slice(0, limit);
+  const arrivals = [...FALLBACK_PRODUCTS]
+    .sort((a, b) => {
+      const timeA = new Date(a.updatedAt || a.createdAt || 0).getTime();
+      const timeB = new Date(b.updatedAt || b.createdAt || 0).getTime();
+      return timeB - timeA;
+    })
+    .slice(0, limit);
   return JSON.parse(JSON.stringify(arrivals));
 }
 
-export async function getCurrentArrivals(limit = 6): Promise<IProduct[]> {
+export async function getCurrentArrivals(limit = 8): Promise<IProduct[]> {
   try {
     await connectToDatabase();
-    const products = await Product.find({ isActive: true, isCurrentArrival: true })
-      .sort({ createdAt: -1 })
+    const products = await Product.find({
+      isActive: true,
+      $or: [{ isFeatured: true }, { isCurrentArrival: true }, { isDeal: true }],
+    })
+      .sort({ updatedAt: -1, createdAt: -1 })
       .limit(limit)
       .lean();
     if (products && products.length > 0) {
@@ -236,7 +246,14 @@ export async function getCurrentArrivals(limit = 6): Promise<IProduct[]> {
     // fallback
   }
 
-  const current = FALLBACK_PRODUCTS.filter((p) => p.isCurrentArrival).slice(0, limit);
+  const current = [...FALLBACK_PRODUCTS]
+    .filter((p) => p.isCurrentArrival || p.isFeatured || p.isDeal)
+    .sort((a, b) => {
+      const timeA = new Date(a.updatedAt || a.createdAt || 0).getTime();
+      const timeB = new Date(b.updatedAt || b.createdAt || 0).getTime();
+      return timeB - timeA;
+    })
+    .slice(0, limit);
   return JSON.parse(JSON.stringify(current));
 }
 
