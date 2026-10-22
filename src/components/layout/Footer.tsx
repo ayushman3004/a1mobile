@@ -188,38 +188,39 @@ export default function Footer({ settings }: { settings: IStoreSettings }) {
             <ul className="space-y-2.5 text-xs text-[#EDE6DC]/80">
               <li>
                 <Link
-                  href="/#store-location"
+                  href="/contact"
                   className="hover:text-white transition"
                 >
                   Contact Support
                 </Link>
               </li>
               <li>
-                <a
-                  href={`tel:${settings.phone}`}
+                <Link
+                  href="/faq"
                   className="hover:text-white transition"
                 >
-                  Call {settings.phone}
-                </a>
+                  Frequently Asked Questions
+                </Link>
               </li>
               <li>
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  href="/shipping"
                   className="hover:text-white transition"
                 >
-                  Live WhatsApp Chat
-                </a>
+                  Shipping & Delivery
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/refund-policy"
+                  className="hover:text-white transition"
+                >
+                  Returns & Refunds
+                </Link>
               </li>
               <li>
                 <Link href="/orders" className="hover:text-white transition">
                   Order Tracking
-                </Link>
-              </li>
-              <li>
-                <Link href="/account" className="hover:text-white transition">
-                  Customer Profile
                 </Link>
               </li>
             </ul>
@@ -233,8 +234,8 @@ export default function Footer({ settings }: { settings: IStoreSettings }) {
             <ul className="space-y-2.5 text-xs text-[#EDE6DC]/80">
               <li>
                 <Link
-                  href="/#store-location"
-                  className="hover:text-white transition"
+                  href="/about"
+                  className="hover:text-white transition font-medium"
                 >
                   About A1 Mobile Shop
                 </Link>
@@ -265,8 +266,34 @@ export default function Footer({ settings }: { settings: IStoreSettings }) {
           </div>
         </div>
 
+        {/* Legal & Policy Quick Links */}
+        <div className="py-4 border-b border-[#3D3731] flex flex-wrap items-center justify-between gap-y-2 gap-x-4 text-[11px] text-[#EDE6DC]/60">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <Link href="/about" className="hover:text-white transition">About Us</Link>
+            <span>•</span>
+            <Link href="/contact" className="hover:text-white transition">Contact</Link>
+            <span>•</span>
+            <Link href="/faq" className="hover:text-white transition">FAQ</Link>
+            <span>•</span>
+            <Link href="/categories" className="hover:text-white transition">Categories</Link>
+            <span>•</span>
+            <Link href="/brands" className="hover:text-white transition">Brands</Link>
+            <span>•</span>
+            <Link href="/shipping" className="hover:text-white transition">Shipping</Link>
+            <span>•</span>
+            <Link href="/refund-policy" className="hover:text-white transition">Refund Policy</Link>
+            <span>•</span>
+            <Link href="/terms" className="hover:text-white transition">Terms & Conditions</Link>
+            <span>•</span>
+            <Link href="/privacy" className="hover:text-white transition">Privacy Policy</Link>
+          </div>
+          <div className="text-[11px] text-[#EDE6DC]/60">
+            Registered Store • Gorakhpur, UP
+          </div>
+        </div>
+
         {/* Bottom Bar: Copyright & Location Badge */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#EDE6DC]/60">
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#EDE6DC]/60">
           <div>
             © {currentYear} A1 Mobile Shop. All rights reserved. Basharatpur,
             Gorakhpur, Uttar Pradesh, India.
