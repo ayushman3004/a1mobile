@@ -5,8 +5,11 @@ import { comparePassword, signToken } from "@/lib/auth";
 import { z } from "zod";
 
 const LoginSchema = z.object({
-  email: z.string().email(),
+  email: z.string().min(3).optional(),
+  identifier: z.string().min(3).optional(),
   password: z.string().min(6),
+}).refine((data) => data.email || data.identifier, {
+  message: "Email or phone number is required",
 });
 
 export async function POST(req: Request) {
@@ -16,18 +19,37 @@ export async function POST(req: Request) {
 
     if (!parsed.success) {
       return NextResponse.json(
-        { error: "Invalid email or password format" },
+        { error: "Please enter a valid email or phone number and password" },
         { status: 400 }
       );
     }
 
-    const { email, password } = parsed.data;
+    const rawId = (parsed.data.identifier || parsed.data.email || "").trim();
+    const { password } = parsed.data;
     await connectToDatabase();
 
-    const user = await User.findOne({ email: email.toLowerCase() });
+    const cleanDigits = rawId.replace(/[^0-9]/g, "");
+    const isEmail = rawId.includes("@");
+
+    let query: any;
+    if (isEmail) {
+      query = { email: rawId.toLowerCase() };
+    } else {
+      const orConditions: any[] = [
+        { email: rawId.toLowerCase() },
+        { phone: rawId },
+      ];
+      if (cleanDigits.length >= 10) {
+        orConditions.push({ phone: cleanDigits });
+        orConditions.push({ phone: { $regex: cleanDigits.slice(-10) + "$" } });
+      }
+      query = { $or: orConditions };
+    }
+
+    const user = await User.findOne(query);
     if (!user || !user.password) {
       return NextResponse.json(
-        { error: "Invalid credentials" },
+        { error: "Invalid email, phone number, or password" },
         { status: 401 }
       );
     }

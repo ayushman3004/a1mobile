@@ -32,14 +32,14 @@ const StoreSettingsSchema = new Schema<IStoreSettingsDocument>(
     googleMapsUrl: {
       type: String,
       default:
-        "https://maps.google.com/?q=Aluminium+Factory+Road,+Basharatpur,+Gorakhpur,+Uttar+Pradesh+273004",
+        "https://www.google.com/maps/place/26%C2%B046'32.2%22N+83%C2%B022'19.0%22E/@26.77561,83.3719368,17z",
     },
     instagramHandle: { type: String, default: "@a1mobileshop26" },
     instagramUrl: {
       type: String,
       default: "https://instagram.com/a1mobileshop26",
     },
-    storeImageUrl: { type: String },
+    storeImageUrl: { type: String, default: "/shop-front.png" },
     announcementText: {
       type: String,
       default:

@@ -40,8 +40,8 @@ export default function PhysicalStore({
           {/* Left: Store Photograph */}
           <div className="lg:col-span-6 relative aspect-[4/3] lg:aspect-auto min-h-[300px] bg-[#F5EFE6]">
             <Image
-              src="/store-real.jpg"
-              alt="A1 Mobile Shop Gorakhpur Interior & Storefront"
+              src={settings.storeImageUrl || "/shop-front.png"}
+              alt="A1 Mobile Shop Gorakhpur Storefront"
               fill
               priority
               className="object-cover hover:scale-102 transition-transform duration-500"

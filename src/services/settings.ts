@@ -27,10 +27,10 @@ const FALLBACK_SETTINGS: IStoreSettings = {
   openingHours: "Mon - Sun: 10:00 AM - 09:30 PM",
   isOpenToday: true,
   googleMapsUrl:
-    "https://maps.google.com/?q=Aluminium+Factory+Road,+Basharatpur,+Gorakhpur,+Uttar+Pradesh+273004",
+    "https://www.google.com/maps/place/26%C2%B046'32.2%22N+83%C2%B022'19.0%22E/@26.77561,83.3719368,17z",
   instagramHandle: "@a1mobileshop26",
   instagramUrl: "https://instagram.com/a1mobileshop26",
-  storeImageUrl: "/store-real.jpg",
+  storeImageUrl: "/shop-front.png",
   announcementText:
     "Special Offers Available | Free Delivery on Selected Orders across Gorakhpur",
   announcementActive: true,

@@ -244,6 +244,21 @@ export default async function ContactPage() {
                   cash offer for your used phone.
                 </p>
 
+                {/* Embedded Interactive Google Map */}
+                <div className="w-full h-48 rounded-2xl overflow-hidden border border-[#DED6CA] shadow-inner relative bg-[#F5EFE6]">
+                  <iframe
+                    title="A1 Mobile Shop Location Map"
+                    src="https://maps.google.com/maps?q=26.77561,83.3719368&hl=en&z=17&output=embed"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="w-full h-full"
+                  />
+                </div>
+
                 <div className="p-4 rounded-2xl bg-[#F5EFE6] border border-[#DED6CA] space-y-2 text-xs">
                   <div className="flex items-start gap-2">
                     <MapPin className="w-4 h-4 text-[#E66827] shrink-0 mt-0.5" />
@@ -264,7 +279,7 @@ export default async function ContactPage() {
                   className="w-full py-3 rounded-xl bg-[#24211E] text-[#EDE6DC] text-xs font-bold hover:bg-[#3D3731] transition flex items-center justify-center gap-2 shadow-xs"
                 >
                   <Navigation className="w-4 h-4 text-[#E66827]" />
-                  <span>Open Directions in Google Maps</span>
+                  <span>Open Directions in Google Maps (26°46&apos;32.2&quot;N 83°22&apos;19.0&quot;E)</span>
                 </a>
               </div>
 
