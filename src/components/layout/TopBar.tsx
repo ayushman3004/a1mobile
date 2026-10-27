@@ -18,13 +18,19 @@ export default function TopBar({ settings }: { settings: IStoreSettings }) {
         {/* Right: Store location & links */}
         <div className="flex items-center gap-3 shrink-0">
           {/* Location — hidden on xs, visible from sm */}
-          <div className="hidden sm:flex items-center gap-1 text-[#EDE6DC]/80">
-            <MapPin className="w-3 h-3 text-[#E66827] shrink-0" />
-            <span className="whitespace-nowrap">
+          <a
+            href={settings.googleMapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Open Store Location on Google Maps"
+            className="hidden sm:flex items-center gap-1 text-[#EDE6DC]/80 hover:text-white transition group cursor-pointer"
+          >
+            <MapPin className="w-3 h-3 text-[#E66827] shrink-0 group-hover:scale-110 transition-transform" />
+            <span className="whitespace-nowrap group-hover:underline underline-offset-2">
               {settings.landmark ? `${settings.landmark}, ` : ""}
               {settings.city}
             </span>
-          </div>
+          </a>
 
           {/* Instagram — hidden on xs, visible from md */}
           <a

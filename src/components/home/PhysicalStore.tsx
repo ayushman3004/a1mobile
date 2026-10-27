@@ -81,18 +81,24 @@ export default function PhysicalStore({
             </div>
 
             <div className="space-y-3.5 text-xs sm:text-sm text-[#575047]">
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-[#F5EFE6] border border-[#DED6CA] flex items-center justify-center shrink-0">
+              <a
+                href={settings.googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Open Directions in Google Maps"
+                className="flex items-start gap-3 group hover:text-[#24211E] transition cursor-pointer"
+              >
+                <div className="w-8 h-8 rounded-lg bg-[#F5EFE6] border border-[#DED6CA] flex items-center justify-center shrink-0 group-hover:border-[#24211E] transition">
                   <MapPin className="w-4 h-4 text-[#E66827]" />
                 </div>
                 <div>
-                  <span className="font-bold text-[#24211E] block">Address</span>
-                  <span>
+                  <span className="font-bold text-[#24211E] block group-hover:underline underline-offset-2">Address</span>
+                  <span className="text-[#575047] group-hover:text-[#24211E] transition">
                     {settings.address}, {settings.landmark ? `${settings.landmark}, ` : ""}
                     {settings.city}, {settings.state} - {settings.pincode}
                   </span>
                 </div>
-              </div>
+              </a>
 
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 rounded-lg bg-[#F5EFE6] border border-[#DED6CA] flex items-center justify-center shrink-0">
