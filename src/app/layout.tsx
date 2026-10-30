@@ -9,7 +9,14 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "A1 Mobile Shop Gorakhpur | Flagship Phones, Verified Pre-Owned & Instant Buyback",
+  metadataBase: new URL("https://a1mobile.store"),
+  alternates: {
+    canonical: "/",
+  },
+  title: {
+    default: "A1 Mobile Shop Gorakhpur | Flagship Phones, Verified Pre-Owned & Instant Buyback",
+    template: "%s | A1 Mobile Shop Gorakhpur",
+  },
   description:
     "Official store of A1 Mobile Shop located in Basharatpur, Gorakhpur. Genuine smartphones, accessories, verified pre-owned devices, and instant cash buyback at your doorstep.",
   keywords: [
@@ -24,10 +31,23 @@ export const metadata: Metadata = {
     "Instant cash buyback Gorakhpur",
   ],
   authors: [{ name: "A1 Mobile Shop Gorakhpur" }],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   openGraph: {
     title: "A1 Mobile Shop Gorakhpur | Smartphones & Instant Buyback",
     description:
       "Genuine flagship smartphones, verified pre-owned devices, and instant cash exchange at your doorstep in Gorakhpur.",
+    url: "https://a1mobile.store",
+    siteName: "A1 Mobile Shop",
     type: "website",
     locale: "en_IN",
   },
